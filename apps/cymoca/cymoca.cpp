@@ -93,9 +93,18 @@ int main(int argc, const char *argv[]) {
     assert(exists(model_path));
     std::ifstream fileStream(model_path.string());
     cymoca::Compiler c(fileStream);
-    std::cout << bar << "\nParse Tree\n" << bar << std::endl;
 
-    std::cout << cymoca::toPrettyStringTree(c.getRoot(), c.getParser().getRuleNames()) << std::endl;
+    std::cout << bar << "\nLexer\n" << bar << std::endl;
+    for (auto token : c.getTokenStream().getTokens()) {
+      std::cout << token->toString() << std::endl;
+    }
+
+    std::cout << bar << "\nParse Tree\n" << bar << std::endl;
+    std::cout << cymoca::toPrettyStringTree(
+        c.getRoot(),
+        c.getParser().getRuleNames(),
+        c.getAst()) << std::endl;
+
     std::cout << bar << "\nModelicaXML\n" << bar<< std::endl;
     c.printXML(std::cout);
   }

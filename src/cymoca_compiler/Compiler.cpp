@@ -14,28 +14,23 @@ Compiler::Compiler(std::ifstream &text) :
     _parser(nullptr),
     _input(text),
     _lexer(&_input),
-    _tokens(&_lexer),
+    _tokenStream(&_lexer),
     _ast(),
     _root(nullptr) {
-  _tokens.fill();
-  //for (auto token : _tokens.getTokens()) {
-  //  std::cout << token->toString() << std::endl;
-  //}
-  _parser = new ModelicaParser(&_tokens);
+  _tokenStream.fill();
+
+  _parser = new ModelicaParser(&_tokenStream);
   tree::ParseTree *tree = _parser->stored_definition();
   tree::ParseTreeWalker::DEFAULT.walk(this, tree);
-}
-const Modelica &Compiler::getAst() {
-  Modelica * m = dynamic_cast<Modelica *>(_ast[_root]);
-  assert(m != nullptr);
-  return *m;
 }
 void Compiler::printXML(std::ostream &out) {
   std::stringstream ss;
   xml_schema::NamespaceInfomap map;
   map[""].name = "";
   map[""].schema = "Modelica.xsd";
-  modelica(out, getAst(), map);
+  assert(_root != nullptr);
+  auto * m = dynamic_cast<Modelica *>(_ast[_root]);
+  modelica(out, *m, map);
 }
 
 void Compiler::visitTerminal(tree::TerminalNode *node) {
@@ -769,19 +764,27 @@ void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *ctx) {
 
 }
 
-std::string toPrettyStringTree(ParseTree *t, const std::vector<std::string> &ruleNames) {
+std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
+                               const std::vector<std::string> &ruleNames,
+                               std::map<ParserRuleContext *, ::xml_schema::Type *> &ast) {
   std::string temp = antlrcpp::escapeWhitespace(Trees::getNodeText(t, ruleNames), false);
   if (t->children.empty()) {
     return temp;
   }
 
   std::stringstream ss;
-  ss << "(" << temp << ' ';
+  auto xml = ast[dynamic_cast<ParserRuleContext *>(t)];
+  ss << "(" << temp << " {" << xml << "} ";
 
   // Implement the recursive walk as iteration to avoid trouble with deep nesting.
   std::stack<size_t> stack;
   size_t childIndex = 0;
   ParseTree *run = t;
+
+  xml_schema::NamespaceInfomap map;
+  map[""].name = "";
+  map[""].schema = "Modelica.xsd";
+
   while (childIndex < run->children.size()) {
     std::string indent="\t";
     for (int i=0; i< stack.size(); i++) indent+="\t";
@@ -795,12 +798,12 @@ std::string toPrettyStringTree(ParseTree *t, const std::vector<std::string> &rul
       stack.push(childIndex);
       run = child;
       childIndex = 0;
-
-      ss << "\n" << indent << "(" << temp << " ";
+      auto xml = ast[dynamic_cast<ParserRuleContext *>(run)];
+      ss << "\n" << indent << "(" << temp << " {" << xml << "} ";
     } else {
       ss << temp;
       while (++childIndex == run->children.size()) {
-        if (stack.size() > 0) {
+        if (!stack.empty()) {
           // Reached the end of the current level. See if we can step up from here.
           childIndex = stack.top();
           stack.pop();

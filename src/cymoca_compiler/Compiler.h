@@ -15,20 +15,20 @@ using namespace antlr4::tree;
 
 namespace cymoca {
 
-
 class Compiler : public ModelicaListener {
  private:
   ANTLRInputStream _input;
-  ModelicaParser * _parser;
+  ModelicaParser *_parser;
   ModelicaLexer _lexer;
-  CommonTokenStream _tokens;
+  CommonTokenStream _tokenStream;
   std::map<ParserRuleContext *, ::xml_schema::Type *> _ast;
   ModelicaParser::Stored_definitionContext *_root;
  public:
-  Compiler(std::ifstream & text);
-  ModelicaParser & getParser() { return *_parser; }
-  ModelicaParser::Stored_definitionContext * getRoot() { return _root; }
-  const Modelica &getAst();
+  Compiler(std::ifstream &text);
+  ModelicaParser &getParser() { return *_parser; }
+  CommonTokenStream &getTokenStream() { return _tokenStream; }
+  ModelicaParser::Stored_definitionContext *getRoot() { return _root; }
+  std::map<ParserRuleContext *, ::xml_schema::Type *> &getAst() { return _ast; };
   void printXML(std::ostream &out);
   void visitTerminal(tree::TerminalNode *node) override;
   void visitErrorNode(tree::ErrorNode *node) override;
@@ -267,7 +267,9 @@ class Compiler : public ModelicaListener {
 };
 
 // utils
-std::string toPrettyStringTree(antlr4::tree::ParseTree *t, const std::vector<std::string> &ruleNames);
+std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
+                               const std::vector<std::string> &ruleNames,
+                               std::map<ParserRuleContext *, ::xml_schema::Type *> &_ast);
 
 } // cymoca
 
