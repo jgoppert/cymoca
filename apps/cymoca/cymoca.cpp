@@ -8,63 +8,97 @@ using namespace boost::filesystem;
 namespace po = boost::program_options;
 using namespace std;
 
-int main(int argc, const char * argv[]) {
-  po::positional_options_description p;
-  p.add("input-file", -1);
-  int opt;
+namespace {
+const size_t ERROR_IN_COMMAND_LINE = 1;
+const size_t SUCCESS = 0;
+const size_t ERROR_UNHANDLED_EXCEPTION = 2;
 
-  // group of options allowed only on command line
-  po::options_description generic("Generic options");
-  generic.add_options()
-      ("version,v", "print version string")
-      ("help,h", "produce help message")
-      ;
+} // namespace 
 
-  // group of options allowed on command line and
-  // in config file
-  po::options_description config("Configuration");
-  config.add_options()
-      ("optimization", po::value<int>(&opt)->default_value(10),
-       "optimization level")
-      ("include-path,I", po::value<string>()->composing(),
-       "include path")
-      ;
 
-  // hidden options, will be allowed both on command line
-  // and in config file, but will not be shown to the user
-  po::options_description hidden("Hidden options");
-  hidden.add_options()
-      ("input-file", po::value<string>(), "input file")
-      ;
+void usage(
+    const string &appName,
+    const po::options_description &desc,
+    const po::positional_options_description &pos_desc) {
+  std::cout << "Cymoca Modelica Compiler " << VERSION << std::endl;
+  std::cout << "usage: " << appName << " [options] model.mo" << std::endl;
+  std::cout << desc << std::endl;
+  //std::cout << pos_desc << std::endl;
+}
 
-  po::options_description cmdline_options;
-  cmdline_options.add(generic).add(config).add(hidden);
+//------------------------------------------------------------------------
+int main(int argc, char **argv) {
+  try {
+    std::string appName = boost::filesystem::basename(argv[0]);
+    std::string model = "";
 
-  po::options_description config_file_options;
-  config_file_options.add(config).add(hidden);
+    /** Define and parse the program options 
+     */
+    namespace po = boost::program_options;
 
-  po::options_description visible;
-  visible.add(generic).add(config);
+    po::options_description generic("Generic options");
+    generic.add_options()
+        ("help,h", "print help message");
 
-  po::variables_map vm;
-  po::store(po::command_line_parser(argc, argv).
-      options(visible).positional(p).run(), vm);
-  po::notify(vm);
+    po::options_description hidden;
+    hidden.add_options()
+        ("model", po::value<string>(&model)->required(), "the modelica file to compile");
 
-  if (vm.count("help")) {
-    cout << "Cymoca Modelica compiler " << VERSION << std::endl;
-    cout << "usage: cymoca [options] model.mo" << endl;
-    cout << visible << endl;
-    return 0;
+    po::options_description cmdline_options;
+    cmdline_options.add(generic).add(hidden);
+
+    po::options_description visible("Options");
+    visible.add(generic);
+
+    po::positional_options_description positionalOptions;
+    positionalOptions.add("model", -1);
+
+    po::variables_map vm;
+
+    try {
+      po::store(po::command_line_parser(argc, argv).
+                    options(cmdline_options).positional(positionalOptions).run(),
+                vm); // throws on error
+
+      /** --help option 
+       */
+      if (vm.count("help")) {
+        usage(appName, visible, positionalOptions);
+        return SUCCESS;
+      }
+
+      po::notify(vm); // throws on error, so do after help in case 
+      // there are any problems
+    }
+    catch (boost::program_options::required_option &e) {
+      //rad::OptionPrinter::formatRequiredOptionError(e); 
+      std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
+      usage(appName, visible, positionalOptions);
+      return ERROR_IN_COMMAND_LINE;
+    }
+    catch (boost::program_options::error &e) {
+      std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
+      usage(appName, visible, positionalOptions);
+      return ERROR_IN_COMMAND_LINE;
+    }
+
+    // compile
+    path model_path(vm["model"].as<string>());
+    assert(exists(model_path));
+    std::ifstream fileStream(model_path.string());
+    cymoca::Compiler c;
+    c.compile(fileStream);
+    c.printXML(std::cout);
+
+  }
+  catch (std::exception &e) {
+    std::cerr << "Unhandled Exception reached the top of main: "
+              << e.what() << ", application will now exit" << std::endl;
+    return ERROR_UNHANDLED_EXCEPTION;
+
   }
 
-  path model_path(vm["input-file"].as<string>());
-  assert(exists(model_path));
-  std::ifstream fileStream(model_path.string());
-  cymoca::Compiler c;
-  c.compile(fileStream);
-  c.printXML(std::cout);
-};
+  return SUCCESS;
 
-
-/* vim: set et fenc=utf-8 ff=unix sts=0 sw=4 ts=4 : */
+} // main 
+/* vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 : */
