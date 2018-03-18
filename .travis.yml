@@ -25,6 +25,7 @@ matrix:
            - lcov
            - libxerces-c-dev
            - libboost-filesystem-dev
+           - libboost-program-options-dev
            - xsdcxx
          sources: &precise_latest_boost_sources
            - ubuntu-toolchain-r-test
