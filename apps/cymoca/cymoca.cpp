@@ -55,7 +55,7 @@ int main(int argc, const char * argv[]) {
     cout << "Cymoca Modelica compiler " << VERSION << std::endl;
     cout << "usage: cymoca [options] model.mo" << endl;
     cout << visible << endl;
-    return 1;
+    return 0;
   }
 
   //path p("../test/models/Simple.mo");
