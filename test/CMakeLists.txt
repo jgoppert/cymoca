@@ -5,7 +5,7 @@ add_compile_options(-Wall)
 add_executable(test_one
     test_one.cpp)
 target_link_libraries(test_one
-    cymoca
+    cymoca_compiler
     antlr4-runtime
     modelica_antlr
     modelica_xsd

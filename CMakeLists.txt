@@ -10,7 +10,10 @@ set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
 
 # packages
-find_package(Boost COMPONENTS filesystem REQUIRED)
+find_package(Boost COMPONENTS
+        filesystem
+        program_options
+        REQUIRED)
 
 # includes
 include(ExternalProject)
@@ -40,12 +43,12 @@ add_subdirectory(third_party/antlr4cpp)
 #-----------------------------------------------------------------------------
 add_subdirectory(src/modelica_antlr)
 add_subdirectory(src/modelica_xsd)
-add_subdirectory(src/cymoca)
+add_subdirectory(src/cymoca_compiler)
 
 #-----------------------------------------------------------------------------
 # Applications
 #-----------------------------------------------------------------------------
-add_subdirectory(apps/cli)
+add_subdirectory(apps/cymoca)
 
 #-----------------------------------------------------------------------------
 # Tests

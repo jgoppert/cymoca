@@ -10,8 +10,8 @@ endif()
 find_package(Java COMPONENTS Runtime REQUIRED)
 
 set(antlr_dir ${PROJECT_BINARY_DIR}/modelica_antlr)
-set(antlr_parser ${PROJECT_SOURCE_DIR}/src/cymoca/Modelica.g4)
-set(antlr_lexer ${PROJECT_SOURCE_DIR}/src/cymoca/Modelica.g4)
+set(antlr_parser ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
+set(antlr_lexer ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
 file(MAKE_DIRECTORY ${antlr_dir})
 set(antlr_srcs
     ${antlr_dir}/ModelicaBaseListener.cpp

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <gtest/gtest.h>
 #include <boost/filesystem.hpp>
-#include <cymoca/Compiler.h>
+#include <cymoca_compiler/Compiler.h>
 
 using namespace boost::filesystem;
 
