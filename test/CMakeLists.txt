@@ -9,7 +9,6 @@ target_link_libraries(test_one
     gtest_main
     gtest)
 add_test(test_one test_one)
-add_dependencies(test_one googletest)
 
 add_test(cli_help ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca -h)
 add_test(cli_compile ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca ${CMAKE_CURRENT_SOURCE_DIR}/models/Simple.mo)

@@ -5,6 +5,9 @@ add_executable(cymoca
     cymoca.cpp)
 target_link_libraries(cymoca
     cymoca_compiler
+    modelica_antlr
+    antlr4-runtime
+    modelica_xsd
     ${XercesC_LIBRARIES}
     ${ICU_LIBRARIES})
 

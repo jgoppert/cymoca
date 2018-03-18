@@ -24,6 +24,8 @@ find_package(Boost COMPONENTS
         program_options
         REQUIRED)
 
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+
 # includes
 include(ExternalProject)
 
@@ -59,10 +61,54 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.cpp.in
 set(version_file "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 
 #-----------------------------------------------------------------------------
-# External Projects
+# Google Test
 #-----------------------------------------------------------------------------
-add_subdirectory(third_party/googletest)
-add_subdirectory(third_party/antlr4cpp)
+ExternalProject_Add(googletest
+        URL https://github.com/google/googletest/archive/release-1.8.0.zip
+        URL_MD5 adfafc8512ab65fd3cf7955ef0100ff5
+        TIMEOUT 10
+        LOG_CONFIGURE ON
+        LOG_BUILD ON
+        LOG_INSTALL ON
+        LOG_DOWNLOAD ON
+        LOG_UPDATE ON
+        PREFIX ${EP_PREFIX}
+        BUILD_COMMAND make -j4
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_PREFIX}
+        )
+add_library(gtest STATIC IMPORTED)
+add_dependencies(gtest googletest)
+set_property(TARGET gtest PROPERTY IMPORTED_LOCATION
+    ${EP_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+add_library(gtest_main STATIC IMPORTED)
+add_dependencies(gtest_main googletest)
+set_property(TARGET gtest_main PROPERTY IMPORTED_LOCATION
+    ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+
+#-----------------------------------------------------------------------------
+# Antlr C++ Runtime
+#-----------------------------------------------------------------------------
+ExternalProject_Add(antlr4cpp
+        URL https://github.com/antlr/antlr4/archive/4.7.1.zip
+        URL_MD5 2fc44eefafb2af020c918a635673f458
+        TIMEOUT 10
+        PREFIX ${EP_PREFIX}
+        LOG_CONFIGURE ON
+        LOG_BUILD ON
+        LOG_INSTALL ON
+        LOG_DOWNLOAD ON
+        LOG_UPDATE ON
+        BUILD_COMMAND make -j4
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug
+            -DWITH_DEMO=OFF
+            -DBUILD_SHARED_LIBS=OFF -BUILD_TESTS=OFF
+            -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+            <SOURCE_DIR>/runtime/Cpp
+        )
+add_library(antlr4-runtime STATIC IMPORTED)
+set_property(TARGET antlr4-runtime PROPERTY IMPORTED_LOCATION
+    ${EP_PREFIX}/lib/libantlr4-runtime${CMAKE_STATIC_LIBRARY_SUFFIX})
+add_dependencies(antlr4-runtime antlr4cpp)
 
 #-----------------------------------------------------------------------------
 # Libraries
