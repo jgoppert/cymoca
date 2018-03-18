@@ -2,6 +2,8 @@
 # Compiler
 #-----------------------------------------------------------------------------
 add_library(cymoca_compiler STATIC
+    ${PROJECT_BINARY_DIR}/version.cpp
+    version.h
     Compiler.cpp
     Compiler.h)
 target_link_libraries(cymoca_compiler

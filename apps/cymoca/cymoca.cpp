@@ -2,6 +2,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 #include <cymoca_compiler/Compiler.h>
+#include <cymoca_compiler/version.h>
 
 using namespace boost::filesystem;
 namespace po = boost::program_options;
@@ -42,7 +43,7 @@ int main(int argc, const char * argv[]) {
   po::options_description config_file_options;
   config_file_options.add(config).add(hidden);
 
-  po::options_description visible;
+  po::options_description visible(VERSION);
   visible.add(generic).add(config);
 
   po::variables_map vm;

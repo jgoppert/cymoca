@@ -5,6 +5,7 @@ project(cymoca C CXX)
 #-----------------------------------------------------------------------------
 # Setup
 #-----------------------------------------------------------------------------
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 11)
 set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
@@ -31,6 +32,23 @@ link_directories(${EP_PREFIX}/lib)
 # disable this to quiet warnings in XSDCXX, travis version doesn't support
 # c++ 11
 add_compile_options(-Wno-deprecated-declarations)
+
+#-----------------------------------------------------------------------------
+# Version based on GIT tags
+#-----------------------------------------------------------------------------
+include(GetGitRevisionDescription)
+git_describe(VERSION --tags --dirty=-d)
+
+#parse the version information into pieces.
+string(REGEX REPLACE "^v([0-9]+)\\..*" "\\1" VERSION_MAJOR "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.([0-9]+).*" "\\1" VERSION_MINOR "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" VERSION_PATCH "${VERSION}")
+string(REGEX REPLACE "^v[0-9]+\\.[0-9]+\\.[0-9]+(.*)" "\\1" VERSION_SHA1 "${VERSION}")
+set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.cpp.in
+                ${CMAKE_CURRENT_BINARY_DIR}/version.cpp)
+set(version_file "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 
 #-----------------------------------------------------------------------------
 # External Projects
