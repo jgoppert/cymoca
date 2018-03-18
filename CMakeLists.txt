@@ -77,6 +77,10 @@ add_subdirectory(test)
 # CPack
 #-----------------------------------------------------------------------------
 set(CPACK_PACKAGE_CONTACT james.goppert@gmail.com)
+set(CPACK_PACKAGE_VERSION ${VERSION})
+set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
 include(CPack)
 
 # vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :
