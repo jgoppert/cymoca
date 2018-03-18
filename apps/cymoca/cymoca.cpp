@@ -34,7 +34,7 @@ int main(int argc, const char * argv[]) {
   // and in config file, but will not be shown to the user
   po::options_description hidden("Hidden options");
   hidden.add_options()
-      ("input-file", po::value<vector<string>>(), "input file")
+      ("input-file", po::value<string>(), "input file")
       ;
 
   po::options_description cmdline_options;
@@ -58,13 +58,12 @@ int main(int argc, const char * argv[]) {
     return 0;
   }
 
-  //path p("../test/models/Simple.mo");
-  //assert(exists(p));
-  //std::ifstream fileStream(p.string());
-  //cymoca::Compiler c;
-  //c.compile(fileStream);
-  //c.printXML(std::cout);
-  //std::cout << s<< std::endl;
+  path model_path(vm["input-file"].as<string>());
+  assert(exists(model_path));
+  std::ifstream fileStream(model_path.string());
+  cymoca::Compiler c;
+  c.compile(fileStream);
+  c.printXML(std::cout);
 };
 
 

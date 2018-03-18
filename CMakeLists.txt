@@ -10,7 +10,15 @@ set(CMAKE_CXX_STANDARD 11)
 set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
 
+# find only static libraries
+if(WIN32)
+    SET(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+else(WIN32)
+    SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+endif(WIN32)
+
 # packages
+set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost COMPONENTS
         filesystem
         program_options

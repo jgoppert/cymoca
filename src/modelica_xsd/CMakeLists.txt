@@ -2,6 +2,7 @@
 # Generated XML AST/binding
 #-----------------------------------------------------------------------------
 find_package(XercesC 3 REQUIRED)
+find_package(ICU COMPONENTS io le test i18n uc data tu REQUIRED)
 find_program(XSDCXX xsdcxx)
 if (NOT XSDCXX)
     message(FATAL_ERROR "xsdcxx not found")
@@ -37,7 +38,7 @@ include_directories(${CMAKE_BINARY_DIR})
 add_library(modelica_xsd STATIC
         ${xsd_hdrs}
         ${xsd_srcs})
-target_link_libraries(modelica_xsd ${XercesC_LIBRARIES})
+target_link_libraries(modelica_xsd ${XercesC_LIBRARIES} ${ICU_LIBRARIES} dl)
 set_source_files_properties(${xsd_hdrs} PROPERTIES GENERATED True)
 set_source_files_properties(${xsd_srcs} PROPERTIES GENERATED True)
 

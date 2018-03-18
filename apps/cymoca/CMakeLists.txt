@@ -5,11 +5,8 @@ add_executable(cymoca
     cymoca.cpp)
 target_link_libraries(cymoca
     cymoca_compiler
-    antlr4-runtime
-    modelica_antlr
-    modelica_xsd
     ${XercesC_LIBRARIES}
-    ${Boost_LIBRARIES})
+    ${ICU_LIBRARIES})
 
 install(TARGETS cymoca
     RUNTIME DESTINATION bin

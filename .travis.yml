@@ -21,6 +21,7 @@ matrix:
         - libxerces-c-dev
         - libboost-filesystem-dev
         - libboost-program-options-dev
+        - libicu-dev
         - xsdcxx
         sources:
         - ubuntu-toolchain-r-test
