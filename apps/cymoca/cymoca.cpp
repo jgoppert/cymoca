@@ -27,10 +27,10 @@ void usage(
 }
 
 //------------------------------------------------------------------------
-int main(int argc, char **argv) {
+int main(int argc, const char *argv[]) {
   try {
     std::string appName = boost::filesystem::basename(argv[0]);
-    std::string model = "";
+    std::string model;
 
     /** Define and parse the program options 
      */
@@ -82,14 +82,22 @@ int main(int argc, char **argv) {
       return ERROR_IN_COMMAND_LINE;
     }
 
+    // horizontal bar for output
+    std::string bar = "";
+    for (int i=0; i<78; i++) {
+      bar += "=";
+    }
+
     // compile
     path model_path(vm["model"].as<string>());
     assert(exists(model_path));
     std::ifstream fileStream(model_path.string());
-    cymoca::Compiler c;
-    c.compile(fileStream);
-    c.printXML(std::cout);
+    cymoca::Compiler c(fileStream);
+    std::cout << bar << "\nParse Tree\n" << bar << std::endl;
 
+    std::cout << cymoca::toPrettyStringTree(c.getRoot(), c.getParser().getRuleNames()) << std::endl;
+    std::cout << bar << "\nModelicaXML\n" << bar<< std::endl;
+    c.printXML(std::cout);
   }
   catch (std::exception &e) {
     std::cerr << "Unhandled Exception reached the top of main: "

@@ -6,21 +6,28 @@
 #define CYMOCA_COMPILER_H
 
 #include <modelica_antlr/ModelicaBaseListener.h>
+#include <modelica_antlr/ModelicaLexer.h>
 #include <modelica_xsd/Modelica.hxx>
 
 using namespace modelica_antlr;
 using namespace antlr4;
+using namespace antlr4::tree;
 
 namespace cymoca {
 
+
 class Compiler : public ModelicaListener {
  private:
-  Parser *_parser;
+  ANTLRInputStream _input;
+  ModelicaParser * _parser;
+  ModelicaLexer _lexer;
+  CommonTokenStream _tokens;
   std::map<ParserRuleContext *, ::xml_schema::Type *> _ast;
   ModelicaParser::Stored_definitionContext *_root;
  public:
-  void compile(std::ifstream &text);
-  Compiler();
+  Compiler(std::ifstream & text);
+  ModelicaParser & getParser() { return *_parser; }
+  ModelicaParser::Stored_definitionContext * getRoot() { return _root; }
   const Modelica &getAst();
   void printXML(std::ostream &out);
   void visitTerminal(tree::TerminalNode *node) override;
@@ -258,6 +265,9 @@ class Compiler : public ModelicaListener {
   void enterAnnotation(ModelicaParser::AnnotationContext *ctx) override;
   void exitAnnotation(ModelicaParser::AnnotationContext *ctx) override;
 };
+
+// utils
+std::string toPrettyStringTree(antlr4::tree::ParseTree *t, const std::vector<std::string> &ruleNames);
 
 } // cymoca
 

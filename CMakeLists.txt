@@ -103,6 +103,7 @@ ExternalProject_Add(antlr4cpp
             -DWITH_DEMO=OFF
             -DBUILD_SHARED_LIBS=OFF -BUILD_TESTS=OFF
             -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+            -DCMAKE_SOURCE_DIR=<SOURCE_DIR>/runtime/Cpp
             <SOURCE_DIR>/runtime/Cpp
         )
 add_library(antlr4-runtime STATIC IMPORTED)

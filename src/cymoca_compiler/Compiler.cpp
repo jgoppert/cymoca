@@ -4,28 +4,25 @@
 
 #include "Compiler.h"
 
-#include <modelica_antlr/ModelicaLexer.h>
-
 using namespace modelica_antlr;
 using namespace antlr4;
+using namespace antlr4::tree;
 
 namespace cymoca {
 
-Compiler::Compiler() :
+Compiler::Compiler(std::ifstream &text) :
+    _parser(nullptr),
+    _input(text),
+    _lexer(&_input),
+    _tokens(&_lexer),
     _ast(),
     _root(nullptr) {
-}
-void Compiler::compile(std::ifstream &text) {
-  ANTLRInputStream aText(text);
-  ModelicaLexer lexer(&aText);
-  CommonTokenStream tokens(&lexer);
-  tokens.fill();
-  for (auto token : tokens.getTokens()) {
-    std::cout << token->toString() << std::endl;
-  }
-  ModelicaParser parser(&tokens);
-  tree::ParseTree *tree = parser.stored_definition();
-  std::cout << tree->toStringTree(&parser) << std::endl << std::endl;
+  _tokens.fill();
+  //for (auto token : _tokens.getTokens()) {
+  //  std::cout << token->toString() << std::endl;
+  //}
+  _parser = new ModelicaParser(&_tokens);
+  tree::ParseTree *tree = _parser->stored_definition();
   tree::ParseTreeWalker::DEFAULT.walk(this, tree);
 }
 const Modelica &Compiler::getAst() {
@@ -40,6 +37,7 @@ void Compiler::printXML(std::ostream &out) {
   map[""].schema = "Modelica.xsd";
   modelica(out, getAst(), map);
 }
+
 void Compiler::visitTerminal(tree::TerminalNode *node) {
 
 }
@@ -64,6 +62,8 @@ void Compiler::exitStored_definition(ModelicaParser::Stored_definitionContext *c
     m->classDefinition(*c);
   }
   _root = ctx;
+  assert(_root != nullptr);
+  assert(m != nullptr);
   _ast[ctx] = m;
 }
 void Compiler::enterStored_definition_class(ModelicaParser::Stored_definition_classContext *ctx) {
@@ -767,6 +767,54 @@ void Compiler::enterAnnotation(ModelicaParser::AnnotationContext *ctx) {
 }
 void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *ctx) {
 
+}
+
+std::string toPrettyStringTree(ParseTree *t, const std::vector<std::string> &ruleNames) {
+  std::string temp = antlrcpp::escapeWhitespace(Trees::getNodeText(t, ruleNames), false);
+  if (t->children.empty()) {
+    return temp;
+  }
+
+  std::stringstream ss;
+  ss << "(" << temp << ' ';
+
+  // Implement the recursive walk as iteration to avoid trouble with deep nesting.
+  std::stack<size_t> stack;
+  size_t childIndex = 0;
+  ParseTree *run = t;
+  while (childIndex < run->children.size()) {
+    std::string indent="\t";
+    for (int i=0; i< stack.size(); i++) indent+="\t";
+    if (childIndex > 0) {
+      ss << ' ';
+    }
+    ParseTree *child = run->children[childIndex];
+    temp = antlrcpp::escapeWhitespace(Trees::getNodeText(child, ruleNames), false);
+    if (!child->children.empty()) {
+      // Go deeper one level.
+      stack.push(childIndex);
+      run = child;
+      childIndex = 0;
+
+      ss << "\n" << indent << "(" << temp << " ";
+    } else {
+      ss << temp;
+      while (++childIndex == run->children.size()) {
+        if (stack.size() > 0) {
+          // Reached the end of the current level. See if we can step up from here.
+          childIndex = stack.top();
+          stack.pop();
+          run = run->parent;
+          ss << ")";
+        } else {
+          break;
+        }
+      }
+    }
+  }
+
+  ss << ")";
+  return ss.str();
 }
 
 } // cymoca
