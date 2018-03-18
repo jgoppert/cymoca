@@ -3,3 +3,6 @@
 
 const std::string VERSION = "@VERSION@";
 const std::string VERSION_SHORT = "@VERSION_SHORT@";
+const std::string VERSION_MAJOR = "@VERSION_MAJOR@";
+const std::string VERSION_MINOR = "@VERSION_MINOR@";
+const std::string VERSION_PATCH = "@VERSION_PATCH@";
