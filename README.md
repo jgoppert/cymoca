@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgoppert/cymoca.svg?branch=master)](https://travis-ci.org/jgoppert/cymoca)
 
-A Modelica compiler written in C++.
-The main target is Modelica -> ModelicaXML
+A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
 
-[pymoca](https://pymoca.com) port to C++
+* Abstract syntax tree: Automatically generated from ModelicaXML schema.
+* Parsing using ANTLR4 C++ Runtime.
