@@ -1,72 +1,68 @@
 language: cpp
-
 env:
   global:
-    # Ubuntu version
-    - LINUX_DIST=trusty
-    - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
-    # Global build options and C++ flags
-    - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
-    # Misc
-    - RUN_TESTS=true
-    - COVERAGE=false
-
+  - LINUX_DIST=trusty
+  - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
+  - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
+  - RUN_TESTS=true
+  - COVERAGE=false
 matrix:
   include:
-    - os: linux
-      dist: trusty
-      sudo: true
-      compiler: gcc
-      addons:
-       apt:
-         packages: &precise_latest_boost_packages
-           - g++-5
-           - valgrind
-           - lcov
-           - libxerces-c-dev
-           - libboost-filesystem-dev
-           - libboost-program-options-dev
-           - xsdcxx
-         sources: &precise_latest_boost_sources
-           - ubuntu-toolchain-r-test
-    
-before_install:
-    # Combine global build options with OS/compiler-dependent options
-    #- export CMAKE_OPTIONS=${CMAKE_OPTIONS}" "${ENV_CMAKE_OPTIONS}
-    #- export CXX_FLAGS=${CXX_FLAGS}" "${ENV_CXX_FLAGS}
+  - os: linux
+    dist: trusty
+    sudo: true
+    compiler: gcc
+    addons:
+      apt:
+        packages:
+        - g++-5
+        - valgrind
+        - lcov
+        - libxerces-c-dev
+        - libboost-filesystem-dev
+        - libboost-program-options-dev
+        - xsdcxx
+        sources:
+        - ubuntu-toolchain-r-test
+
+before_install: 
 
 install:
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
-    #- if [ "$CXX" = "clang++" ] && [ "$TRAVIS_OS_NAME" = "linux" ]; then export CXX="clang++-3.7" CC="clang-3.7"; fi
-    - echo ${PATH}
-    - echo ${CXX}
-    - ${CXX} --version
-    - ${CXX} -v
-    - sudo pip install codecov
-    
-    # Download and install recent cmake
-    - |
-      if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
-        CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.1-Linux-x86_64.tar.gz"
-        mkdir -p ${DEPS_DIR}/cmake
-        travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
-        export PATH=${DEPS_DIR}/cmake/bin:${PATH}
-      fi
-script:
-    ############################################################################
-    # Build main and tests
-    ############################################################################
-     - mkdir -p build
-     - cd build
-     #- cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} -DCMAKE_BUILD_TYPE=Coverage -DBUILD_TESTS=ON .. 
-     - cmake ..
-     - make -j4
-     #- make project1_coverage
-     - ctest
+- sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
+- echo ${PATH}
+- echo ${CXX}
+- "${CXX} --version"
+- "${CXX} -v"
+- sudo pip install codecov
+- |
+  if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
+    CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.1-Linux-x86_64.tar.gz"
+    mkdir -p ${DEPS_DIR}/cmake
+    travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
+    export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+  fi
 
+script:
+- mkdir -p build
+- cd build
+- cmake ..
+- make -j4
+- ctest
+- cpack -G DEB
 
 after_success:
-     - echo "done"
-    # - codecov -t c376990f-2ad6-4f7b-bbdb-5378a52e295c -X gcov
+- echo "done"
 
-#  vim: set et fenc=utf-8 ff=unix sts=0 sw=4 ts=4 :
+before_deploy:
+  - export RELEASE_PKG_FILE=$(ls *.deb)
+  - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: gazTnMPCtND4LqqFPimDm+o0P6/6V+LO1ao/qw/STi9r+HRe02+8zIlErBJOtOakwIowLM5xkSzPcPRN4RYOowGyh/y/m4qDqHTv/AcnS7XWkeC5wSCItr09dLiuQVdpyvmk44emdhMF9NaxOOGZTcdBC/aMqIT7XXBamcOi56cMWZFD6L5dwjDynAihX4Bir6bnNCzsDr3j8rgeobEKhMpWHMwVcQD/5wrf71JEursTCg6S+pl/XXQ4fvtzWY/GrfcITBpbyBwocciF43lpaLMnMkUqINtM1aU9jAh44/AWGf6v+a+SQEQmTdwOpfwa7ewNtPfYlHWdXSTGZ8TzkndsV1S5E7EHCxlP3pHtp71Hdwkn9vkSr9daSAJQQVmsDwD/sk5NGPohvLofBYc06OJcWKNnGvySyPpoa7fRSJUPIG3oP4YG4ahZs724UTU7nsNc51b3NdyzVIle9Xll35Bo6GbfBhGIcSTzDqcm+Tmuy5BQfY59ReeF+lnp59Av2W48I0M9ZzQ5tMe7PN7nIxheHbAn6FA7A/fivnpkttirHoF6sByyOmAZS34RSr53eYCoeZErsPpYFf2e2cUQw1ktufBsYz22CcQPHsBRQdBd168stshq8M9uyo5MNG0tMsM+0pWUVFRmQ5dUwVOYRwQ0sbtETCfT7KYZLo9ViSE=
+  file_glob: true
+  file: "${RELEASE_PKG_FILE}"
+  on:
+    tags: true
+    repo: jgoppert/cymoca
