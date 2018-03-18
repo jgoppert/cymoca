@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
   po::options_description config_file_options;
   config_file_options.add(config).add(hidden);
 
-  po::options_description visible(VERSION);
+  po::options_description visible;
   visible.add(generic).add(config);
 
   po::variables_map vm;
@@ -52,6 +52,7 @@ int main(int argc, const char * argv[]) {
   po::notify(vm);
 
   if (vm.count("help")) {
+    cout << "Cymoca Modelica compiler " << VERSION << std::endl;
     cout << "usage: cymoca [options] model.mo" << endl;
     cout << visible << endl;
     return 1;
@@ -65,3 +66,6 @@ int main(int argc, const char * argv[]) {
   //c.printXML(std::cout);
   //std::cout << s<< std::endl;
 };
+
+
+/* vim: set et fenc=utf-8 ff=unix sts=0 sw=4 ts=4 : */
