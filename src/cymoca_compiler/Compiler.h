@@ -31,8 +31,8 @@ class AstData {
   const std::type_index &getType() {
     return _type;
   }
-  xmlType *getXml() {
-    return _xml.get();
+  std::shared_ptr<xmlType> getXml() {
+    return _xml;
   }
   AstData() :
       _type(typeid(nullptr)),
@@ -93,10 +93,10 @@ class Compiler : public ModelicaListener {
    * @return a reference to the xml
    */
   template<class xmlType>
-  xmlType &getXml(antlr4::tree::ParseTree *ctx) {
-    auto xml = dynamic_cast<xmlType *>(_ast[ctx]->getXml());
+  std::shared_ptr<xmlType> getXml(antlr4::tree::ParseTree *ctx) {
+    auto xml = std::dynamic_pointer_cast<xmlType>(_ast[ctx]->getXml());
     assert(xml != nullptr);
-    return *xml;
+    return xml;
   };
 
  protected:
@@ -109,14 +109,41 @@ class Compiler : public ModelicaListener {
   ModelicaParser::Stored_definitionContext *_root;
 
   /**
-   * Create a new AstData element
+   * Annotate the AST with an xml model
    * @tparam xmlType the type from modelica_xsd
    * @param ctx  the context from antlr
    * @return a pointer to the AstData
    */
   template<class xmlType>
-  std::shared_ptr<AstData> NewAstData(std::shared_ptr<xmlType> ctx) {
-    auto data = std::make_shared<AstData>(typeid(ctx), ctx);
+  void setData(antlr4::tree::ParseTree *ctx, std::shared_ptr<xmlType> xml) {
+    auto data = std::make_shared<AstData>(typeid(xml), xml);
+    assert(data != nullptr);
+    _ast[ctx] = data;
+  };
+
+  /**
+   * Annotate the AST with another annotation
+   * this avoids unncessary duplication
+   * @tparam xmlType the type from modelica_xsd
+   * @param to context to link
+   * @param from source of data
+   * @return a pointer to the AstData
+   */
+  void linkData(antlr4::tree::ParseTree *to,
+                antlr4::tree::ParseTree *from) {
+    auto from_ptr = _ast[from];
+    assert(from_ptr != nullptr);
+    _ast[to] = from_ptr;
+  };
+
+  /**
+   * Get the xml annotation data
+   * @tparam xmlType  the type from modelica_xsd
+   * @param ctx the context from antlr
+   * @return the AstData
+   */
+  std::shared_ptr<AstData> getData(antlr4::tree::ParseTree *ctx) {
+    std::shared_ptr<AstData> data = _ast[ctx];
     assert(data != nullptr);
     return data;
   };
