@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="xml" pattern="file[cymoca_ws]:third_party/ModelicaXML/schemas//*" />
+</component>

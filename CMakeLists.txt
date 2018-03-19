@@ -6,7 +6,7 @@ project(cymoca C CXX)
 # Setup
 #-----------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
 

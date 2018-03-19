@@ -5,11 +5,6 @@
 #include "Compiler.h"
 #include "Utils.h"
 
-using namespace modelica_antlr;
-using namespace modelica_xsd;
-using namespace antlr4;
-using namespace antlr4::tree;
-
 namespace cymoca {
 
 Compiler::Compiler(std::ifstream &text) :
@@ -21,8 +16,7 @@ Compiler::Compiler(std::ifstream &text) :
     _ast(),
     _root(nullptr) {
   _tokenStream.fill();
-
-  _parser = new ModelicaParser(&_tokenStream);
+  _parser = std::make_shared<ModelicaParser>(&_tokenStream);
   tree::ParseTree *tree = _parser->stored_definition();
   tree::ParseTreeWalker::DEFAULT.walk(this, tree);
 }
@@ -32,7 +26,7 @@ void Compiler::printXML(std::ostream &out) {
   map[""].name = "";
   map[""].schema = "Modelica.xsd";
   assert(_root != nullptr);
-  auto m = getXml<Modelica>(_root);
+  auto m = getXml<ast::Modelica>(_root);
   modelica(out, m, map);
 }
 
@@ -68,7 +62,7 @@ std::string Compiler::toPrettyStringTree() {
       stack.push(childIndex);
       run = child;
       childIndex = 0;
-      std::string xml_type = "";
+      std::string xml_type;
       if (hasXml(run)) {
         xml_type = demangle(getXmlType(run).name());
       }
@@ -105,20 +99,20 @@ void Compiler::exitEveryRule(ParserRuleContext *ctx) {
 
 }
 void Compiler::enterStored_definition(ModelicaParser::Stored_definitionContext *ctx) {
-  auto m = new Modelica("1.0");
-  _ast[ctx] = NewAstData(m);
   _root = ctx;
+  auto m = new ast::Modelica("1.0");
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::exitStored_definition(ModelicaParser::Stored_definitionContext *ctx) {
-  auto m = getXml<Modelica>(ctx);
+  auto m = getXml<ast::Modelica>(ctx);
   // populate class definitions
   for (auto d: ctx->stored_definition_class()) {
-    auto c = getXml<ClassDefinition>(d);
+    auto c = getXml<ast::ClassDefinition>(d);
     m.classDefinition(c);
   }
 }
 void Compiler::enterStored_definition_class(ModelicaParser::Stored_definition_classContext *ctx) {
-  auto m = new ClassDefinition("");
+  auto m = new ast::ClassDefinition("");
   m->final(ctx->FINAL() != nullptr);
   _ast[ctx] = NewAstData(m);
 }
@@ -126,11 +120,11 @@ void Compiler::exitStored_definition_class(ModelicaParser::Stored_definition_cla
 
 }
 void Compiler::enterClass_definition(ModelicaParser::Class_definitionContext *ctx) {
-  auto m = getXml<ClassDefinition>(ctx->parent);
+  auto m = getXml<ast::ClassDefinition>(ctx->parent);
   // TODO encapsulated not in AST
   //bool encapsulated = ctx->ENCAPSULATED() != nullptr;
   std::string class_type = ctx->class_prefixes()->class_type()->getText();
-  auto c = new ClassContents(ctx->class_prefixes()->class_type()->getText());
+  auto c = new ast::ClassContents(ctx->class_prefixes()->class_type()->getText());
   c->partial(ctx->class_prefixes()->PARTIAL() != nullptr);
   m.class_(*c);
   _ast[ctx] = NewAstData(c);
@@ -157,7 +151,7 @@ void Compiler::exitClass_spec_comp(ModelicaParser::Class_spec_compContext *ctx) 
   std::string name = ctx->IDENT()[0]->getText();
   std::string name_end = ctx->IDENT()[1]->getText();
   if (name != name_end) throw std::runtime_error("class identifiers do not match");
-  auto c = new ClassDefinition(name);
+  auto c = new ast::ClassDefinition(name);
   c->comment(ctx->string_comment()->getText());
   //auto cont = new ClassContents(name);
   _ast[ctx] = NewAstData(c);
@@ -285,7 +279,7 @@ void Compiler::enterType_specifier_element(ModelicaParser::Type_specifier_elemen
 
 }
 void Compiler::exitType_specifier_element(ModelicaParser::Type_specifier_elementContext *ctx) {
-  _ast[ctx] = NewAstData(new String(ctx->toString()));
+  _ast[ctx] = NewAstData(new ast::String(ctx->toString()));
 }
 void Compiler::enterType_specifier(ModelicaParser::Type_specifierContext *ctx) {
 
@@ -317,7 +311,7 @@ void Compiler::enterDeclaration(ModelicaParser::DeclarationContext *ctx) {
 }
 void Compiler::exitDeclaration(ModelicaParser::DeclarationContext *ctx) {
   // TODO handle array subscripts and modification
-  _ast[ctx] = NewAstData(new String(ctx->IDENT()->toString()));
+  _ast[ctx] = NewAstData(new ast::String(ctx->IDENT()->toString()));
 }
 void Compiler::enterModification_class(ModelicaParser::Modification_classContext *ctx) {
 
@@ -407,7 +401,7 @@ void Compiler::enterEquation_section(ModelicaParser::Equation_sectionContext *ct
 
 }
 void Compiler::exitEquation_section(ModelicaParser::Equation_sectionContext *ctx) {
-  auto m = new EquationSection();
+  auto m = new ast::EquationSection();
   for (auto &eq: ctx->equation_block()->equation()) {
     //assert(_ast[eq].xml != nullptr);
   }
@@ -420,18 +414,18 @@ void Compiler::exitStatement_block(ModelicaParser::Statement_blockContext *ctx) 
 
 }
 void Compiler::enterAlgorithm_section(ModelicaParser::Algorithm_sectionContext *ctx) {
-  auto m = new AlgorithmSection();
+  auto m = new ast::AlgorithmSection();
   _ast[ctx] = NewAstData(m);
 }
 void Compiler::exitAlgorithm_section(ModelicaParser::Algorithm_sectionContext *ctx) {
 
 }
 void Compiler::enterEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
-  auto m = new TwoExpressions();
+  auto m = new ast::TwoExpressions();
   _ast[ctx] = NewAstData(m);
 }
 void Compiler::exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
-  TwoExpressions a;
+  ast::TwoExpressions a;
 }
 void Compiler::enterEquation_if(ModelicaParser::Equation_ifContext *ctx) {
 
@@ -662,7 +656,7 @@ void Compiler::enterPrimary_unsigned_number(ModelicaParser::Primary_unsigned_num
 
 }
 void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *ctx) {
-  auto m = new String(ctx->toString());
+  auto m = new ast::String(ctx->toString());
   _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterPrimary_string(ModelicaParser::Primary_stringContext *ctx) {
@@ -694,7 +688,7 @@ void Compiler::enterPrimary_derivative(ModelicaParser::Primary_derivativeContext
 }
 void Compiler::exitPrimary_derivative(ModelicaParser::Primary_derivativeContext *ctx) {
   std::string name = ctx->function_call_args()->toString();
-  auto m = new OperatorApplication("der");
+  auto m = new ast::OperatorApplication("der");
   _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterPrimary_initial(ModelicaParser::Primary_initialContext *ctx) {
@@ -704,7 +698,7 @@ void Compiler::exitPrimary_initial(ModelicaParser::Primary_initialContext *ctx) 
 
 }
 void Compiler::enterPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
-  Reference r;
+  ast::Reference r;
 }
 void Compiler::exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
 
@@ -737,7 +731,7 @@ void Compiler::enterName(ModelicaParser::NameContext *ctx) {
 
 }
 void Compiler::exitName(ModelicaParser::NameContext *ctx) {
-  auto m = new Name(ctx->toString());
+  auto m = new ast::Name(ctx->toString());
   _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterComponent_reference_element(ModelicaParser::Component_reference_elementContext *ctx) {

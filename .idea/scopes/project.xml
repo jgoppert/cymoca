@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="project" pattern="file[cymoca_ws]:src//*||file[cymoca_ws]:test//*" />
+</component>

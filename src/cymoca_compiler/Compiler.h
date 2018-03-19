@@ -9,34 +9,40 @@
 #include <modelica_antlr/ModelicaLexer.h>
 #include <modelica_xsd/Modelica.hxx>
 #include <typeindex>
+#include <memory>
+
+namespace ast = modelica_xsd;
 
 using namespace modelica_antlr;
-using namespace modelica_xsd;
 using namespace antlr4;
 using namespace antlr4::tree;
 
 namespace cymoca {
 
+typedef ::xml_schema::Type xmlType;
+
 /**
  * A simple structure to hold the base xml pointer
  * and type information about the derived class
  */
-struct AstData {
-  std::type_index type;
-  ::xml_schema::Type *xml;
+class AstData {
+ protected:
+  std::type_index _type;
+  xmlType * _xml;
+ public:
+  std::type_index & getType() {
+    return _type;
+  }
+  xmlType * getXml() {
+    return _xml;
+  }
   AstData() :
-      type(typeid(nullptr)),
-      xml(nullptr) {
+      _type(typeid(nullptr)),
+      _xml(nullptr) {
   }
-  AstData(std::type_index type, ::xml_schema::Type *xml) :
-      type(type),
-      xml(xml) {
-  }
-  ~AstData() {
-    if (xml != nullptr) {
-      delete xml;
-      xml = nullptr;
-    }
+  AstData(const std::type_index &type, xmlType *xml) :
+      _type(type),
+      _xml(xml) {
   }
 };
 
@@ -47,7 +53,7 @@ typedef std::unordered_map<ParseTree *, AstData *> AstMap;
  */
 class Compiler : public ModelicaListener {
  public:
-  Compiler(std::ifstream &text);
+  explicit Compiler(std::ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   CommonTokenStream &getTokenStream() { return _tokenStream; }
   ModelicaParser::Stored_definitionContext *getRoot() { return _root; }
@@ -66,10 +72,10 @@ class Compiler : public ModelicaListener {
    * @param ctx the context
    * @return the type information
    */
-  std::type_index& getXmlType(ParseTree * ctx) {
+  std::type_index &getXmlType(ParseTree *ctx) {
     auto data = _ast[ctx];
     assert(data != nullptr);
-    return _ast[ctx]->type;
+    return _ast[ctx]->getType();
   };
 
   /**
@@ -77,7 +83,7 @@ class Compiler : public ModelicaListener {
    * @param ctx the context
    * @return true if xml exists
    */
-  bool hasXml(ParseTree * ctx) {
+  bool hasXml(ParseTree *ctx) {
     auto data = _ast[ctx];
     return data != nullptr;
   };
@@ -88,9 +94,9 @@ class Compiler : public ModelicaListener {
    * @param ctx the context from antlr
    * @return a reference to the xml
    */
-  template <class xmlType>
-  xmlType& getXml(ParseTree * ctx) {
-    auto xml = dynamic_cast<xmlType *>(_ast[ctx]->xml);
+  template<class xmlType>
+  xmlType &getXml(ParseTree *ctx) {
+    auto xml = dynamic_cast<xmlType *>(_ast[ctx]->getXml());
     assert(xml != nullptr);
     return *xml;
   };
@@ -98,7 +104,7 @@ class Compiler : public ModelicaListener {
  protected:
   std::type_index _null_type;
   ANTLRInputStream _input;
-  ModelicaParser *_parser;
+  std::shared_ptr<ModelicaParser> _parser;
   ModelicaLexer _lexer;
   CommonTokenStream _tokenStream;
   AstMap _ast;
@@ -110,9 +116,9 @@ class Compiler : public ModelicaListener {
    * @param ctx  the context from antlr
    * @return a pointer to the AstData
    */
-  template <class xmlType>
-  AstData* NewAstData(xmlType * ctx) {
-    AstData * data = new AstData(typeid(ctx), ctx);
+  template<class xmlType>
+  AstData *NewAstData(xmlType *ctx) {
+    auto data = new AstData(typeid(ctx), ctx);
     assert(data != nullptr);
     return data;
   };
@@ -356,7 +362,6 @@ class Compiler : public ModelicaListener {
   void enterAnnotation(ModelicaParser::AnnotationContext *ctx) override;
   void exitAnnotation(ModelicaParser::AnnotationContext *ctx) override;
 };
-
 
 } // cymoca
 
