@@ -13,6 +13,7 @@ using namespace antlr4::tree;
 namespace cymoca {
 
 Compiler::Compiler(std::ifstream &text) :
+    _null_type(typeid(nullptr)),
     _parser(nullptr),
     _input(text),
     _lexer(&_input),
@@ -31,8 +32,64 @@ void Compiler::printXML(std::ostream &out) {
   map[""].name = "";
   map[""].schema = "Modelica.xsd";
   assert(_root != nullptr);
-  auto *m = dynamic_cast<Modelica *>(_ast[_root].xml);
-  modelica(out, *m, map);
+  auto m = getXml<Modelica>(_root);
+  modelica(out, m, map);
+}
+
+std::string Compiler::toPrettyStringTree() {
+  //modified from antlr4 runtime
+  std::string temp = antlrcpp::escapeWhitespace(
+      Trees::getNodeText(_root, _parser->getRuleNames()), false);
+  if (_root->children.empty()) {
+    return temp;
+  }
+  std::stringstream ss;
+  auto root_type = getXmlType(_root);
+  ss << "(" << temp << " {" << demangle(root_type.name()) << "} ";
+
+  // Implement the recursive walk as iteration to avoid trouble with deep nesting.
+  std::stack<size_t> stack;
+  size_t childIndex = 0;
+  ParseTree *run = _root;
+  xml_schema::NamespaceInfomap map;
+  map[""].name = "";
+  map[""].schema = "Modelica.xsd";
+  while (childIndex < run->children.size()) {
+    std::string indent = "\t";
+    for (int i = 0; i < stack.size(); i++) indent += "\t";
+    if (childIndex > 0) {
+      ss << ' ';
+    }
+    ParseTree *child = run->children[childIndex];
+    temp = antlrcpp::escapeWhitespace(Trees::getNodeText(
+        child, _parser->getRuleNames()), false);
+    if (!child->children.empty()) {
+      // Go deeper one level.
+      stack.push(childIndex);
+      run = child;
+      childIndex = 0;
+      std::string xml_type = "";
+      if (hasXml(run)) {
+        xml_type = demangle(getXmlType(run).name());
+      }
+      ss << "\n" << indent << "(" << temp << " {" << xml_type << "} ";
+    } else {
+      ss << temp;
+      while (++childIndex == run->children.size()) {
+        if (!stack.empty()) {
+          // Reached the end of the current level. See if we can step up from here.
+          childIndex = stack.top();
+          stack.pop();
+          run = run->parent;
+          ss << ")";
+        } else {
+          break;
+        }
+      }
+    }
+  }
+  ss << ")";
+  return ss.str();
 }
 
 void Compiler::visitTerminal(tree::TerminalNode *node) {
@@ -48,45 +105,38 @@ void Compiler::exitEveryRule(ParserRuleContext *ctx) {
 
 }
 void Compiler::enterStored_definition(ModelicaParser::Stored_definitionContext *ctx) {
+  auto m = new Modelica("1.0");
+  _ast[ctx] = NewAstData(m);
+  _root = ctx;
 }
 void Compiler::exitStored_definition(ModelicaParser::Stored_definitionContext *ctx) {
-  auto m = new Modelica("1.0");
+  auto m = getXml<Modelica>(ctx);
   // populate class definitions
-  for (auto &d: ctx->stored_definition_class()) {
-    assert(d != nullptr);
-    auto *c = dynamic_cast<ClassDefinition *>(_ast[d].xml);
-    assert(c != nullptr);
-    m->classDefinition(*c);
+  for (auto d: ctx->stored_definition_class()) {
+    auto c = getXml<ClassDefinition>(d);
+    m.classDefinition(c);
   }
-  _root = ctx;
-  assert(_root != nullptr);
-  assert(m != nullptr);
-  _ast[ctx] = AST_DATA(m);
 }
 void Compiler::enterStored_definition_class(ModelicaParser::Stored_definition_classContext *ctx) {
-
+  auto m = new ClassDefinition("");
+  m->final(ctx->FINAL() != nullptr);
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::exitStored_definition_class(ModelicaParser::Stored_definition_classContext *ctx) {
-  // use class definition in class definition, but append final if it is there
-  auto d = dynamic_cast<ClassDefinition *>(_ast[ctx->class_definition()].xml);
-  assert(d != nullptr);
-  d->final(ctx->FINAL() != nullptr);
-  _ast[ctx] = AST_DATA(d);
-}
-void Compiler::enterClass_definition(ModelicaParser::Class_definitionContext *ctx) {
 
 }
-void Compiler::exitClass_definition(ModelicaParser::Class_definitionContext *ctx) {
-  // use class definition in class_specifier, but append prefixes and encapsulated
+void Compiler::enterClass_definition(ModelicaParser::Class_definitionContext *ctx) {
+  auto m = getXml<ClassDefinition>(ctx->parent);
   // TODO encapsulated not in AST
   //bool encapsulated = ctx->ENCAPSULATED() != nullptr;
   std::string class_type = ctx->class_prefixes()->class_type()->getText();
-  auto d = dynamic_cast<ClassDefinition *>(_ast[ctx->class_specifier()].xml);
-  assert(d != nullptr);
-  auto c = ClassContents(ctx->class_prefixes()->class_type()->getText());
-  c.partial(ctx->class_prefixes()->PARTIAL() != nullptr);
-  d->class_(c);
-  _ast[ctx] = AST_DATA(d);
+  auto c = new ClassContents(ctx->class_prefixes()->class_type()->getText());
+  c->partial(ctx->class_prefixes()->PARTIAL() != nullptr);
+  m.class_(*c);
+  _ast[ctx] = NewAstData(c);
+}
+void Compiler::exitClass_definition(ModelicaParser::Class_definitionContext *ctx) {
+
 }
 void Compiler::enterClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) {
 
@@ -109,7 +159,8 @@ void Compiler::exitClass_spec_comp(ModelicaParser::Class_spec_compContext *ctx) 
   if (name != name_end) throw std::runtime_error("class identifiers do not match");
   auto c = new ClassDefinition(name);
   c->comment(ctx->string_comment()->getText());
-  _ast[ctx] = AST_DATA(c);
+  //auto cont = new ClassContents(name);
+  _ast[ctx] = NewAstData(c);
 }
 void Compiler::enterClass_spec_base(ModelicaParser::Class_spec_baseContext *ctx) {
 
@@ -223,7 +274,6 @@ void Compiler::enterComponent_clause(ModelicaParser::Component_clauseContext *ct
 
 }
 void Compiler::exitComponent_clause(ModelicaParser::Component_clauseContext *ctx) {
-
 }
 void Compiler::enterType_prefix(ModelicaParser::Type_prefixContext *ctx) {
 
@@ -235,13 +285,14 @@ void Compiler::enterType_specifier_element(ModelicaParser::Type_specifier_elemen
 
 }
 void Compiler::exitType_specifier_element(ModelicaParser::Type_specifier_elementContext *ctx) {
-
+  _ast[ctx] = NewAstData(new String(ctx->toString()));
 }
 void Compiler::enterType_specifier(ModelicaParser::Type_specifierContext *ctx) {
 
 }
 void Compiler::exitType_specifier(ModelicaParser::Type_specifierContext *ctx) {
-
+  // TODO need to handle more than first?
+  _ast[ctx] = _ast[ctx->type_specifier_element()[0]];
 }
 void Compiler::enterComponent_list(ModelicaParser::Component_listContext *ctx) {
 
@@ -253,7 +304,7 @@ void Compiler::enterComponent_declaration(ModelicaParser::Component_declarationC
 
 }
 void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationContext *ctx) {
-
+  _ast[ctx] = _ast[ctx->declaration()];
 }
 void Compiler::enterCondition_attribute(ModelicaParser::Condition_attributeContext *ctx) {
 
@@ -265,7 +316,8 @@ void Compiler::enterDeclaration(ModelicaParser::DeclarationContext *ctx) {
 
 }
 void Compiler::exitDeclaration(ModelicaParser::DeclarationContext *ctx) {
-
+  // TODO handle array subscripts and modification
+  _ast[ctx] = NewAstData(new String(ctx->IDENT()->toString()));
 }
 void Compiler::enterModification_class(ModelicaParser::Modification_classContext *ctx) {
 
@@ -355,7 +407,11 @@ void Compiler::enterEquation_section(ModelicaParser::Equation_sectionContext *ct
 
 }
 void Compiler::exitEquation_section(ModelicaParser::Equation_sectionContext *ctx) {
-
+  auto m = new EquationSection();
+  for (auto &eq: ctx->equation_block()->equation()) {
+    //assert(_ast[eq].xml != nullptr);
+  }
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterStatement_block(ModelicaParser::Statement_blockContext *ctx) {
 
@@ -364,16 +420,18 @@ void Compiler::exitStatement_block(ModelicaParser::Statement_blockContext *ctx) 
 
 }
 void Compiler::enterAlgorithm_section(ModelicaParser::Algorithm_sectionContext *ctx) {
-
+  auto m = new AlgorithmSection();
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::exitAlgorithm_section(ModelicaParser::Algorithm_sectionContext *ctx) {
 
 }
 void Compiler::enterEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
-
+  auto m = new TwoExpressions();
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
-
+  TwoExpressions a;
 }
 void Compiler::enterEquation_if(ModelicaParser::Equation_ifContext *ctx) {
 
@@ -469,7 +527,6 @@ void Compiler::enterIf_equation(ModelicaParser::If_equationContext *ctx) {
 
 }
 void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
-
 }
 void Compiler::enterIf_statement(ModelicaParser::If_statementContext *ctx) {
 
@@ -529,7 +586,7 @@ void Compiler::enterExpression_simple(ModelicaParser::Expression_simpleContext *
 
 }
 void Compiler::exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) {
-
+  _ast[ctx] = _ast[ctx->simple_expression()];
 }
 void Compiler::enterExpression_if(ModelicaParser::Expression_ifContext *ctx) {
 
@@ -541,7 +598,11 @@ void Compiler::enterSimple_expression(ModelicaParser::Simple_expressionContext *
 
 }
 void Compiler::exitSimple_expression(ModelicaParser::Simple_expressionContext *ctx) {
-
+  _ast[ctx] = _ast[ctx->expr(0)];
+  // TODO handle :expr:expr args
+  if (ctx->expr().size() != 1) {
+    throw std::runtime_error("not implemented");
+  }
 }
 void Compiler::enterExpr_neg(ModelicaParser::Expr_negContext *ctx) {
 
@@ -571,7 +632,7 @@ void Compiler::enterExpr_primary(ModelicaParser::Expr_primaryContext *ctx) {
 
 }
 void Compiler::exitExpr_primary(ModelicaParser::Expr_primaryContext *ctx) {
-
+  _ast[ctx] = _ast[ctx->primary()];
 }
 void Compiler::enterExpr_and(ModelicaParser::Expr_andContext *ctx) {
 
@@ -601,7 +662,8 @@ void Compiler::enterPrimary_unsigned_number(ModelicaParser::Primary_unsigned_num
 
 }
 void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *ctx) {
-
+  auto m = new String(ctx->toString());
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterPrimary_string(ModelicaParser::Primary_stringContext *ctx) {
 
@@ -631,7 +693,9 @@ void Compiler::enterPrimary_derivative(ModelicaParser::Primary_derivativeContext
 
 }
 void Compiler::exitPrimary_derivative(ModelicaParser::Primary_derivativeContext *ctx) {
-
+  std::string name = ctx->function_call_args()->toString();
+  auto m = new OperatorApplication("der");
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterPrimary_initial(ModelicaParser::Primary_initialContext *ctx) {
 
@@ -640,7 +704,7 @@ void Compiler::exitPrimary_initial(ModelicaParser::Primary_initialContext *ctx) 
 
 }
 void Compiler::enterPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
-
+  Reference r;
 }
 void Compiler::exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
 
@@ -673,13 +737,13 @@ void Compiler::enterName(ModelicaParser::NameContext *ctx) {
 
 }
 void Compiler::exitName(ModelicaParser::NameContext *ctx) {
-
+  auto m = new Name(ctx->toString());
+  _ast[ctx] = NewAstData(m);
 }
 void Compiler::enterComponent_reference_element(ModelicaParser::Component_reference_elementContext *ctx) {
 
 }
 void Compiler::exitComponent_reference_element(ModelicaParser::Component_reference_elementContext *ctx) {
-
 }
 void Compiler::enterComponent_reference(ModelicaParser::Component_referenceContext *ctx) {
 
@@ -765,67 +829,5 @@ void Compiler::enterAnnotation(ModelicaParser::AnnotationContext *ctx) {
 void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *ctx) {
 
 }
-
-std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
-                               const std::vector<std::string> &ruleNames,
-                               AstMap &ast) {
-  std::string temp = antlrcpp::escapeWhitespace(Trees::getNodeText(t, ruleNames), false);
-  if (t->children.empty()) {
-    return temp;
-  }
-
-  std::stringstream ss;
-  auto node = ast[dynamic_cast<ParserRuleContext *>(t)];
-  ss << "(" << temp << " {" << demangle(node.type.name()) << "} ";
-
-  // Implement the recursive walk as iteration to avoid trouble with deep nesting.
-  std::stack<size_t> stack;
-  size_t childIndex = 0;
-  ParseTree *run = t;
-
-  xml_schema::NamespaceInfomap map;
-  map[""].name = "";
-  map[""].schema = "Modelica.xsd";
-
-  while (childIndex < run->children.size()) {
-    std::string indent = "\t";
-    for (int i = 0; i < stack.size(); i++) indent += "\t";
-    if (childIndex > 0) {
-      ss << ' ';
-    }
-    ParseTree *child = run->children[childIndex];
-    temp = antlrcpp::escapeWhitespace(Trees::getNodeText(child, ruleNames), false);
-    if (!child->children.empty()) {
-      // Go deeper one level.
-      stack.push(childIndex);
-      run = child;
-      childIndex = 0;
-      auto node = ast[dynamic_cast<ParserRuleContext *>(run)];
-      std::string xml_repr;
-      if (node.xml != nullptr) {
-        xml_repr = demangle(node.type.name());
-      }
-      ss << "\n" << indent << "(" << temp << " {" << xml_repr << "} ";
-    } else {
-      ss << temp;
-      while (++childIndex == run->children.size()) {
-        if (!stack.empty()) {
-          // Reached the end of the current level. See if we can step up from here.
-          childIndex = stack.top();
-          stack.pop();
-          run = run->parent;
-          ss << ")";
-        } else {
-          break;
-        }
-      }
-    }
-  }
-
-  ss << ")";
-  return ss.str();
-}
-
-
 
 } // cymoca

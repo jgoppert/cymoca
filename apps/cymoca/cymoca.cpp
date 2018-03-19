@@ -100,10 +100,7 @@ int main(int argc, const char *argv[]) {
     }
 
     std::cout << bar << "\nParse Tree\n" << bar << std::endl;
-    std::cout << cymoca::toPrettyStringTree(
-        c.getRoot(),
-        c.getParser().getRuleNames(),
-        c.getAst()) << std::endl;
+    std::cout << c.toPrettyStringTree() << std::endl;
 
     std::cout << bar << "\nModelicaXML\n" << bar<< std::endl;
     c.printXML(std::cout);
