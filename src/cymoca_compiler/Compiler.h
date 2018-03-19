@@ -8,35 +8,42 @@
 #include <modelica_antlr/ModelicaBaseListener.h>
 #include <modelica_antlr/ModelicaLexer.h>
 #include <modelica_xsd/Modelica.hxx>
+#include <typeindex>
 
 using namespace modelica_antlr;
 using namespace modelica_xsd;
 using namespace antlr4;
 using namespace antlr4::tree;
 
-
 namespace cymoca {
 
+/**
+ * A simple structure to hold the base xml pointer
+ * and type information about the derived class
+ */
 struct AstData {
-    std::string name;
-    ::xml_schema::Type * xml;
-    AstData():
-        name(),
-        xml(nullptr)
-    {
-    }
-    AstData(std::string name_, ::xml_schema::Type * xml) :
-        name(name_),
-        xml(xml)
-    {
-    }
+  std::type_index type;
+  ::xml_schema::Type *xml;
+  AstData() :
+      type(typeid(nullptr)),
+      xml(nullptr) {
+  }
+  AstData(std::type_index type, ::xml_schema::Type *xml) :
+      type(type),
+      xml(xml) {
+  }
 };
 
-#define AST_DATA(x) AstData(typeid(x).name(), x);
+/**
+ * A macro to avoid extra typing for AstData crection
+ */
+#define AST_DATA(x) AstData(typeid(x), x);
 
 typedef std::unordered_map<ParserRuleContext *, AstData> AstMap;
 
-
+/**
+ * This is the main compiler class.
+ */
 class Compiler : public ModelicaListener {
  private:
   ANTLRInputStream _input;

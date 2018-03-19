@@ -776,7 +776,7 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
 
   std::stringstream ss;
   auto node = ast[dynamic_cast<ParserRuleContext *>(t)];
-  ss << "(" << temp << " {" << node.name << "} ";
+  ss << "(" << temp << " {" << node.type.name() << "} ";
 
   // Implement the recursive walk as iteration to avoid trouble with deep nesting.
   std::stack<size_t> stack;
@@ -803,7 +803,7 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
       auto node = ast[dynamic_cast<ParserRuleContext *>(run)];
       std::string xml_repr;
       if (node.xml != nullptr) {
-        xml_repr = node.name;
+        xml_repr = node.type.name();
       }
       ss << "\n" << indent << "(" << temp << " {" << xml_repr << "} ";
     } else {
