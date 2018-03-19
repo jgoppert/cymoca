@@ -3,12 +3,12 @@
 //
 
 #include "Compiler.h"
+#include "Utils.h"
 
 using namespace modelica_antlr;
 using namespace modelica_xsd;
 using namespace antlr4;
 using namespace antlr4::tree;
-
 
 namespace cymoca {
 
@@ -31,7 +31,7 @@ void Compiler::printXML(std::ostream &out) {
   map[""].name = "";
   map[""].schema = "Modelica.xsd";
   assert(_root != nullptr);
-  auto * m = dynamic_cast<Modelica *>(_ast[_root].xml);
+  auto *m = dynamic_cast<Modelica *>(_ast[_root].xml);
   modelica(out, *m, map);
 }
 
@@ -54,7 +54,7 @@ void Compiler::exitStored_definition(ModelicaParser::Stored_definitionContext *c
   // populate class definitions
   for (auto &d: ctx->stored_definition_class()) {
     assert(d != nullptr);
-    auto * c = dynamic_cast<ClassDefinition *>(_ast[d].xml);
+    auto *c = dynamic_cast<ClassDefinition *>(_ast[d].xml);
     assert(c != nullptr);
     m->classDefinition(*c);
   }
@@ -776,7 +776,7 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
 
   std::stringstream ss;
   auto node = ast[dynamic_cast<ParserRuleContext *>(t)];
-  ss << "(" << temp << " {" << node.type.name() << "} ";
+  ss << "(" << temp << " {" << demangle(node.type.name()) << "} ";
 
   // Implement the recursive walk as iteration to avoid trouble with deep nesting.
   std::stack<size_t> stack;
@@ -788,8 +788,8 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
   map[""].schema = "Modelica.xsd";
 
   while (childIndex < run->children.size()) {
-    std::string indent="\t";
-    for (int i=0; i< stack.size(); i++) indent+="\t";
+    std::string indent = "\t";
+    for (int i = 0; i < stack.size(); i++) indent += "\t";
     if (childIndex > 0) {
       ss << ' ';
     }
@@ -803,7 +803,7 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
       auto node = ast[dynamic_cast<ParserRuleContext *>(run)];
       std::string xml_repr;
       if (node.xml != nullptr) {
-        xml_repr = node.type.name();
+        xml_repr = demangle(node.type.name());
       }
       ss << "\n" << indent << "(" << temp << " {" << xml_repr << "} ";
     } else {
@@ -825,5 +825,7 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
   ss << ")";
   return ss.str();
 }
+
+
 
 } // cymoca

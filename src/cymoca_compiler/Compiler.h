@@ -295,7 +295,6 @@ class Compiler : public ModelicaListener {
   void exitAnnotation(ModelicaParser::AnnotationContext *ctx) override;
 };
 
-// utils
 std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
                                const std::vector<std::string> &ruleNames,
                                AstMap &_ast);

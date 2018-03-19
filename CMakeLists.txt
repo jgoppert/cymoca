@@ -11,11 +11,11 @@ set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
 
 # find only static libraries
-if(WIN32)
+if (WIN32)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
-else(WIN32)
+else (WIN32)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
-endif(WIN32)
+endif (WIN32)
 
 # packages
 set(Boost_USE_STATIC_LIBS ON)
@@ -33,10 +33,10 @@ include(ExternalProject)
 find_package(Threads REQUIRED)
 
 include_directories(
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_BINARY_DIR}
-    ${EP_PREFIX}/include/antlr4-runtime
-    ${EP_PREFIX}/include)
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}
+        ${EP_PREFIX}/include/antlr4-runtime
+        ${EP_PREFIX}/include)
 link_directories(${EP_PREFIX}/lib)
 
 # disable this to quiet warnings in XSDCXX, travis version doesn't support
@@ -51,13 +51,13 @@ git_describe(VERSION --tags --dirty=-dirty)
 
 #parse the version information into pieces.
 set(version_regex "([0-9]*).([0-9]*).([0-9]*)-?(.*)$")
-string(REGEX REPLACE ${version_regex} "\\1" VERSION_MAJOR ${VERSION} )
-string(REGEX REPLACE ${version_regex} "\\2" VERSION_MINOR ${VERSION} )
-string(REGEX REPLACE ${version_regex} "\\3" VERSION_PATCH ${VERSION} )
-string(REGEX REPLACE ${version_regex} "\\4" VERSION_SHA ${VERSION} )
+string(REGEX REPLACE ${version_regex} "\\1" VERSION_MAJOR ${VERSION})
+string(REGEX REPLACE ${version_regex} "\\2" VERSION_MINOR ${VERSION})
+string(REGEX REPLACE ${version_regex} "\\3" VERSION_PATCH ${VERSION})
+string(REGEX REPLACE ${version_regex} "\\4" VERSION_SHA ${VERSION})
 set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.cpp.in
-                ${CMAKE_CURRENT_BINARY_DIR}/version.cpp)
+        ${CMAKE_CURRENT_BINARY_DIR}/version.cpp)
 set(version_file "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 
 #-----------------------------------------------------------------------------
@@ -79,11 +79,11 @@ ExternalProject_Add(googletest
 add_library(gtest STATIC IMPORTED)
 add_dependencies(gtest googletest)
 set_property(TARGET gtest PROPERTY IMPORTED_LOCATION
-    ${EP_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+        ${EP_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
 add_library(gtest_main STATIC IMPORTED)
 add_dependencies(gtest_main googletest)
 set_property(TARGET gtest_main PROPERTY IMPORTED_LOCATION
-    ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+        ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
 
 #-----------------------------------------------------------------------------
 # Antlr C++ Runtime
@@ -100,15 +100,15 @@ ExternalProject_Add(antlr4cpp
         LOG_UPDATE ON
         BUILD_COMMAND make -j4
         CONFIGURE_COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug
-            -DWITH_DEMO=OFF
-            -DBUILD_SHARED_LIBS=OFF -BUILD_TESTS=OFF
-            -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-            -DCMAKE_SOURCE_DIR=<SOURCE_DIR>/runtime/Cpp
-            <SOURCE_DIR>/runtime/Cpp
+        -DWITH_DEMO=OFF
+        -DBUILD_SHARED_LIBS=OFF -BUILD_TESTS=OFF
+        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        -DCMAKE_SOURCE_DIR=<SOURCE_DIR>/runtime/Cpp
+        <SOURCE_DIR>/runtime/Cpp
         )
 add_library(antlr4-runtime STATIC IMPORTED)
 set_property(TARGET antlr4-runtime PROPERTY IMPORTED_LOCATION
-    ${EP_PREFIX}/lib/libantlr4-runtime${CMAKE_STATIC_LIBRARY_SUFFIX})
+        ${EP_PREFIX}/lib/libantlr4-runtime${CMAKE_STATIC_LIBRARY_SUFFIX})
 add_dependencies(antlr4-runtime antlr4cpp)
 
 #-----------------------------------------------------------------------------
@@ -123,7 +123,8 @@ add_subdirectory(src/cymoca_compiler)
 #-----------------------------------------------------------------------------
 add_subdirectory(apps/cymoca)
 
-#----------------------------------------------------------------------------- # Tests
+#-----------------------------------------------------------------------------
+# Tests
 #-----------------------------------------------------------------------------
 enable_testing()
 add_subdirectory(test)

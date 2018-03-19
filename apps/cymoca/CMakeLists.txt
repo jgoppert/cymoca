@@ -2,18 +2,18 @@
 # Command Line Interface
 #-----------------------------------------------------------------------------
 add_executable(cymoca
-    cymoca.cpp)
+        cymoca.cpp)
 target_link_libraries(cymoca
-    cymoca_compiler
-    modelica_antlr
-    antlr4-runtime
-    modelica_xsd
-    ${XercesC_LIBRARIES}
-    ${ICU_LIBRARIES})
+        cymoca_compiler
+        modelica_antlr
+        antlr4-runtime
+        modelica_xsd
+        ${XercesC_LIBRARIES}
+        ${ICU_LIBRARIES})
 
 install(TARGETS cymoca
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib/static)
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib/static)
 
 # vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :

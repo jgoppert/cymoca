@@ -6,19 +6,19 @@ find_package(ICU COMPONENTS io le test i18n uc data tu REQUIRED)
 find_program(XSDCXX xsdcxx)
 if (NOT XSDCXX)
     message(FATAL_ERROR "xsdcxx not found")
-endif()
+endif ()
 
 set(xsd_files
-    ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Modelica.xsd
-    ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Expression.xsd
-    ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Equation_Statement_separate.xsd
-    ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Types.xsd
-)
+        ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Modelica.xsd
+        ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Expression.xsd
+        ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Equation_Statement_separate.xsd
+        ${CMAKE_SOURCE_DIR}/third_party/ModelicaXML/schemas/Types.xsd
+        )
 set(xsd_hdrs)
 set(xsd_srcs)
 set(xsd_dir ${CMAKE_BINARY_DIR}/modelica_xsd)
 file(MAKE_DIRECTORY ${xsd_dir})
-foreach(xsd_file ${xsd_files})
+foreach (xsd_file ${xsd_files})
     get_filename_component(file_name ${xsd_file} NAME_WE)
     set(_hdr ${xsd_dir}/${file_name}.hxx)
     set(_src ${xsd_dir}/${file_name}.cxx)
@@ -26,15 +26,15 @@ foreach(xsd_file ${xsd_files})
     list(APPEND xsd_srcs ${_src})
     add_custom_command(OUTPUT ${_hdr} ${_src}
             COMMAND ${XSDCXX} cxx-tree
-                --generate-serialization
-                --type-naming ucc
-                --function-naming lcc
-                --namespace-map =modelica_xsd
-                # --std c++11 (not supported by travis)
-                ${xsd_file}
+            --generate-serialization
+            --type-naming ucc
+            --function-naming lcc
+            --namespace-map =modelica_xsd
+            # --std c++11 (not supported by travis)
+            ${xsd_file}
             DEPENDS ${xsd_file}
             WORKING_DIRECTORY ${xsd_dir})
-endforeach()
+endforeach ()
 include_directories(${CMAKE_BINARY_DIR})
 add_library(modelica_xsd STATIC
         ${xsd_hdrs}
