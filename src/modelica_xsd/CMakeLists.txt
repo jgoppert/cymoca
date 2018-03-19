@@ -29,6 +29,7 @@ foreach(xsd_file ${xsd_files})
                 --generate-serialization
                 --type-naming ucc
                 --function-naming lcc
+                --namespace-map =modelica_xsd
                 # --std c++11 (not supported by travis)
                 ${xsd_file}
             DEPENDS ${xsd_file}

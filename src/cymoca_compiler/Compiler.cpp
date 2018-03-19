@@ -5,8 +5,10 @@
 #include "Compiler.h"
 
 using namespace modelica_antlr;
+using namespace modelica_xsd;
 using namespace antlr4;
 using namespace antlr4::tree;
+
 
 namespace cymoca {
 
@@ -29,7 +31,7 @@ void Compiler::printXML(std::ostream &out) {
   map[""].name = "";
   map[""].schema = "Modelica.xsd";
   assert(_root != nullptr);
-  auto * m = dynamic_cast<Modelica *>(_ast[_root]);
+  auto * m = dynamic_cast<Modelica *>(_ast[_root].xml);
   modelica(out, *m, map);
 }
 
@@ -52,24 +54,24 @@ void Compiler::exitStored_definition(ModelicaParser::Stored_definitionContext *c
   // populate class definitions
   for (auto &d: ctx->stored_definition_class()) {
     assert(d != nullptr);
-    auto * c = dynamic_cast<ClassDefinition *>(_ast[d]);
+    auto * c = dynamic_cast<ClassDefinition *>(_ast[d].xml);
     assert(c != nullptr);
     m->classDefinition(*c);
   }
   _root = ctx;
   assert(_root != nullptr);
   assert(m != nullptr);
-  _ast[ctx] = m;
+  _ast[ctx] = AST_DATA(m);
 }
 void Compiler::enterStored_definition_class(ModelicaParser::Stored_definition_classContext *ctx) {
 
 }
 void Compiler::exitStored_definition_class(ModelicaParser::Stored_definition_classContext *ctx) {
   // use class definition in class definition, but append final if it is there
-  auto d = dynamic_cast<ClassDefinition *>(_ast[ctx->class_definition()]);
+  auto d = dynamic_cast<ClassDefinition *>(_ast[ctx->class_definition()].xml);
   assert(d != nullptr);
   d->final(ctx->FINAL() != nullptr);
-  _ast[ctx] = d;
+  _ast[ctx] = AST_DATA(d);
 }
 void Compiler::enterClass_definition(ModelicaParser::Class_definitionContext *ctx) {
 
@@ -79,12 +81,12 @@ void Compiler::exitClass_definition(ModelicaParser::Class_definitionContext *ctx
   // TODO encapsulated not in AST
   //bool encapsulated = ctx->ENCAPSULATED() != nullptr;
   std::string class_type = ctx->class_prefixes()->class_type()->getText();
-  auto d = dynamic_cast<ClassDefinition *>(_ast[ctx->class_specifier()]);
+  auto d = dynamic_cast<ClassDefinition *>(_ast[ctx->class_specifier()].xml);
   assert(d != nullptr);
   auto c = ClassContents(ctx->class_prefixes()->class_type()->getText());
   c.partial(ctx->class_prefixes()->PARTIAL() != nullptr);
   d->class_(c);
-  _ast[ctx] = d;
+  _ast[ctx] = AST_DATA(d);
 }
 void Compiler::enterClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) {
 
@@ -107,7 +109,7 @@ void Compiler::exitClass_spec_comp(ModelicaParser::Class_spec_compContext *ctx) 
   if (name != name_end) throw std::runtime_error("class identifiers do not match");
   auto c = new ClassDefinition(name);
   c->comment(ctx->string_comment()->getText());
-  _ast[ctx] = c;
+  _ast[ctx] = AST_DATA(c);
 }
 void Compiler::enterClass_spec_base(ModelicaParser::Class_spec_baseContext *ctx) {
 
@@ -766,15 +768,15 @@ void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *ctx) {
 
 std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
                                const std::vector<std::string> &ruleNames,
-                               std::map<ParserRuleContext *, ::xml_schema::Type *> &ast) {
+                               AstMap &ast) {
   std::string temp = antlrcpp::escapeWhitespace(Trees::getNodeText(t, ruleNames), false);
   if (t->children.empty()) {
     return temp;
   }
 
   std::stringstream ss;
-  auto xml = ast[dynamic_cast<ParserRuleContext *>(t)];
-  ss << "(" << temp << " {" << xml << "} ";
+  auto node = ast[dynamic_cast<ParserRuleContext *>(t)];
+  ss << "(" << temp << " {" << node.name << "} ";
 
   // Implement the recursive walk as iteration to avoid trouble with deep nesting.
   std::stack<size_t> stack;
@@ -798,8 +800,12 @@ std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
       stack.push(childIndex);
       run = child;
       childIndex = 0;
-      auto xml = ast[dynamic_cast<ParserRuleContext *>(run)];
-      ss << "\n" << indent << "(" << temp << " {" << xml << "} ";
+      auto node = ast[dynamic_cast<ParserRuleContext *>(run)];
+      std::string xml_repr;
+      if (node.xml != nullptr) {
+        xml_repr = node.name;
+      }
+      ss << "\n" << indent << "(" << temp << " {" << xml_repr << "} ";
     } else {
       ss << temp;
       while (++childIndex == run->children.size()) {

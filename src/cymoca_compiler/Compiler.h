@@ -10,10 +10,32 @@
 #include <modelica_xsd/Modelica.hxx>
 
 using namespace modelica_antlr;
+using namespace modelica_xsd;
 using namespace antlr4;
 using namespace antlr4::tree;
 
+
 namespace cymoca {
+
+struct AstData {
+    std::string name;
+    ::xml_schema::Type * xml;
+    AstData():
+        name(),
+        xml(nullptr)
+    {
+    }
+    AstData(std::string name_, ::xml_schema::Type * xml) :
+        name(name_),
+        xml(xml)
+    {
+    }
+};
+
+#define AST_DATA(x) AstData(typeid(x).name(), x);
+
+typedef std::unordered_map<ParserRuleContext *, AstData> AstMap;
+
 
 class Compiler : public ModelicaListener {
  private:
@@ -21,14 +43,14 @@ class Compiler : public ModelicaListener {
   ModelicaParser *_parser;
   ModelicaLexer _lexer;
   CommonTokenStream _tokenStream;
-  std::map<ParserRuleContext *, ::xml_schema::Type *> _ast;
+  AstMap _ast;
   ModelicaParser::Stored_definitionContext *_root;
  public:
   Compiler(std::ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   CommonTokenStream &getTokenStream() { return _tokenStream; }
   ModelicaParser::Stored_definitionContext *getRoot() { return _root; }
-  std::map<ParserRuleContext *, ::xml_schema::Type *> &getAst() { return _ast; };
+  AstMap &getAst() { return _ast; };
   void printXML(std::ostream &out);
   void visitTerminal(tree::TerminalNode *node) override;
   void visitErrorNode(tree::ErrorNode *node) override;
@@ -269,7 +291,7 @@ class Compiler : public ModelicaListener {
 // utils
 std::string toPrettyStringTree(antlr4::tree::ParseTree *t,
                                const std::vector<std::string> &ruleNames,
-                               std::map<ParserRuleContext *, ::xml_schema::Type *> &_ast);
+                               AstMap &_ast);
 
 } // cymoca
 
