@@ -30,8 +30,9 @@ foreach (xsd_file ${xsd_files})
             --type-naming ucc
             --function-naming lcc
             --namespace-map =modelica_xsd
-            # std c++11 not supported on version of xsdcxx on travis
-            # --std c++11
+            # std c++11 not supported on version of xsdcxx on 14.04
+            # this is why we install it manually, see tools dir.
+            --std c++11
             ${xsd_file}
             DEPENDS ${xsd_file}
             WORKING_DIRECTORY ${xsd_dir})

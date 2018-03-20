@@ -22,13 +22,13 @@ matrix:
         - libboost-filesystem-dev
         - libboost-program-options-dev
         - libicu-dev
-        - xsdcxx
         sources:
         - ubuntu-toolchain-r-test
 
 before_install: 
 
 install:
+- sudo ./tools/install_xsd_amd64_deb.sh
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
 - echo ${PATH}
 - echo ${CXX}
