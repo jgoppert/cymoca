@@ -151,7 +151,7 @@ void Compiler::enterClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) {
   parent->partial(ctx->PARTIAL() != nullptr);
 
   // annotate ast with parent
-  setData(ctx, parent);
+  linkData(ctx, ctx->parent);
 }
 void Compiler::exitClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) {
 
@@ -162,7 +162,7 @@ void Compiler::enterClass_type(ModelicaParser::Class_typeContext *ctx) {
   std::string class_type = ctx->getText();
 
   // annotate ast with parent
-  setData(ctx, parent);
+  linkData(ctx, ctx->parent);
 }
 void Compiler::exitClass_type(ModelicaParser::Class_typeContext *ctx) {
 
@@ -717,6 +717,7 @@ void Compiler::enterPrimary_derivative(ModelicaParser::Primary_derivativeContext
   std::string name = ctx->function_call_args()->toString();
   auto node = std::make_shared<ast::OperatorApplication>("der");
   setData(ctx, node);
+  linkData(ctx, ctx->parent);
 }
 void Compiler::exitPrimary_derivative(ModelicaParser::Primary_derivativeContext *ctx) {
 
