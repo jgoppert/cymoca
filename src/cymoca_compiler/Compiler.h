@@ -77,11 +77,11 @@ class Compiler : public ModelicaListener {
   };
 
   /**
-   * Check if xml exists for a given context
+   * Check if annotation data exists for a given context
    * @param ctx the context
-   * @return true if xml exists
+   * @return true if data exists
    */
-  bool hasXml(antlr4::tree::ParseTree *ctx) {
+  bool hasData(antlr4::tree::ParseTree *ctx) {
     auto data = _ast[ctx];
     return data != nullptr;
   };
@@ -132,7 +132,8 @@ class Compiler : public ModelicaListener {
   void linkData(antlr4::tree::ParseTree *to,
                 antlr4::tree::ParseTree *from) {
     auto from_ptr = _ast[from];
-    assert(from_ptr != nullptr);
+    // ok if from is a nullptr
+    // to should also become a nullptr
     _ast[to] = from_ptr;
   };
 

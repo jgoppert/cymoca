@@ -64,7 +64,7 @@ std::string Compiler::toPrettyStringTree() {
       run = child;
       childIndex = 0;
       std::string xml_type;
-      if (hasXml(run)) {
+      if (hasData(run)) {
         xml_type = demangle(getXmlType(run).name());
       }
       ss << "\n" << indent << "(" << temp << " {" << xml_type << "} ";
@@ -315,7 +315,7 @@ void Compiler::enterType_specifier(ModelicaParser::Type_specifierContext *ctx) {
 }
 void Compiler::exitType_specifier(ModelicaParser::Type_specifierContext *ctx) {
   // TODO need to handle more than first?
-  //linkData(ctx, ctx->type_specifier_element()[0]);
+  linkData(ctx, ctx->type_specifier_element()[0]);
 }
 void Compiler::enterComponent_list(ModelicaParser::Component_listContext *ctx) {
 
@@ -327,7 +327,7 @@ void Compiler::enterComponent_declaration(ModelicaParser::Component_declarationC
 
 }
 void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationContext *ctx) {
-  //linkData(ctx, ctx->declaration());
+  linkData(ctx, ctx->declaration());
 }
 void Compiler::enterCondition_attribute(ModelicaParser::Condition_attributeContext *ctx) {
 
@@ -609,7 +609,7 @@ void Compiler::enterExpression_simple(ModelicaParser::Expression_simpleContext *
 
 }
 void Compiler::exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) {
-  //linkData(ctx, ctx->simple_expression());
+  linkData(ctx, ctx->simple_expression());
 }
 void Compiler::enterExpression_if(ModelicaParser::Expression_ifContext *ctx) {
 
@@ -626,7 +626,7 @@ void Compiler::exitSimple_expression(ModelicaParser::Simple_expressionContext *c
   if (ctx->expr().size() != 1) {
     throw std::runtime_error("not implemented");
   }
-  //linkData(ctx, ctx->expr(0));
+  linkData(ctx, ctx->expr(0));
 }
 void Compiler::enterExpr_neg(ModelicaParser::Expr_negContext *ctx) {
 
@@ -656,7 +656,7 @@ void Compiler::enterExpr_primary(ModelicaParser::Expr_primaryContext *ctx) {
 
 }
 void Compiler::exitExpr_primary(ModelicaParser::Expr_primaryContext *ctx) {
-  //linkData(ctx, ctx->primary());
+  linkData(ctx, ctx->primary());
 }
 void Compiler::enterExpr_and(ModelicaParser::Expr_andContext *ctx) {
 
@@ -683,11 +683,11 @@ void Compiler::exitExpr_mul(ModelicaParser::Expr_mulContext *ctx) {
 
 }
 void Compiler::enterPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *ctx) {
-
-}
-void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *ctx) {
   auto node = std::make_shared<ast::String>(ctx->toString());
   setData(ctx, node);
+}
+void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *ctx) {
+
 }
 void Compiler::enterPrimary_string(ModelicaParser::Primary_stringContext *ctx) {
 
@@ -714,12 +714,12 @@ void Compiler::exitPrimary_function(ModelicaParser::Primary_functionContext *ctx
 
 }
 void Compiler::enterPrimary_derivative(ModelicaParser::Primary_derivativeContext *ctx) {
-
-}
-void Compiler::exitPrimary_derivative(ModelicaParser::Primary_derivativeContext *ctx) {
   std::string name = ctx->function_call_args()->toString();
   auto node = std::make_shared<ast::OperatorApplication>("der");
   setData(ctx, node);
+}
+void Compiler::exitPrimary_derivative(ModelicaParser::Primary_derivativeContext *ctx) {
+
 }
 void Compiler::enterPrimary_initial(ModelicaParser::Primary_initialContext *ctx) {
 
@@ -728,7 +728,6 @@ void Compiler::exitPrimary_initial(ModelicaParser::Primary_initialContext *ctx) 
 
 }
 void Compiler::enterPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
-  ast::Reference r;
 }
 void Compiler::exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
 
@@ -758,11 +757,11 @@ void Compiler::exitPrimary_end(ModelicaParser::Primary_endContext *ctx) {
 
 }
 void Compiler::enterName(ModelicaParser::NameContext *ctx) {
-
-}
-void Compiler::exitName(ModelicaParser::NameContext *ctx) {
   auto node = std::make_shared<ast::Name>(ctx->toString());
   setData(ctx, node);
+}
+void Compiler::exitName(ModelicaParser::NameContext *ctx) {
+
 }
 void Compiler::enterComponent_reference_element(ModelicaParser::Component_reference_elementContext *ctx) {
 
