@@ -3,9 +3,11 @@
 #-----------------------------------------------------------------------------
 find_package(XercesC 3 REQUIRED)
 find_package(ICU COMPONENTS io le test i18n uc data tu REQUIRED)
-find_program(XSDCXX xsdcxx)
-if (NOT XSDCXX)
-    message(FATAL_ERROR "xsdcxx not found")
+find_program(XsdCxx NAMES xsd xsdcxx)
+if (NOT XsdCxx)
+    message(FATAL_ERROR "XsdCxx not found")
+else()
+    message(STATUS "Found XsdCxx: ${XsdCxx}")
 endif ()
 
 set(xsd_files
@@ -25,7 +27,7 @@ foreach (xsd_file ${xsd_files})
     list(APPEND xsd_hdrs ${_hdr})
     list(APPEND xsd_srcs ${_src})
     add_custom_command(OUTPUT ${_hdr} ${_src}
-            COMMAND ${XSDCXX} cxx-tree
+            COMMAND ${XsdCxx} cxx-tree
             --generate-serialization
             --type-naming ucc
             --function-naming lcc
