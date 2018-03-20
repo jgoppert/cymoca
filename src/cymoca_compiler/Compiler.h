@@ -17,7 +17,7 @@ using namespace modelica_antlr;
 
 namespace cymoca {
 
-typedef ::xml_schema::Type xmlType;
+typedef ::xml_schema::Type XmlBase;
 
 /**
  * A simple structure to hold the base xml pointer
@@ -26,25 +26,24 @@ typedef ::xml_schema::Type xmlType;
 class AstData {
  protected:
   std::type_index _type;
-  std::shared_ptr<xmlType> _xml;
+  XmlBase *_xml;
  public:
   const std::type_index &getType() {
     return _type;
   }
-  std::shared_ptr<xmlType> getXml() {
+  XmlBase * getXml() {
     return _xml;
   }
-  AstData() :
-      _type(typeid(nullptr)),
-      _xml(nullptr) {
+  AstData() : _type(typeid(nullptr)), _xml(nullptr) {
   }
-  AstData(const std::type_index &type, const std::shared_ptr<xmlType> &xml) :
+  AstData(const std::type_index &type, XmlBase * xml) :
       _type(type),
       _xml(xml) {
   }
 };
 
 typedef std::unordered_map<antlr4::tree::ParseTree *, std::shared_ptr<AstData>> AstMap;
+typedef std::unordered_map<antlr4::tree::ParseTree *, std::shared_ptr<XmlBase>> AstMemory;
 
 /**
  * This is the main compiler class.
@@ -87,35 +86,45 @@ class Compiler : public ModelicaListener {
   };
 
   /**
-   * Get the xml model for the context
+   * Get the xml model for the context, downcast base ptr
    * @tparam xmlType  the type from modelica_xsd
    * @param ctx the context from antlr
    * @return a reference to the xml
    */
   template<class xmlType>
-  std::shared_ptr<xmlType> getXml(antlr4::tree::ParseTree *ctx) {
-    auto xml = std::dynamic_pointer_cast<xmlType>(_ast[ctx]->getXml());
+  xmlType * getXml(antlr4::tree::ParseTree *ctx) {
+    xmlType * a;
+    std::shared_ptr<AstData> data = _ast[ctx];
+    assert(data->getType() == typeid(a));
+    XmlBase * xmlBase = data->getXml();
+    assert(xmlBase != nullptr);
+    auto xml = dynamic_cast<xmlType*>(xmlBase);
     assert(xml != nullptr);
     return xml;
   };
 
+  void setMemory(antlr4::tree::ParseTree * ctx, std::shared_ptr<XmlBase> xml) {
+    _memory[ctx] = xml;
+  }
+
  protected:
-  std::type_index _null_type;
   antlr4::ANTLRInputStream _input;
   std::shared_ptr<ModelicaParser> _parser;
   ModelicaLexer _lexer;
   antlr4::CommonTokenStream _tokenStream;
   AstMap _ast;
+  AstMemory _memory;
   ModelicaParser::Stored_definitionContext *_root;
 
   /**
    * Annotate the AST with an xml model
    * @tparam xmlType the type from modelica_xsd
    * @param ctx  the context from antlr
+   * @param store store the xml data
    * @return a pointer to the AstData
    */
   template<class xmlType>
-  void setData(antlr4::tree::ParseTree *ctx, std::shared_ptr<xmlType> xml) {
+  void setData(antlr4::tree::ParseTree *ctx, xmlType * xml) {
     auto data = std::make_shared<AstData>(typeid(xml), xml);
     assert(data != nullptr);
     _ast[ctx] = data;
