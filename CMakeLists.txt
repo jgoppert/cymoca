@@ -24,6 +24,9 @@ find_package(Boost COMPONENTS
         program_options
         REQUIRED)
 
+find_package(casadi REQUIRED)
+link_libraries(${CASADI_LIBRARY})
+
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 # includes
@@ -115,7 +118,6 @@ add_dependencies(antlr4-runtime antlr4cpp)
 # Libraries
 #-----------------------------------------------------------------------------
 add_subdirectory(src/modelica_antlr)
-add_subdirectory(src/modelica_xsd)
 add_subdirectory(src/cymoca_compiler)
 
 #-----------------------------------------------------------------------------

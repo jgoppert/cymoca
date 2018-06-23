@@ -1,18 +1,24 @@
 #-----------------------------------------------------------------------------
 # Compiler
 #-----------------------------------------------------------------------------
+
+include_directories(
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}
+        ${EP_PREFIX}/include/antlr4-runtime
+        ${EP_PREFIX}/include)
+
 add_library(cymoca_compiler STATIC
         ${PROJECT_BINARY_DIR}/version.cpp
         version.h
-        Utils.cpp
-        Utils.h
         Compiler.cpp
-        Compiler.h Utils.cpp Utils.h)
+        Compiler.h
+        Ast.cpp
+        Ast.h
+        )
 target_link_libraries(cymoca_compiler
         antlr4-runtime
         modelica_antlr
-        modelica_xsd
-        ${XercesC_LIBRARIES}
         ${Boost_LIBRARIES}
         ${CMAKE_THREAD_LIBS_INIT})
 

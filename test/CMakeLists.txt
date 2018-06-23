@@ -3,11 +3,13 @@
 #-----------------------------------------------------------------------------
 add_compile_options(-Wall)
 add_executable(test_one
-    test_one.cpp)
+        test_one.cpp)
 target_link_libraries(test_one
-    cymoca_compiler
-    gtest_main
-    gtest)
+        cymoca_compiler
+        gtest_main
+        gtest
+        ${CASADI_LIBRARIES}
+        )
 add_test(test_one test_one)
 
 add_test(cli_help ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca -h)
