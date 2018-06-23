@@ -15,6 +15,7 @@ add_library(cymoca_compiler STATIC
         Compiler.h
         Ast.cpp
         Ast.h
+        LispListener.h
         )
 target_link_libraries(cymoca_compiler
         antlr4-runtime

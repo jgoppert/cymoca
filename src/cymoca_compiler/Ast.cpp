@@ -10,8 +10,8 @@ namespace ast {
 
 void Walker::walk(Listener *listener, Node *t) const {
   enter(listener, t);
-  for (auto &child : t->children) {
-    walk(listener, child.get());
+  for (auto child : t->children()) {
+    walk(listener, child);
   }
   exit(listener, t);
 }

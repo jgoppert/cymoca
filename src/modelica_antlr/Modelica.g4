@@ -161,27 +161,36 @@ equation_section:
 algorithm_section:
     INITIAL? ALGORITHM statement_list;
 
+equation_simple:
+    simple_expression '=' expression;
+
 equation_options:
-    simple_expression '=' expression    # equation_simple
-    | if_equation                       # equation_if
-    | for_equation                      # equation_for
-    | connect_clause                    # equation_connect
-    | when_equation                     # equation_when
-    | component_reference function_call_args  # equation_function
+    equation_simple
+    | if_equation
+    | for_equation
+    | connect_clause
+    | when_equation
+    | component_reference function_call_args
     ;
 
 equation:
     equation_options comment;
 
+statement_comp_ref:
+    component_reference (':=' expression | function_call_args);
+
+statement_output:
+    '(' output_expression_list ')' ':=' component_reference function_call_args;
+
 statement_options:
-    component_reference (':=' expression | function_call_args)      # statement_comp
-    | '(' output_expression_list ')' ':=' component_reference function_call_args # statement_output
-    | BREAK             # statement_break
-    | RETURN            # statement_return
-    | if_statement      # statement_if
-    | for_statement     # statement_for
-    | while_statement   # statement_while
-    | when_statement    # statement_when
+    statement_comp_ref
+    | statement_output
+    | BREAK
+    | RETURN
+    | if_statement
+    | for_statement
+    | while_statement
+    | when_statement
     ;
 
 statement:
@@ -299,9 +308,10 @@ function_call_args:
     '(' function_arguments? ')';
 
 function_arguments:
-    expression (',' function_argumments_non_first | FOR for_indices)?
-    | FUNCTION name '(' named_arguments? ')' (',' function_argumments_non_first)?
-    | named_arguments;
+    expression (',' function_argumments_non_first | FOR for_indices)?  # args_expression
+    | FUNCTION name '(' named_arguments? ')' (',' function_argumments_non_first)?  # args_function
+    | named_arguments  # args_named
+    ;
 
 function_argumments_non_first:
     function_argument (',' function_argumments_non_first)?
