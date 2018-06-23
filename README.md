@@ -4,5 +4,5 @@
 
 A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
 
-* Abstract syntax tree: Automatically generated from ModelicaXML schema.
 * Parsing using ANTLR4 C++ Runtime.
+* First target, Casadi
