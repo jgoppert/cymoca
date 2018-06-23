@@ -127,11 +127,12 @@ element_modification_or_replaceable:
 element_modification:
     name modification? string_comment;
 
-element_redeclaration:
-    REDECLARE EACH? FINAL? (
-        short_class_definition
-        | component_clause1
-        | element_replaceable);
+// Not used, but in Spec?
+//element_redeclaration:
+//    REDECLARE EACH? FINAL? (
+//        short_class_definition
+//        | component_clause1
+//        | element_replaceable);
 
 element_replaceable:
     REPLACEABLE (short_class_definition | component_clause1) constraining_clause?;
@@ -198,23 +199,23 @@ statement:
 
 if_equation:
     IF expression THEN
-        if_blocks=equation_list
+        equation_list
     (ELSEIF expression THEN
-        elseif_blocks=equation_list
+        equation_list
     )*
     (ELSE
-        else_blocks=equation_list
+        equation_list
     )?
     END IF;
 
 if_statement:
     IF expression THEN
-        if_blocks=statement_list
+        statement_list
     (ELSEIF expression THEN
-        elseif_blocks=statement_list
+        statement_list
     )*
     (ELSE
-        else_blocks=statement_list
+        statement_list
     )?
     END IF;
 
@@ -244,17 +245,17 @@ while_statement:
 
 when_equation:
     WHEN expression THEN
-        when_block=equation_list
+        equation_list
     (ELSEWHEN expression THEN
-        elsewhen_block=equation_list
+        equation_list
     )*
     END WHEN;
 
 when_statement:
     WHEN expression THEN
-        when_block=statement_list
+        statement_list
     (ELSEWHEN expression THEN
-        elsewhen_block=statement_list
+        statement_list
     )*
     END WHEN;
 

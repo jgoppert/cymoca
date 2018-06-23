@@ -57,7 +57,7 @@ void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numb
 }
 
 void Compiler::exitExpr_negative(ModelicaParser::Expr_negativeContext *ctx) {
-  auto e = getAst<ast::Expr *>(ctx->expr());
+  auto e = getAst<ast::Expr>(ctx->expr());
   _ast[ctx] = std::make_shared<ast::Negative>(e);
 }
 
@@ -71,7 +71,7 @@ void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationCo
 }
 
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
-  ast::Walker walker;
+  auto c = std::make_shared<ast::Class>();
 
   for (auto elem_list: ctx->element_list()) {
     for (auto elem: elem_list->element()) {
@@ -79,17 +79,15 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   }
 
   for (auto eq_sec: ctx->equation_section()) {
-    for (auto eq: eq_sec->equation_list()->equation()) {
-      LispListener listener;
-      walker.walk(&listener, _ast[eq].get());
-      std::cout << listener.get() << std::endl;
-    }
+    auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
+    c->addEquationSection(sec);
   }
 
   for (auto alg_sec: ctx->algorithm_section()) {
     for (auto stmt: alg_sec->statement_list()->statement()) {
     }
   }
+  _root = c;
 }
 
 void Compiler::exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) {
@@ -102,18 +100,35 @@ void Compiler::exitSimple_expression(ModelicaParser::Simple_expressionContext *c
 }
 
 void Compiler::exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
-  auto left = getAst<ast::Expr *>(ctx->simple_expression());
-  auto right = getAst<ast::Expr *>(ctx->expression());
+  auto left = getAst<ast::Expr>(ctx->simple_expression());
+  auto right = getAst<ast::Expr>(ctx->expression());
   setAst(ctx, std::make_shared<ast::Equation>(left, right));
 }
 
 void Compiler::exitWhen_equation(ModelicaParser::When_equationContext *ctx) {
-  auto cond = getAst<ast::Expr *>(ctx->expression(0));
-  setAst(ctx, std::make_shared<ast::WhenEquation>(cond));
+  auto whenEq = std::make_shared<ast::WhenEquation>();
+  for (size_t i = 0; i < ctx->equation_list().size(); i++) {
+    auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
+    if (i < ctx->expression().size()) {
+      auto cond = getAst<ast::Expr>(ctx->expression(i));
+      whenEq->addBlock(cond, eqList);
+    } else {
+      whenEq->addBlock(std::make_shared<ast::Boolean>(true), eqList);
+    }
+  }
+  setAst(ctx, whenEq);
+}
+
+void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
+  auto eqList = std::make_shared<ast::EquationList>();
+  for (auto eq: ctx->equation()) {
+    eqList->addEquation(getAst<ast::Node>(eq));
+  }
+  setAst(ctx, eqList);
 }
 
 void Compiler::exitPrimary_der(ModelicaParser::Primary_derContext *ctx) {
-  auto var = getAst<ast::Expr *>(ctx->function_call_args()->function_arguments());
+  auto var = getAst<ast::Expr>(ctx->function_call_args()->function_arguments());
   setAst(ctx, std::make_shared<ast::Derivative>(var));
 }
 
@@ -122,8 +137,8 @@ void Compiler::exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) 
 }
 
 void Compiler::exitExpr_relation(ModelicaParser::Expr_relationContext *ctx) {
-  auto left = getAst<ast::Expr *>(ctx->expr(0));
-  auto right = getAst<ast::Expr *>(ctx->expr(1));
+  auto left = getAst<ast::Expr>(ctx->expr(0));
+  auto right = getAst<ast::Expr>(ctx->expr(1));
   setAst(ctx, std::make_shared<ast::Relation>(left, ctx->op->getText(), right));
 }
 
@@ -144,8 +159,20 @@ void Compiler::exitEquation_options(ModelicaParser::Equation_optionsContext *ctx
   linkAst(ctx, dynamic_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
 }
 
-void Compiler::enterStatement_options(ModelicaParser::Statement_optionsContext *ctx) {
+void Compiler::exitStatement_options(ModelicaParser::Statement_optionsContext *ctx) {
   linkAst(ctx, dynamic_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
 }
 
+void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
+  auto ifEq = std::make_shared<ast::IfEquation>();
+  for (size_t i = 0; i < ctx->equation_list().size(); i++) {
+    auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
+    if (i < ctx->expression().size()) {
+      auto cond = getAst<ast::Expr>(ctx->expression(i));
+      ifEq->addBlock(cond, eqList);
+    } else {
+      ifEq->addBlock(std::make_shared<ast::Boolean>(true), eqList);
+    }
+  }
+  setAst(ctx, ifEq);}
 } // cymoca

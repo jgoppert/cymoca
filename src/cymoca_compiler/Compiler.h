@@ -27,38 +27,42 @@ class Compiler : public ModelicaBaseListener {
   explicit Compiler(std::ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return _tokenStream; }
-  ModelicaParser::Stored_definitionContext *getRoot() { return _root; }
+  ast::Class::Ptr getRoot() { return _root; }
+
+  typedef std::unordered_map<antlr4::ParserRuleContext *, ast::Node::Ptr> AstMap;
+  const AstMap & getAst() { return _ast; }
 
  protected:
   antlr4::ANTLRInputStream _input;
   std::shared_ptr<ModelicaParser> _parser;
   ModelicaLexer _lexer;
   antlr4::CommonTokenStream _tokenStream;
-  ModelicaParser::Stored_definitionContext *_root;
+  ast::Class::Ptr _root;
   bool _verbose;
 
-  std::unordered_map<antlr4::ParserRuleContext *, void *> _mem;
-  std::unordered_map<antlr4::ParserRuleContext *, std::shared_ptr<ast::Node>> _ast;
+  std::unordered_map<antlr4::ParserRuleContext *, ast::Node::Ptr> _ast;
 
   std::stack<ast::Class> _classStack;
 
-  template <typename T>
-  T getAst(antlr4::ParserRuleContext * ctx) {
+  template<typename T>
+  std::shared_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
     auto iter = _ast.find(ctx);
     assert(!(iter == _ast.end()));
-    T val = dynamic_cast<T>(iter->second.get());
-    assert(val != nullptr);
+    auto res = iter->second;
+    std::shared_ptr<T> val = std::dynamic_pointer_cast<T>(iter->second);
+    assert(val.get() != nullptr);
     return val;
   }
 
-  void setAst(antlr4::ParserRuleContext * ctx, std::shared_ptr<ast::Node> node) {
+  void setAst(antlr4::ParserRuleContext *ctx, std::shared_ptr<ast::Node> node) {
     auto iter = _ast.find(ctx);
-    assert(node.get() != nullptr);
+    assert(node.get(
+    ) != nullptr);
     assert(iter == _ast.end());
     _ast[ctx] = node;
   }
 
-  void linkAst(antlr4::ParserRuleContext * to, antlr4::ParserRuleContext * from) {
+  void linkAst(antlr4::ParserRuleContext *to, antlr4::ParserRuleContext *from) {
     auto iter = _ast.find(from);
     assert(!(iter == _ast.end()));
     setAst(to, iter->second);
@@ -94,7 +98,9 @@ class Compiler : public ModelicaBaseListener {
   void exitEquation(ModelicaParser::EquationContext *context) override;
   void exitWhen_equation(ModelicaParser::When_equationContext *context) override;
   void exitEquation_options(ModelicaParser::Equation_optionsContext *context) override;
-  void enterStatement_options(ModelicaParser::Statement_optionsContext *context) override;
+  void exitStatement_options(ModelicaParser::Statement_optionsContext *context) override;
+  void exitEquation_list(ModelicaParser::Equation_listContext *context) override;
+  void exitIf_equation(ModelicaParser::If_equationContext *context) override;
 };
 
 } // cymoca

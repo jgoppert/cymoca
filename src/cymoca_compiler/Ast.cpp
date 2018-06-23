@@ -8,12 +8,12 @@ namespace cymoca {
 
 namespace ast {
 
-void Walker::walk(Listener *listener, Node *t) const {
-  enter(listener, t);
-  for (auto child : t->children()) {
-    walk(listener, child);
+void Walker::walk(Listener *listener, Node *node) const {
+  enter(listener, node);
+  for (auto child : node->children()) {
+    walk(listener, child.get());
   }
-  exit(listener, t);
+  exit(listener, node);
 }
 
 void Walker::enter(Listener *listener, Node *node) const {

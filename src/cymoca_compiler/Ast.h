@@ -13,34 +13,39 @@
 #include <memory>
 #include <vector>
 #include <assert.h>
+#include <typeinfo>
+#include <typeindex>
 
 namespace cymoca {
 
 namespace ast {
 
 // forward declarations for listener
-class UnsignedNumber;
-class Equation;
-class Negative;
+class Boolean;
+class Class;
 class ComponentRef;
 class Component;
-class Class;
-class Node;
 class Derivative;
+class Expr;
+class Equation;
+class EquationList;
+class IfEquation;
 class Listener;
+class Negative;
+class Node;
 class Relation;
+class UnsignedNumber;
 class WhenEquation;
+
 
 class Listener {
  public:
+  // for every node
   virtual void enterEvery(Node *ctx) {};
   virtual void exitEvery(Node *ctx) {};
-  virtual void enter(UnsignedNumber *ctx) {};
-  virtual void exit(UnsignedNumber *ctx) {};
-  virtual void enter(Equation *ctx) {};
-  virtual void exit(Equation *ctx) {};
-  virtual void enter(Negative *ctx) {};
-  virtual void exit(Negative *ctx) {};
+  // for specific nodes
+  virtual void enter(Boolean *ctx) {};
+  virtual void exit(Boolean *ctx) {};
   virtual void enter(Component *ctx) {};
   virtual void exit(Component *ctx) {};
   virtual void enter(Class *ctx) {};
@@ -49,8 +54,20 @@ class Listener {
   virtual void exit(ComponentRef *ctx) {};
   virtual void enter(Derivative *ctx) {};
   virtual void exit(Derivative *ctx) {};
+  virtual void enter(Equation *ctx) {};
+  virtual void exit(Equation *ctx) {};
+  virtual void enter(EquationList *ctx) {};
+  virtual void exit(EquationList *ctx) {};
+  virtual void enter(Expr *ctx) {};
+  virtual void exit(Expr *ctx) {};
+  virtual void enter(IfEquation *ctx) {};
+  virtual void exit(IfEquation *ctx) {};
+  virtual void enter(Negative *ctx) {};
+  virtual void exit(Negative *ctx) {};
   virtual void enter(Relation *ctx) {};
   virtual void exit(Relation *ctx) {};
+  virtual void enter(UnsignedNumber *ctx) {};
+  virtual void exit(UnsignedNumber *ctx) {};
   virtual void enter(WhenEquation *ctx) {};
   virtual void exit(WhenEquation *ctx) {};
 };
@@ -67,90 +84,159 @@ class Walker {
 
 class Node {
  public:
-  Node() : _parent(nullptr), _children() {
+  typedef std::shared_ptr<Node> Ptr;
+  Node(const std::type_info & type) : _type(type), _parent(nullptr), _children() {
   }
   virtual ~Node() {}
   virtual void enter(Listener *listener) = 0;
   virtual void exit(Listener *listener) = 0;
-  void addChild(Node * child) {
+  void addChild(Node::Ptr child) {
     child->_parent = this;
     _children.push_back(child);
   }
-  std::vector<Node *> & children() {
+  std::vector<Node::Ptr> & children() {
     return _children;
   }
+  const std::type_info & getType() { return _type; }
  protected:
-  Node * _parent;
-  std::vector<Node *> _children;
+  const std::type_info & _type;
+  Node * _parent;  // don't own parent, std pointer
+  std::vector<Node::Ptr> _children;
 };
 
 // macro to define listener hooks
-#define NODE \
+#define NODE(name) \
 void enter(Listener * listener) override { \
   listener->enter(this); \
 } \
 void exit(Listener * listener) override { \
   listener->exit(this); \
-}
+} \
+typedef std::shared_ptr<name> Ptr;
 
+// abstract class to group mathematical expressions
 class Expr : public Node {
  public:
-  Expr() : Node() {
+  NODE(Expr)
+  Expr(const std::type_info & type) : Node(typeid(*this)) {
   }
   virtual ~Expr() {};
 };
 
-class WhenEquation : public Expr {
+class Equation : public Node {
  public:
-  NODE
-  WhenEquation(Expr * cond) : Expr(), _cond(cond) {
-    addChild(cond);
+  NODE(Equation)
+  Equation(Expr::Ptr left, Expr::Ptr right) : Node(typeid(*this)), _left(left), _right(right) {
+    assert(left != nullptr);
+    assert(right != nullptr);
+    addChild(left);
+    addChild(right);
+  };
+  virtual ~Equation() {};
+  Expr::Ptr left() { return _left; }
+  Expr::Ptr right() { return _right; }
+ private:
+  Expr::Ptr _left;
+  Expr::Ptr _right;
+};
+
+class EquationList : public Node {
+ public:
+  NODE(EquationList)
+  EquationList() : Node(typeid(*this)), _equations() {
   }
-  virtual ~WhenEquation() {};
-  Node * cond() {
-    return _cond;
+  void addEquation(Node::Ptr eq) {
+    addChild(eq);
+    _equations.push_back(eq);
+  }
+  std::vector<Node::Ptr> equations() { return _equations; }
+ protected:
+  std::vector<Node::Ptr> _equations;
+};
+
+class IfEquation : public Node {
+ public:
+  NODE(IfEquation)
+  IfEquation() : Node(typeid(*this)), _conditions(), _equationLists() {
+  }
+  virtual ~IfEquation() {};
+  void addBlock(Expr::Ptr conditon, EquationList::Ptr eqs) {
+    _conditions.push_back(conditon);
+    _equationLists.push_back(eqs);
+    addChild(conditon);
+    addChild(eqs);
+  }
+  const std::vector<Expr::Ptr> & condition() {
+    return _conditions;
+  }
+  const std::vector<EquationList::Ptr> & equations() {
+    return _equationLists;
   }
  private:
-  Node * _cond;
+  std::vector<Expr::Ptr> _conditions;
+  std::vector<EquationList::Ptr> _equationLists;
+};
+
+class WhenEquation : public Node {
+ public:
+  NODE(WhenEquation)
+  WhenEquation() : Node(typeid(*this)), _conditions(), _equationLists() {
+  }
+  virtual ~WhenEquation() {};
+  void addBlock(Expr::Ptr conditon, EquationList::Ptr eqs) {
+    _conditions.push_back(conditon);
+    _equationLists.push_back(eqs);
+    addChild(conditon);
+    addChild(eqs);
+  }
+  const std::vector<Expr::Ptr> & condition() {
+    return _conditions;
+  }
+  const std::vector<EquationList::Ptr> & equations() {
+    return _equationLists;
+  }
+ private:
+  std::vector<Expr::Ptr> _conditions;
+  std::vector<EquationList::Ptr> _equationLists;
 };
 
 class Derivative : public Expr {
  public:
-  NODE
-  Derivative(Expr * var) : Expr(), _var(var) {
+  NODE(Derivative)
+  Derivative(Expr::Ptr var) : Expr(typeid(*this)), _var(var) {
     addChild(var);
   }
   virtual ~Derivative() {};
-  Node * var() {
+  Expr::Ptr var() {
     return _var;
   }
  private:
-  Node * _var;
+  Expr::Ptr _var;
 };
 
 class Relation : public Expr {
  public:
-  NODE
-  Relation(Node * left, const std::string & op, Node * right) :
-      Expr(), _left(left), _op(op), _right(right) {
+  NODE(Relation)
+  Relation(Expr::Ptr left, const std::string & op, Expr::Ptr right) :
+      Expr(typeid(*this)), _left(left), _op(op), _right(right) {
     addChild(left);
     addChild(right);
   }
   virtual ~Relation() {};
-  Node * left() { return _left; }
-  Node * right() { return _right; }
+  Expr::Ptr left() { return _left; }
+  Expr::Ptr right() { return _right; }
   const std::string & op() { return _op; }
  private:
-  Node * _left;
+  Expr::Ptr _left;
   std::string _op;
-  Node * _right;
+  Expr::Ptr _right;
 };
 
 
 class UnsignedNumber : public Expr {
  public:
-  NODE
-  UnsignedNumber(double val) : Expr(), _val(val) {
+  NODE(UnsignedNumber)
+  UnsignedNumber(double val) : Expr(typeid(*this)), _val(val) {
   }
   virtual ~UnsignedNumber() {};
   double val() {
@@ -160,39 +246,36 @@ class UnsignedNumber : public Expr {
   double _val;
 };
 
-class Equation : public Expr {
+
+class Boolean : public Expr {
  public:
-  NODE
-  Equation(Expr * left, Expr * right) : Expr(), _left(left), _right(right) {
-    assert(left != nullptr);
-    assert(right != nullptr);
-    addChild(left);
-    addChild(right);
-  };
-  virtual ~Equation() {};
-  Expr * left() { return _left; }
-  Expr * right() { return _right; }
+  NODE(Boolean)
+  Boolean(bool val) : Expr(typeid(*this)), _val(val) {
+  }
+  virtual ~Boolean() {};
+  bool val() {
+    return _val;
+  }
  private:
-  Expr * _left;
-  Expr * _right;
+  bool _val;
 };
 
 class Negative : public Expr {
  public:
-  NODE
-  Negative(Expr * e) :
-      _expr(e) {
+  NODE(Negative)
+  Negative(Expr::Ptr e) :
+      Expr(typeid(*this)), _expr(e) {
     addChild(_expr);
   }
  private:
-  Expr * _expr;
+  Expr::Ptr _expr;
 };
 
 class ComponentRef : public Expr {
  public:
-  NODE
+  NODE(ComponentRef)
   ComponentRef(const std::string &name) :
-      _name(name) {
+      Expr(typeid(*this)), _name(name) {
   }
   std::string name() {
     return _name;
@@ -203,12 +286,9 @@ class ComponentRef : public Expr {
 
 class Component : public Node {
  public:
-  NODE
-  Component() :
-      _name() {
-  }
+  NODE(Component)
   Component(const std::string &name) :
-      _name(name) {
+      Node(typeid(*this)), _name(name) {
   }
  private:
   std::string _name;
@@ -216,9 +296,18 @@ class Component : public Node {
 
 class Class : public Node {
  public:
-  NODE
+  NODE(Class)
+  Class() : Node(typeid(*this)) {}
   std::map<std::string, Component> _components;
-  std::list<Equation> _equations;
+  void addEquationSection(EquationList::Ptr & eqList) {
+    _equationSection.push_back(eqList);
+    addChild(eqList);
+  }
+  std::vector<EquationList::Ptr> equationSection() {
+    return _equationSection;
+  }
+ private:
+  std::vector<EquationList::Ptr> _equationSection;
 };
 
 }

@@ -123,7 +123,7 @@ add_dependencies(antlr4-runtime antlr4cpp)
 add_subdirectory(src/modelica_antlr)
 add_subdirectory(src/cymoca_compiler)
 
-#-----------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------
 # Applications
 #-----------------------------------------------------------------------------
 add_subdirectory(apps/cymoca)
