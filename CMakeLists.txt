@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(cymoca C CXX)
 
-option(WITH_CASADI "enable casadi" ON)
+option(WITH_CASADI "enable casadi" OFF)
+option(WITH_TEST "enable casadi" OFF)
 
 
 #-----------------------------------------------------------------------------
@@ -66,6 +67,7 @@ set(version_file "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
 #-----------------------------------------------------------------------------
 # Google Test
 #-----------------------------------------------------------------------------
+if (WITH_TEST)
 ExternalProject_Add(googletest
         URL https://github.com/google/googletest/archive/release-1.8.0.zip
         URL_MD5 adfafc8512ab65fd3cf7955ef0100ff5
@@ -87,6 +89,7 @@ add_library(gtest_main STATIC IMPORTED)
 add_dependencies(gtest_main googletest)
 set_property(TARGET gtest_main PROPERTY IMPORTED_LOCATION
         ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+endif()
 
 #-----------------------------------------------------------------------------
 # Antlr C++ Runtime
@@ -128,8 +131,10 @@ add_subdirectory(apps/cymoca)
 #-----------------------------------------------------------------------------
 # Tests
 #-----------------------------------------------------------------------------
-enable_testing()
-add_subdirectory(test)
+if (WITH_TEST)
+    enable_testing()
+    add_subdirectory(test)
+endif()
 
 #-----------------------------------------------------------------------------
 # CPack

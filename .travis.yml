@@ -46,7 +46,7 @@ install:
 script:
 - mkdir -p build
 - cd build
-- cmake .. -DWITH_CASADI=OFF
+- cmake .. -DWITH_CASADI=OFF -DWITH_TEST=ON
 - make -j4
 - ctest
 - cpack -G ZIP
