@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.5)
 
 project(cymoca C CXX)
 
+option(WITH_CASADI "enable casadi" ON)
+
+
 #-----------------------------------------------------------------------------
 # Setup
 #-----------------------------------------------------------------------------
@@ -23,9 +26,6 @@ find_package(Boost COMPONENTS
         filesystem
         program_options
         REQUIRED)
-
-find_package(casadi REQUIRED)
-link_libraries(${CASADI_LIBRARY})
 
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
