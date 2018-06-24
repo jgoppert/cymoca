@@ -283,7 +283,7 @@ expr :
     | DER function_call_args                                # primary_der
     | INITIAL function_call_args                            # primary_initial
     | PURE function_call_args                               # primary_pure
-    | component_reference                                   # primary_compoment_reference
+    | component_reference                                   # primary_component_reference
     | '(' output_expression_list ')'                        # primary_output_expression_list
     | '[' expression_list (';' expression_list)* ']'        # primary_expression_list
     | '{' array_arguments '}'                               # primary_array

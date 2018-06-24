@@ -17,6 +17,8 @@ add_library(cymoca_compiler STATIC
         Ast.h
         listener/Lisp.h
         listener/WhenExpander.h
+        listener/ClassFlattener.h
+        listener/AlgorithmEvaluator.h
         )
 target_link_libraries(cymoca_compiler
         antlr4-runtime

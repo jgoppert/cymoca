@@ -32,6 +32,7 @@ class IfEquation;
 class Listener;
 class Negative;
 class Node;
+class Pre;
 class Relation;
 class UnsignedNumber;
 class WhenEquation;
@@ -63,6 +64,8 @@ class Listener {
   virtual void exit(IfEquation *ctx) {};
   virtual void enter(Negative *ctx) {};
   virtual void exit(Negative *ctx) {};
+  virtual void enter(Pre *ctx) {};
+  virtual void exit(Pre *ctx) {};
   virtual void enter(Relation *ctx) {};
   virtual void exit(Relation *ctx) {};
   virtual void enter(UnsignedNumber *ctx) {};
@@ -206,6 +209,20 @@ class Derivative : public Expr {
     addChild(var);
   }
   virtual ~Derivative() {};
+  Expr::Ptr var() {
+    return _var;
+  }
+ private:
+  Expr::Ptr _var;
+};
+
+class Pre : public Expr {
+ public:
+  NODE(Pre)
+  Pre(Expr::Ptr var) : Expr(typeid(*this)), _var(var) {
+    addChild(var);
+  }
+  virtual ~Pre() {};
   Expr::Ptr var() {
     return _var;
   }

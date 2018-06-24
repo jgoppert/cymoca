@@ -83,7 +83,7 @@ class Compiler : public ModelicaBaseListener {
   void exitEveryRule(antlr4::ParserRuleContext *ctx) override;
   void exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *context) override;
   void exitExpr_negative(ModelicaParser::Expr_negativeContext *context) override;
-  void exitPrimary_compoment_reference(ModelicaParser::Primary_compoment_referenceContext *context) override;
+  void exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *context) override;
   void exitComponent_declaration(ModelicaParser::Component_declarationContext *context) override;
   void exitComposition(ModelicaParser::CompositionContext *context) override;
   void exitExpression_simple(ModelicaParser::Expression_simpleContext *context) override;

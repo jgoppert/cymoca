@@ -61,7 +61,7 @@ void Compiler::exitExpr_negative(ModelicaParser::Expr_negativeContext *ctx) {
   _ast[ctx] = std::make_shared<ast::Negative>(e);
 }
 
-void Compiler::exitPrimary_compoment_reference(ModelicaParser::Primary_compoment_referenceContext *ctx) {
+void Compiler::exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
   // TODO handle mutliple levels of naming in IDENT
   _ast[ctx] = std::make_shared<ast::ComponentRef>(ctx->component_reference()->getText());
 }
