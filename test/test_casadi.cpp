@@ -83,8 +83,18 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, getExpr(ctx->condition()[0]));
   }
   void exit(ast::IfEquation *ctx) override {
-    // TODO casadi can't handle these, preprocess first
-    setExpr(ctx, getExpr(ctx->condition()[0]));
+    auto e = ca::SX::if_else_zero(
+        getExpr(ctx->condition()[0]),
+        getExpr(ctx->equations()[0]));
+    for (size_t i=ctx->equations().size() - 1; i>0; i--) {
+      std::cout << "loop" << i << std::endl;
+      e = ca::SX::if_else(
+          getExpr(ctx->condition()[i]),
+          getExpr(ctx->equations()[i]),
+          e);
+      std::cout << "e" << e << std::endl;
+    }
+    setExpr(ctx, e);
   }
   void exit(ast::EquationList *ctx) override {
     std::vector<ca::SX> eqs;
@@ -110,6 +120,11 @@ class CasadiListener : public ast::Listener {
     auto ref = std::dynamic_pointer_cast<ast::ComponentRef>(ctx->var());
     assert(ref.get() != nullptr);
     setExpr(ctx, ca::SX::sym("der(" + ref->name() + ")"));
+  }
+  void exit(ast::Pre *ctx) override {
+    auto ref = std::dynamic_pointer_cast<ast::ComponentRef>(ctx->var());
+    assert(ref.get() != nullptr);
+    setExpr(ctx, ca::SX::sym("pre(" + ref->name() + ")"));
   }
   void exit(ast::Negative *ctx) override {
     setExpr(ctx, -getExpr(ctx->expr()));
