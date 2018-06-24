@@ -68,6 +68,10 @@ class CasadiListener : public ast::Listener {
       e = left > right;
     } else if (ctx->op().compare(">=") == 0) {
       e = left >= right;
+    } else if (ctx->op().compare("==") == 0) {
+      e = left == right;
+    } else if (ctx->op().compare("<>") == 0) {
+      e = left != right;
     }
     setExpr(ctx, e);
   }
