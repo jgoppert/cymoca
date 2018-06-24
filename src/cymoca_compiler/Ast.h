@@ -267,6 +267,9 @@ class Negative : public Expr {
       Expr(typeid(*this)), _expr(e) {
     addChild(_expr);
   }
+  Expr::Ptr expr() {
+    return _expr;
+  }
  private:
   Expr::Ptr _expr;
 };
