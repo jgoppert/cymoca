@@ -11,23 +11,36 @@ namespace cymoca {
 namespace listener {
 
 class Lisp : public ast::Listener {
+ private:
+  std::stringstream _ss;
+  size_t _depth;
+  bool _pretty;
  public:
-  Lisp() : _ss(), _depth(0) {
+  Lisp() : _ss(), _depth(0), _pretty(false) {
   }
   std::string indent() {
     std::stringstream ss;
-    for (size_t i=0; i < _depth; i++) {
-      ss << " ";
+    if (_pretty) {
+      ss << "\n";
+      for (size_t i=0; i < _depth; i++) {
+        ss << "  ";
+      }
     }
     return ss.str();
   }
   void enterEvery(ast::Node *ctx) override {
-    _ss << "(";
-    _depth +=1;
+    _ss << indent() << "(";
+    _depth += 1;
   }
   void exitEvery(ast::Node *ctx) override {
     _depth -=1;
-    _ss << ")";
+    _ss << indent() << ")";
+  }
+  void enter(ast::EquationList *ctx) override {
+    _ss << "eq_list";
+  }
+  void enter(ast::EquationBlock *ctx) override {
+    _ss << "eq_block";
   }
   void enter(ast::UnsignedNumber *ctx) override {
     _ss << ctx->val();
@@ -64,9 +77,6 @@ class Lisp : public ast::Listener {
     _ss.str("");
     return s;
   }
- private:
-  std::stringstream _ss;
-  size_t _depth;
 };
 
 }

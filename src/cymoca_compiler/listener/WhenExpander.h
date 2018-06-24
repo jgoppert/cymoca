@@ -11,24 +11,48 @@ namespace cymoca {
 
 namespace listener {
 
+class PreNamer : public ast::Listener {
+ public:
+  void enter(ast::ComponentRef * ctx) override {
+    //TODO should limit to discrete variables?
+    if (ctx->parent()->getType() != typeid(ast::Pre)) {
+      auto e = std::make_shared<ast::Pre>(
+          std::make_shared<ast::ComponentRef>(ctx->name())
+          );
+      ctx->parent()->swapChild(ctx, e);
+    }
+  }
+};
+
 class WhenExpander : public ast::Listener {
  private:
-  std::map<ast::Node * , ast::Node::Ptr> _swap;
+  ast::Walker _walker;
+  PreNamer _preNamer;
  public:
-  WhenExpander(): _swap() {
-  }
   void exit(ast::WhenEquation * ctx) override {
     // swap when(expr){ eqs }
     // with c = expr, if(c and not pre(c)) { eqs }
     auto e = std::make_shared<ast::IfEquation>();
-    auto b = ctx->blocks();
-    e->addBlock(b[0]);
-    _swap[ctx] = e;
-  }
-  void swap() {
-    for(auto iter=_swap.begin(); iter!=_swap.end(); iter++) {
-      iter->first->parent()->swapChild(iter->first, iter->second);
+    auto blocks = ctx->blocks();
+
+    for (auto &block: blocks) {
+
+      // set cond to expr and not pre(expr)
+      //auto cond = block->condition();
+
+      //auto newBlock = std::make_shared<ast::EquationBlock>(block->condition(), block->equations());
+      //auto c = cond.copy();
+
+      //_walker.walk(_preNamer, eq->right());
+
+      // rename rhs of when equations to pre
+      for (auto &node: block->equations()->equations()) {
+        auto eq = std::dynamic_pointer_cast<ast::Equation>(node);
+        _walker.walk(_preNamer, eq->right());
+      }
+      e->addBlock(block);
     }
+    ctx->parent()->swapChild(ctx, e);
   }
 };
 

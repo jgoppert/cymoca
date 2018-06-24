@@ -180,7 +180,6 @@ TEST(CasadiTest, Simple) {
     cymoca::ast::Walker walker;
     listener::WhenExpander whenExpander;
     walker.walk(whenExpander, tree);
-    whenExpander.swap();
     walker.walk(lispListener, tree);
     std::cout << "\nwhen expanded\n" << lispListener.get() << std::endl;
     walker.walk(casadiListener, tree);

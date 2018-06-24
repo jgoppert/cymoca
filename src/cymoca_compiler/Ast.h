@@ -95,8 +95,10 @@ class Node {
     return _children;
   }
   const std::type_info & getType() { return _type; }
+
   Node(const cymoca::ast::Node&) = delete;
   void operator=(const cymoca::ast::Node&) = delete;
+
   Node * parent() { return _parent; }
   void swapChild(Node * original, Node::Ptr replacement) {
     for (auto &c: _children) {

@@ -19,6 +19,8 @@ add_library(cymoca_compiler STATIC
         listener/AlgorithmEvaluator.cpp
         listener/ConnectionExpander.h
         listener/ConnectionExpander.cpp
+        listener/PreNamer.h
+        listener/PreNamer.cpp
         )
 
 target_include_directories(cymoca_compiler SYSTEM PRIVATE
