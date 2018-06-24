@@ -13,7 +13,8 @@ Compiler::Compiler(std::ifstream &text) :
     _lexer(&_input),
     _tokenStream(&_lexer),
     _root(nullptr),
-    _verbose(false) {
+    _verbose(false),
+    _ast() {
   _tokenStream.fill();
   _parser = std::make_shared<ModelicaParser>(&_tokenStream);
   antlr4::tree::ParseTree *tree = _parser->stored_definition();
@@ -73,20 +74,20 @@ void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationCo
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   auto c = std::make_shared<ast::Class>();
 
-  for (auto elem_list: ctx->element_list()) {
-    for (auto elem: elem_list->element()) {
-    }
-  }
+  //for (auto elem_list: ctx->element_list()) {
+    //for (auto elem: elem_list->element()) {
+    //}
+  //}
 
   for (auto eq_sec: ctx->equation_section()) {
     auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
     c->addEquationSection(sec);
   }
 
-  for (auto alg_sec: ctx->algorithm_section()) {
-    for (auto stmt: alg_sec->statement_list()->statement()) {
-    }
-  }
+  //for (auto alg_sec: ctx->algorithm_section()) {
+  //  for (auto stmt: alg_sec->statement_list()->statement()) {
+  //  }
+  //}
   _root = c;
 }
 

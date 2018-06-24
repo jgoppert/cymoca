@@ -40,6 +40,7 @@ class WhenEquation;
 
 class Listener {
  public:
+  virtual ~Listener() {};
   // for every node
   virtual void enterEvery(Node *ctx) {};
   virtual void exitEvery(Node *ctx) {};
@@ -100,6 +101,8 @@ class Node {
     return _children;
   }
   const std::type_info & getType() { return _type; }
+  Node(const cymoca::ast::Node&) = delete;
+  void operator=(const cymoca::ast::Node&) = delete;
  protected:
   const std::type_info & _type;
   Node * _parent;  // don't own parent, std pointer
@@ -316,8 +319,7 @@ class Component : public Node {
 class Class : public Node {
  public:
   NODE(Class)
-  Class() : Node(typeid(*this)) {}
-  std::map<std::string, Component> _components;
+  Class() : Node(typeid(*this)), _equationSection() {}
   void addEquationSection(EquationList::Ptr & eqList) {
     _equationSection.push_back(eqList);
     addChild(eqList);

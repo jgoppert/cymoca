@@ -18,6 +18,7 @@ class WhenExpander : public ast::Listener {
     // replace when(expr){ eqs }
     // with c = expr, if(c and not pre(c)) { eqs }
     auto e = ast::Pre(ctx->condition()[0]);
+    ctx->parent();
   }
 };
 

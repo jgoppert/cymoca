@@ -23,7 +23,7 @@ namespace cymoca {
  */
 class Compiler : public ModelicaBaseListener {
  public:
-  explicit Compiler(std::ifstream &text);
+  Compiler(std::ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return _tokenStream; }
   ast::Class::Ptr getRoot() { return _root; }
@@ -32,16 +32,13 @@ class Compiler : public ModelicaBaseListener {
   const AstMap & getAst() { return _ast; }
 
  protected:
-  antlr4::ANTLRInputStream _input;
   std::shared_ptr<ModelicaParser> _parser;
+  antlr4::ANTLRInputStream _input;
   ModelicaLexer _lexer;
   antlr4::CommonTokenStream _tokenStream;
   ast::Class::Ptr _root;
   bool _verbose;
-
-  std::unordered_map<antlr4::ParserRuleContext *, ast::Node::Ptr> _ast;
-
-  std::stack<ast::Class> _classStack;
+  AstMap _ast;
 
   template<typename T>
   std::shared_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {

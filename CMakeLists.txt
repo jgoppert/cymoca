@@ -36,16 +36,7 @@ include(ExternalProject)
 # googletest
 find_package(Threads REQUIRED)
 
-include_directories(
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
-        ${EP_PREFIX}/include)
 link_directories(${EP_PREFIX}/lib)
-
-# disable this to quiet warnings in XSDCXX, travis version doesn't support
-# c++ 11
-add_compile_options(-Wno-deprecated-declarations)
 
 #-----------------------------------------------------------------------------
 # Version based on GIT tags

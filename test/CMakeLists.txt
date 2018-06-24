@@ -1,7 +1,6 @@
 #-----------------------------------------------------------------------------
 # Test
 #-----------------------------------------------------------------------------
-add_compile_options(-Wall)
 add_executable(test_one
         test_one.cpp)
 target_link_libraries(test_one
@@ -9,6 +8,12 @@ target_link_libraries(test_one
         gtest_main
         gtest
         )
+target_compile_options(test_one PRIVATE -Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
+target_include_directories(test_one SYSTEM PRIVATE
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}
+        ${EP_PREFIX}/include/antlr4-runtime
+        ${EP_PREFIX}/include)
 add_test(test_one test_one)
 
 if (WITH_CASADI)
@@ -20,6 +25,12 @@ if (WITH_CASADI)
             gtest_main
             gtest
             )
+    target_compile_options(test_casadi PRIVATE -Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
+    target_include_directories(test_casadi SYSTEM PRIVATE
+            ${PROJECT_SOURCE_DIR}/src
+            ${PROJECT_BINARY_DIR}
+            ${EP_PREFIX}/include/antlr4-runtime
+            ${EP_PREFIX}/include)
     add_test(test_casadi test_casadi)
 endif()
 
