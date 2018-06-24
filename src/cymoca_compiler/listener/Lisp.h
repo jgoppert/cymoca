@@ -2,16 +2,17 @@
 // Created by jgoppert on 6/23/18.
 //
 
-#ifndef CYMOCA_LISPLISTENER_H
-#define CYMOCA_LISPLISTENER_H
+#pragma once
 
-#include "Ast.h"
+#include "cymoca_compiler/Ast.h"
 
 namespace cymoca {
 
-class LispListener : public ast::Listener {
+namespace listener {
+
+class Lisp : public ast::Listener {
  public:
-  LispListener() : _ss(), _depth(0) {
+  Lisp() : _ss(), _depth(0) {
   }
   std::string indent() {
     std::stringstream ss;
@@ -70,5 +71,4 @@ class LispListener : public ast::Listener {
 };
 
 }
-
-#endif //CYMOCA_LISPLISTENER_H
+}

@@ -3,7 +3,7 @@
 //
 
 #include "Compiler.h"
-#include "LispListener.h"
+#include "cymoca_compiler/listener/Lisp.h"
 
 namespace cymoca {
 

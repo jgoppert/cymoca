@@ -2,8 +2,7 @@
 // Created by jgoppert on 3/17/18.
 //
 
-#ifndef CYMOCA_COMPILER_H
-#define CYMOCA_COMPILER_H
+#pragma once
 
 #include <modelica_antlr/ModelicaBaseListener.h>
 #include <modelica_antlr/ModelicaLexer.h>
@@ -104,5 +103,3 @@ class Compiler : public ModelicaBaseListener {
 };
 
 } // cymoca
-
-#endif //CYMOCA_COMPILER_H

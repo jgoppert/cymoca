@@ -2,8 +2,7 @@
 // Created by jgoppert on 6/22/18.
 //
 
-#ifndef CYMOCA_AST_H
-#define CYMOCA_AST_H
+#pragma once
 
 #include <string>
 #include <map>
@@ -316,5 +315,3 @@ class Class : public Node {
 }
 
 }
-
-#endif //CYMOCA_AST_H

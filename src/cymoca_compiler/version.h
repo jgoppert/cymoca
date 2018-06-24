@@ -1,5 +1,4 @@
-#ifndef VERSION_H
-#define VERSION_H
+#pragma once
 
 #include <string>
 
@@ -9,5 +8,3 @@ extern const std::string VERSION_SHORT;
 extern const std::string VERSION_MAJOR;
 extern const std::string VERSION_MINOR;
 extern const std::string VERSION_PATCH;
-
-#endif //VERSION_H

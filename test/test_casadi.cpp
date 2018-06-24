@@ -6,7 +6,7 @@
 #include <stack>
 
 #include "cymoca_compiler/Compiler.h"
-#include "cymoca_compiler/LispListener.h"
+#include "cymoca_compiler/listener/Lisp.h"
 
 
 using namespace boost::filesystem;
@@ -133,7 +133,7 @@ TEST(CasadiTest, Simple) {
   //std::cout << s<< std::endl;
 
   CasadiListener casadiListener;
-  LispListener lispListener;
+  listener::Lisp lispListener;
 
   cymoca::ast::Walker walker;
 
