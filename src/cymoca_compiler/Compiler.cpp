@@ -74,18 +74,18 @@ void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationCo
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   auto c = std::make_shared<ast::Class>();
 
-  //for (auto elem_list: ctx->element_list()) {
-    //for (auto elem: elem_list->element()) {
+  //for (auto &elem_list: ctx->element_list()) {
+    //for (auto &elem: elem_list->element()) {
     //}
   //}
 
-  for (auto eq_sec: ctx->equation_section()) {
+  for (auto &eq_sec: ctx->equation_section()) {
     auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
     c->addEquationSection(sec);
   }
 
-  //for (auto alg_sec: ctx->algorithm_section()) {
-  //  for (auto stmt: alg_sec->statement_list()->statement()) {
+  //for (auto &alg_sec: ctx->algorithm_section()) {
+  //  for (auto &stmt: alg_sec->statement_list()->statement()) {
   //  }
   //}
   _root = c;
@@ -122,7 +122,7 @@ void Compiler::exitWhen_equation(ModelicaParser::When_equationContext *ctx) {
 
 void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
   auto eqList = std::make_shared<ast::EquationList>();
-  for (auto eq: ctx->equation()) {
+  for (auto &eq: ctx->equation()) {
     eqList->addEquation(getAst<ast::Node>(eq));
   }
   setAst(ctx, eqList);
@@ -170,9 +170,10 @@ void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
     auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
     if (i < ctx->expression().size()) {
       auto cond = getAst<ast::Expr>(ctx->expression(i));
-      ifEq->addBlock(cond, eqList);
+      ifEq->addBlock(std::make_shared<ast::EquationBlock>(cond, eqList));
     } else {
-      ifEq->addBlock(std::make_shared<ast::Boolean>(true), eqList);
+      ifEq->addBlock(std::make_shared<ast::EquationBlock>(
+          std::make_shared<ast::Boolean>(true), eqList));
     }
   }
   setAst(ctx, ifEq);}

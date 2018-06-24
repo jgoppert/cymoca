@@ -10,9 +10,15 @@ add_library(cymoca_compiler STATIC
         Ast.cpp
         Ast.h
         listener/Lisp.h
+        listener/Lisp.cpp
         listener/WhenExpander.h
+        listener/WhenExpander.cpp
         listener/ClassFlattener.h
+        listener/ClassFlattener.cpp
         listener/AlgorithmEvaluator.h
+        listener/AlgorithmEvaluator.cpp
+        listener/ConnectionExpander.h
+        listener/ConnectionExpander.cpp
         )
 
 target_include_directories(cymoca_compiler SYSTEM PRIVATE

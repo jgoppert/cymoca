@@ -24,6 +24,7 @@ namespace cymoca {
 class Compiler : public ModelicaBaseListener {
  public:
   Compiler(std::ifstream &text);
+  virtual ~Compiler() {};
   ModelicaParser &getParser() { return *_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return _tokenStream; }
   ast::Class::Ptr getRoot() { return _root; }
@@ -43,7 +44,7 @@ class Compiler : public ModelicaBaseListener {
   template<typename T>
   std::shared_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
     auto iter = _ast.find(ctx);
-    assert(!(iter == _ast.end()));
+    assert(iter != _ast.end());
     auto res = iter->second;
     std::shared_ptr<T> val = std::dynamic_pointer_cast<T>(iter->second);
     assert(val.get() != nullptr);
@@ -52,15 +53,14 @@ class Compiler : public ModelicaBaseListener {
 
   void setAst(antlr4::ParserRuleContext *ctx, std::shared_ptr<ast::Node> node) {
     auto iter = _ast.find(ctx);
-    assert(node.get(
-    ) != nullptr);
+    assert(node.get() != nullptr);
     assert(iter == _ast.end());
     _ast[ctx] = node;
   }
 
   void linkAst(antlr4::ParserRuleContext *to, antlr4::ParserRuleContext *from) {
     auto iter = _ast.find(from);
-    assert(!(iter == _ast.end()));
+    assert(iter != _ast.end());
     setAst(to, iter->second);
   }
 

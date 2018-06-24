@@ -23,7 +23,7 @@ void usage(
   std::cout << "Cymoca Modelica Compiler " << VERSION << std::endl;
   std::cout << "usage: " << appName << " [options] model.mo" << std::endl;
   std::cout << desc << std::endl;
-  //std::cout << pos_desc << std::endl;
+  (void)pos_desc; // ignore unused
 }
 
 //------------------------------------------------------------------------

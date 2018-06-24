@@ -4,6 +4,7 @@
 #include <vector>
 #include <casadi/casadi.hpp>
 #include <stack>
+#include <cymoca_compiler/listener/WhenExpander.h>
 
 #include "cymoca_compiler/Compiler.h"
 #include "cymoca_compiler/listener/Lisp.h"
@@ -31,12 +32,12 @@ class CasadiListener : public ast::Listener {
   }
   ca::SX & getExpr(const ast::Node::Ptr & ctx) {
     auto iter = _expr.find(ctx.get());
-    assert(!(iter == _expr.end()));
+    assert(iter != _expr.end());
     return *(iter->second);
   }
   ca::SX & getExpr(const ast::Node * ctx) {
     auto iter = _expr.find(ctx);
-    assert(!(iter == _expr.end()));
+    assert(iter != _expr.end());
     return *(iter->second);
   }
   void setExpr(ast::Node * ctx, const ca::SX & e) {
@@ -60,6 +61,7 @@ class CasadiListener : public ast::Listener {
     ca::SX e;
     auto left = getExpr(ctx->left());
     auto right = getExpr(ctx->right());
+
     if (ctx->op().compare("<") == 0) {
       e = left < right;
     } else if (ctx->op().compare("<=") == 0) {
@@ -76,20 +78,25 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, e);
   }
   void exit(ast::Equation *ctx) override {
-    setExpr(ctx, getExpr(ctx->left()) - getExpr(ctx->right()));
+    auto left = getExpr(ctx->left());
+    auto right = getExpr(ctx->right());
+    auto e = left - right;
+    setExpr(ctx, e);
   }
   void exit(ast::WhenEquation *ctx) override {
     // TODO casadi can't handle these, preprocess first
-    setExpr(ctx, getExpr(ctx->condition()[0]));
+    auto b = ctx->blocks();
+    setExpr(ctx, getExpr(b[0]->condition()));
   }
   void exit(ast::IfEquation *ctx) override {
+    auto blocks = ctx->blocks();
     auto e = ca::SX::if_else_zero(
-        getExpr(ctx->condition()[0]),
-        getExpr(ctx->equations()[0]));
-    for (size_t i=ctx->equations().size() - 1; i>0; i--) {
+        getExpr(blocks[blocks.size() - 1]->condition()),
+        getExpr(blocks[blocks.size() - 1]->equations()));
+    for (size_t i=blocks.size() - 1; i>0; i--) {
       e = ca::SX::if_else(
-          getExpr(ctx->condition()[i]),
-          getExpr(ctx->equations()[i]),
+          getExpr(blocks[i]->condition()),
+          getExpr(blocks[i]->equations()),
           e);
     }
     setExpr(ctx, e);
@@ -97,13 +104,16 @@ class CasadiListener : public ast::Listener {
   void exit(ast::EquationList *ctx) override {
     std::vector<ca::SX> eqs;
     for (auto eq: ctx->equations()) {
+      assert(eq.get());
       eqs.push_back(getExpr(eq));
     }
-    setExpr(ctx, ca::SX::vertcat(eqs));
+    auto e = ca::SX::vertcat(eqs);
+    setExpr(ctx, e);
   }
   void exit(ast::Class *ctx) override {
     std::vector<ca::SX> eqs;
-    for (auto sec: ctx->equationSection()) {
+    auto sections = ctx->equationSections();
+    for (auto sec: sections) {
       eqs.push_back(getExpr(sec));
     }
     setExpr(ctx, ca::SX::vertcat(eqs));
@@ -112,16 +122,17 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, ca::SX::sym(ctx->name()));
   }
   void exit(ast::UnsignedNumber *ctx) override {
-    setExpr(ctx, ca::SX(ctx->val()));
+    auto e = ca::SX(ctx->val());
+    setExpr(ctx, e);
   }
   void exit(ast::Derivative *ctx) override {
     auto ref = std::dynamic_pointer_cast<ast::ComponentRef>(ctx->var());
-    assert(ref.get() != nullptr);
+    assert(ref.get());
     setExpr(ctx, ca::SX::sym("der(" + ref->name() + ")"));
   }
   void exit(ast::Pre *ctx) override {
     auto ref = std::dynamic_pointer_cast<ast::ComponentRef>(ctx->var());
-    assert(ref.get() != nullptr);
+    assert(ref.get());
     setExpr(ctx, ca::SX::sym("pre(" + ref->name() + ")"));
   }
   void exit(ast::Negative *ctx) override {
@@ -131,31 +142,48 @@ class CasadiListener : public ast::Listener {
 
 
 TEST(CasadiTest, Simple) {
-  std::cout << std::endl;
-  auto x = casadi::SX::sym("x");
-  auto y = x*2;
-  auto f = casadi::Function(
-      "f",
-      std::vector<casadi::SX>({x}),
-      std::vector<casadi::SX>({y}),
-      std::vector<std::string>({"x"}),
-      std::vector<std::string>({"y"})
-  );
+  {
+    auto x = casadi::SX::sym("x");
+    auto y = x * 2;
+    auto f = casadi::Function(
+        "f",
+        std::vector<casadi::SX>({x}),
+        std::vector<casadi::SX>({y}),
+        std::vector<std::string>({"x"}),
+        std::vector<std::string>({"y"})
+    );
+  }
+  {
+    path p("../../test/models/BouncingBall.mo");
+    ASSERT_TRUE(exists(p));
+    std::ifstream fileStream(p.string());
+    cymoca::Compiler c(fileStream);
+    auto tree = c.getRoot();
 
-  std::cout << std::endl;
-  path p("../../test/models/BouncingBall.mo");
-  ASSERT_TRUE(exists(p));
-  std::ifstream fileStream(p.string());
-  cymoca::Compiler c(fileStream);
-  //std::cout << s<< std::endl;
+    CasadiListener casadiListener;
+    listener::Lisp lispListener;
+    cymoca::ast::Walker walker;
+    walker.walk(lispListener, tree);
+    std::cout << "\nlisp\n" << lispListener.get() << std::endl;
+    walker.walk(casadiListener, tree);
+    std::cout << "\ncasadi" << casadiListener.getExpr(tree) << std::endl;
+  }
+  {
+    path p("../../test/models/BouncingBall.mo");
+    ASSERT_TRUE(exists(p));
+    std::ifstream fileStream(p.string());
+    cymoca::Compiler c(fileStream);
+    auto tree = c.getRoot();
 
-  CasadiListener casadiListener;
-  listener::Lisp lispListener;
-
-  cymoca::ast::Walker walker;
-
-  walker.walk(&lispListener, c.getRoot().get());
-  std::cout << "\nlisp" << lispListener.get() << std::endl;
-  walker.walk(&casadiListener, c.getRoot().get());
-  std::cout << "\ncasadi" << casadiListener.getExpr(c.getRoot()) << std::endl;
+    CasadiListener casadiListener;
+    listener::Lisp lispListener;
+    cymoca::ast::Walker walker;
+    listener::WhenExpander whenExpander;
+    walker.walk(whenExpander, tree);
+    whenExpander.swap();
+    walker.walk(lispListener, tree);
+    std::cout << "\nwhen expanded\n" << lispListener.get() << std::endl;
+    walker.walk(casadiListener, tree);
+    std::cout << "\ncasadi" << casadiListener.getExpr(tree) << std::endl;
+  }
 }

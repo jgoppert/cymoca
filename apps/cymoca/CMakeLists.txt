@@ -10,6 +10,13 @@ target_link_libraries(cymoca
         ${XercesC_LIBRARIES}
         ${ICU_LIBRARIES})
 
+target_compile_options(cymoca PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
+target_include_directories(cymoca SYSTEM PRIVATE
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}
+        ${EP_PREFIX}/include/antlr4-runtime
+        ${EP_PREFIX}/include)
+
 install(TARGETS cymoca
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib

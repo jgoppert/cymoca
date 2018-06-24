@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test_casadi" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS_2="true" PROJECT_NAME="cymoca" TARGET_NAME="test_casadi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="cymoca" RUN_TARGET_NAME="test_casadi" TEST_MODE="SUITE_TEST">
+    <method />
+  </configuration>
+</component>

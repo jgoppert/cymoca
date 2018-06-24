@@ -8,7 +8,7 @@ target_link_libraries(test_one
         gtest_main
         gtest
         )
-target_compile_options(test_one PRIVATE -Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
+target_compile_options(test_one PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
 target_include_directories(test_one SYSTEM PRIVATE
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_BINARY_DIR}
@@ -25,7 +25,7 @@ if (WITH_CASADI)
             gtest_main
             gtest
             )
-    target_compile_options(test_casadi PRIVATE -Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
+    target_compile_options(test_casadi PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
     target_include_directories(test_casadi SYSTEM PRIVATE
             ${PROJECT_SOURCE_DIR}/src
             ${PROJECT_BINARY_DIR}

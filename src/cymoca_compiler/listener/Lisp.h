@@ -54,7 +54,6 @@ class Lisp : public ast::Listener {
     _ss << "when";
   }
   void enter(ast::IfEquation *ctx) override {
-    auto a = std::dynamic_pointer_cast<ast::Equation>(ctx->equations()[0]->equations()[0]);
     _ss << "if";
   }
   void enter(ast::Class *ctx) override {
