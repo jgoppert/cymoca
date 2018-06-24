@@ -87,12 +87,10 @@ class CasadiListener : public ast::Listener {
         getExpr(ctx->condition()[0]),
         getExpr(ctx->equations()[0]));
     for (size_t i=ctx->equations().size() - 1; i>0; i--) {
-      std::cout << "loop" << i << std::endl;
       e = ca::SX::if_else(
           getExpr(ctx->condition()[i]),
           getExpr(ctx->equations()[i]),
           e);
-      std::cout << "e" << e << std::endl;
     }
     setExpr(ctx, e);
   }
