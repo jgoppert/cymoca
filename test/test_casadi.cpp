@@ -141,7 +141,7 @@ class CasadiListener : public ast::Listener {
 };
 
 
-TEST(CasadiTest, Simple) {
+TEST(CompilerTest, Casadi) {
   {
     auto x = casadi::SX::sym("x");
     auto y = x * 2;

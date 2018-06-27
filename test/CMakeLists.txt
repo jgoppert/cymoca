@@ -16,6 +16,9 @@ target_include_directories(test_one SYSTEM PRIVATE
         ${EP_PREFIX}/include)
 add_test(test_one test_one)
 
+add_executable(test_ast_new
+        test_ast_new.cpp)
+
 if (WITH_CASADI)
     add_executable(test_casadi
             test_casadi.cpp)
