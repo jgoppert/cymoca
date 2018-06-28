@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgoppert/cymoca.svg?branch=master)](https://travis-ci.org/jgoppert/cymoca)
 
-A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
+A Modern C++ Modelica compiler.
 
 ## Features
 
