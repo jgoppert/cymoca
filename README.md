@@ -10,7 +10,7 @@ A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
 * Listener based compiler, easy to read and extend. [example: LispListener](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/listener/LispPrinter.h)
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 
-## RoadMap
+## Road Map
 
 * [x] Parsing with ANTLR
 * [x] Lisp listener for AST string output.
