@@ -4,8 +4,11 @@
 
 A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
 
-* Parsing using ANTLR4 C++ Runtime.
-* First target, Casadi
+## Features
+
+* Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md)
+* Listener based compiler, easy to read and extend. [LispListener](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/listener/LispPrinter.h)
+* Unique_ptr C++14 used throughout, minimal copying, low memory footprint, and fast.
 
 ## RoadMap
 
