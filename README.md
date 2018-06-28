@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgoppert/cymoca.svg?branch=master)](https://travis-ci.org/jgoppert/cymoca)
 
-A Modern C++ Modelica compiler.
+A modern C++ Modelica compiler.
 
 ## Features
 
