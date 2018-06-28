@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jgoppert/cymoca.svg?branch=master)](https://travis-ci.org/jgoppert/cymoca)
 
-A modern C++ Modelica compiler with Python bindings.
+A Modelica compiler written in modern C++ with Python bindings.
 
 ## Features
 
