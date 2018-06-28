@@ -10,8 +10,8 @@ A modern C++ Modelica compiler with Python bindings.
 * Listener based generators, easily compile Modelica to any desired output [LispListener](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/listener/LispPrinter.h).
 * Listener based compiler, easy to read and extend [Compiler](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/Compiler.cpp).
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
-* Generator for [Casadi](https://github.com/casadi/casadi/wiki).
-* Python bindings on the Road Map.
+* Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development.
+* Python bindings planned.
 
 ## Road Map
 
