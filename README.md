@@ -18,6 +18,7 @@ A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
 * [ ] Bouncing ball end-to-end prototype from Modelica -> Casadi. Simulation in Casadi or using sundials directly.
 * [ ] Flesh out missing language element.
 * [ ] NuSMV output for state machines to support model checking.
+* [ ] Python wrapper
 
 ## Install
 
