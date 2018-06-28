@@ -7,7 +7,8 @@ A port of the [pymoca](https://pymoca.com) Modelica compiler to C++.
 ## Features
 
 * Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md)
-* Listener based compiler, easy to read and extend. [example: LispListener](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/listener/LispPrinter.h)
+* Listener based generators, easily compile Modelica to any desired output [LispListener](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/listener/LispPrinter.h)
+* Listener based compiler, easy to read and extend [Compiler](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/Compiler.cpp)
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 
 ## Road Map
