@@ -7,8 +7,8 @@ A modern C++ Modelica compiler with Python bindings.
 ## Features
 
 * Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md).
-* Listener based generators, easily compile Modelica to any desired output [LispListener](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/listener/LispPrinter.h).
-* Listener based compiler, easy to read and extend [Compiler](https://github.com/jgoppert/cymoca/blob/master/src/cymoca_compiler/Compiler.cpp).
+* Listener based generators, easily compile Modelica to any desired output [LispListener](src/cymoca_compiler/listener/LispPrinter.h).
+* Listener based compiler, easy to read and extend [Compiler](src/cymoca_compiler/Compiler.cpp).
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 * Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development.
 * Python bindings planned.
@@ -24,9 +24,9 @@ A modern C++ Modelica compiler with Python bindings.
 
 ## Install
 
-* Binaries are provided here: [binaries](https://github.com/jgoppert/cymoca/releases). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
+* Binaries are provided here: [releases](releases). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
 * You can build from source using cmake.
 
 ## License
 
-* BSD-3-clause, free to use for commercial use. [LICENSE](./LICENSE)
+* BSD-3-clause, free to use for commercial use. [LICENSE](LICENSE)
