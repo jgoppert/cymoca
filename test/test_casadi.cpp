@@ -28,11 +28,6 @@ class CasadiListener : public ast::Listener {
     }
     return ss.str();
   }
-  ca::SX & getExpr(const unique_ptr<ast::Node> & ctx) {
-    auto iter = _expr.find(ctx.get());
-    assert(iter != _expr.end());
-    return *(iter->second);
-  }
   ca::SX & getExpr(const ast::Node & ctx) {
     auto iter = _expr.find(&ctx);
     assert(iter != _expr.end());

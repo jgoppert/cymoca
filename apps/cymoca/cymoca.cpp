@@ -3,6 +3,7 @@
 #include <boost/program_options.hpp>
 #include <cymoca_compiler/Compiler.h>
 #include <cymoca_compiler/version.h>
+#include <cymoca_compiler/listener/LispPrinter.h>
 
 using namespace boost::filesystem;
 namespace po = boost::program_options;
@@ -20,17 +21,17 @@ void usage(
     const string &appName,
     const po::options_description &desc,
     const po::positional_options_description &pos_desc) {
-  std::cout << "Cymoca Modelica Compiler " << VERSION << std::endl;
-  std::cout << "usage: " << appName << " [options] model.mo" << std::endl;
-  std::cout << desc << std::endl;
+  cout << "Cymoca Modelica Compiler " << VERSION << endl;
+  cout << "usage: " << appName << " [options] model.mo" << endl;
+  cout << desc << endl;
   (void)pos_desc; // ignore unused
 }
 
 //------------------------------------------------------------------------
 int main(int argc, const char *argv[]) {
   try {
-    std::string appName = boost::filesystem::basename(argv[0]);
-    std::string model;
+    string appName = boost::filesystem::basename(argv[0]);
+    string model;
 
     /** Define and parse the program options 
      */
@@ -72,18 +73,18 @@ int main(int argc, const char *argv[]) {
     }
     catch (boost::program_options::required_option &e) {
       //rad::OptionPrinter::formatRequiredOptionError(e); 
-      std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
+      cerr << "ERROR: " << e.what() << endl << endl;
       usage(appName, visible, positionalOptions);
       return ERROR_IN_COMMAND_LINE;
     }
     catch (boost::program_options::error &e) {
-      std::cerr << "ERROR: " << e.what() << std::endl << std::endl;
+      cerr << "ERROR: " << e.what() << endl << endl;
       usage(appName, visible, positionalOptions);
       return ERROR_IN_COMMAND_LINE;
     }
 
     // horizontal bar for output
-    std::string bar = "";
+    string bar = "";
     for (int i=0; i<78; i++) {
       bar += "=";
     }
@@ -91,23 +92,27 @@ int main(int argc, const char *argv[]) {
     // compile
     path model_path(vm["model"].as<string>());
     assert(exists(model_path));
-    std::ifstream fileStream(model_path.string());
+    ifstream fileStream(model_path.string());
     cymoca::Compiler c(fileStream);
 
-    std::cout << bar << "\nLexer\n" << bar << std::endl;
-    for (auto token : c.getTokenStream().getTokens()) {
-      std::cout << token->toString() << std::endl;
-    }
+    //cout << bar << "\nLexer\n" << bar << endl;
+    //for (auto token : c.getTokenStream().getTokens()) {
+    //  cout << token->toString() << endl;
+    //}
 
-    std::cout << bar << "\nParse Tree\n" << bar << std::endl;
-    //std::cout << c.toPrettyStringTree() << std::endl;
+    //cout << bar << "\nParse Tree\n" << bar << endl;
+    //cout << c.toPrettyStringTree() << endl;
 
-    //std::cout << bar << "\nModelicaXML\n" << bar<< std::endl;
-    //c.printXML(std::cout);
+    //cout << bar << "\nLisp\n" << bar<< endl;
+    cymoca::listener::LispPrinter lispPrinter;
+    cymoca::ast::Walker walker;
+    walker.walk(*c.getRoot(), lispPrinter);
+    cout << lispPrinter.get() << endl;
+    
   }
-  catch (std::exception &e) {
-    std::cerr << "Unhandled Exception reached the top of main: "
-              << e.what() << ", application will now exit" << std::endl;
+  catch (exception &e) {
+    cerr << "Unhandled Exception reached the top of main: "
+              << e.what() << ", application will now exit" << endl;
     return ERROR_UNHANDLED_EXCEPTION;
 
   }

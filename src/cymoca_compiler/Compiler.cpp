@@ -13,7 +13,7 @@ Compiler::Compiler(ifstream &text) :
     _lexer(&_input),
     _tokenStream(&_lexer),
     _root(nullptr),
-    _verbose(true),
+    _verbose(false),
     _ast() {
   _tokenStream.fill();
   _parser = make_unique<ModelicaParser>(&_tokenStream);
