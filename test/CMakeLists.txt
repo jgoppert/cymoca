@@ -2,6 +2,16 @@
 # Test
 #-----------------------------------------------------------------------------
 
+include_directories(SYSTEM
+        ${PROJECT_BINARY_DIR}
+        ${EP_PREFIX}/include/antlr4-runtime
+        ${EP_PREFIX}/include)
+
+include_directories(
+        ${PROJECT_SOURCE_DIR}/src)
+
+add_compile_options(-Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
+
 add_executable(test_one
         test_one.cpp)
 target_link_libraries(test_one
@@ -9,22 +19,12 @@ target_link_libraries(test_one
         gtest_main
         gtest
         )
-target_compile_options(test_one PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
-target_include_directories(test_one SYSTEM PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
-        ${EP_PREFIX}/include)
 add_test(test_one test_one)
 
-add_executable(test_ast_new
-        test_ast_new.cpp)
-target_link_libraries(test_ast_new cymoca_ast)
-target_include_directories(test_ast_new SYSTEM PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
-        ${EP_PREFIX}/include)
+add_executable(test_ast
+        test_ast.cpp)
+target_link_libraries(test_ast cymoca_ast)
+add_test(test_ast test_ast)
 
 if (WITH_CASADI)
     add_executable(test_casadi

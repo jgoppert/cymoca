@@ -50,7 +50,7 @@ class Compiler : public ModelicaBaseListener {
     assert(iter != _ast.end());
     unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
     assert(val.get() != nullptr);
-    return move(val);
+    return val;
   }
 
   void setAst(antlr4::ParserRuleContext *ctx, unique_ptr<ast::Node> node) {

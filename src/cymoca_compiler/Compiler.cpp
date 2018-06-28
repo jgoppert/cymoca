@@ -81,7 +81,7 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
 
   for (auto &eq_sec: ctx->equation_section()) {
     auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
-    for (auto &eq: sec->get()) {
+    for (auto &eq: sec->list()) {
       c->equations().append(move(eq));
     }
   }
@@ -91,6 +91,7 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   //  }
   //}
   _root = c.get();
+  setAst(ctx, move(c));
 }
 
 void Compiler::exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) {
@@ -124,17 +125,13 @@ void Compiler::exitWhen_equation(ModelicaParser::When_equationContext *ctx) {
 }
 
 void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
-  /* TODO
-  auto eqList = unique_ptr<ast::EquationList>();
+  auto eqList = make_unique<ast::EquationList>();
   for (auto &eq: ctx->equation()) {
     // need to avoid deleting original
     auto eqVal = getAst<ast::Equation>(eq);
-    auto copy = static_unique_ptr_cast<ast::Equation>(eqVal->clone());
-    assert(copy.get());
-    eqList->append(move(copy));
+    eqList->append(move(eqVal));
   }
   setAst(ctx, move(eqList));
-  */
 }
 
 void Compiler::exitPrimary_der(ModelicaParser::Primary_derContext *ctx) {

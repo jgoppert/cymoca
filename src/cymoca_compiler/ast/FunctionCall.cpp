@@ -16,7 +16,7 @@ void FunctionCall::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
 }
 
 vector<Node *> FunctionCall::children() const {
-  return {};
+  return { _args.get() };
 }
 
 

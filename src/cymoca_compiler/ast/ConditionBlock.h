@@ -16,6 +16,10 @@ class ConditionBlock : public T {
   ConditionBlock(unique_ptr<LogicExpr> condition, unique_ptr<List<T>> list) :
       T(typeid(*this)), _condition(move(condition)), _list(move(list)) {}
   // accessors
+  LogicExpr & condition() { return *_condition; }
+  const LogicExpr & condition() const { return *_condition; }
+  List<T> & list() { return *_list; }
+  const List<T> & list() const { return *_list; }
   // node interface
   vector<Node *> children() const override {
     return {_condition.get(), _list.get()};

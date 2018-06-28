@@ -3,6 +3,7 @@
 //
 
 #include "Node.h"
+#include "Component.h"
 
 namespace cymoca {
 namespace ast {
@@ -14,6 +15,8 @@ class Class : public Node {
   Class(unique_ptr<Dict<Component>> components, unique_ptr<List<Equation>> equations);
   Class();
   // accessors
+  const Dict<Component> &components() const { return *_components; };
+  const List<Equation> &equations() const { return *_equations; };
   Dict<Component> &components() { return *_components; };
   List<Equation> &equations() { return *_equations; };
   // node interface

@@ -29,7 +29,10 @@ class List : public Base {
     val->setParent(this);
     _list.push_back(move(val));
   }
-  vector<unique_ptr<T>> & get() {
+  vector<unique_ptr<T>> & list() {
+    return _list;
+  }
+  const vector<unique_ptr<T>> & list() const {
     return _list;
   }
   vector<Node *> children() const override {

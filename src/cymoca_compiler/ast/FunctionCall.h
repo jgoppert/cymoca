@@ -16,6 +16,8 @@ class FunctionCall : public Expr {
   FunctionCall(const string &name, unique_ptr<Args> args);
   // accessors
   const std::string &name() const { return _name; };
+  const Args & args() const { return *_args; };
+  Args & args() { return *_args; };
   // node interface
   vector<Node *> children() const override;
   void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;

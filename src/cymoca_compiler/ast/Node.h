@@ -44,7 +44,7 @@ class Node {
   // accessors
   void setParent(Node *node) { _parent = node; }
   Node *getParent() const { return _parent; }
-  const type_info &getType() { return _type; }
+  const type_info &getType() const { return _type; }
   /**
    * Get a vector of Node *'s to all children of the Node,
    * this is used for tree traversal.
