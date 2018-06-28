@@ -29,4 +29,4 @@ A modern C++ Modelica compiler with Python bindings.
 
 ## License
 
-* BSD-3 clause, free to use for commercial use.
+* BSD-3-clause, free to use for commercial use. [LICENSE](./LICENSE)
