@@ -24,7 +24,7 @@ A modern C++ Modelica compiler with Python bindings.
 
 ## Install
 
-* Binaries are provided here: [releases](releases). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
+* Binaries are provided here: [releases](https://github.com/jgoppert/cymoca/releases). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
 * You can build from source using cmake.
 
 ## License
