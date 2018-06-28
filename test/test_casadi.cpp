@@ -4,10 +4,9 @@
 #include <vector>
 #include <casadi/casadi.hpp>
 #include <stack>
-#include <cymoca_compiler/listener/WhenExpander.h>
 
 #include "cymoca_compiler/Compiler.h"
-#include "cymoca_compiler/listener/Lisp.h"
+#include "cymoca_compiler/listener/LispPrinter.h"
 
 
 using namespace boost::filesystem;
@@ -30,7 +29,7 @@ class CasadiListener : public ast::Listener {
     }
     return ss.str();
   }
-  ca::SX & getExpr(const ast::Node::Ptr & ctx) {
+  ca::SX & getExpr(const unique_ptr<ast::Node> & ctx) {
     auto iter = _expr.find(ctx.get());
     assert(iter != _expr.end());
     return *(iter->second);
@@ -121,7 +120,7 @@ class CasadiListener : public ast::Listener {
   void exit(ast::ComponentRef *ctx) override {
     setExpr(ctx, ca::SX::sym(ctx->name()));
   }
-  void exit(ast::UnsignedNumber *ctx) override {
+  void exit(ast::Number *ctx) override {
     auto e = ca::SX(ctx->val());
     setExpr(ctx, e);
   }

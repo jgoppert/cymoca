@@ -4,6 +4,9 @@
       <w>antlr</w>
       <w>cymoca</w>
       <w>demangle</w>
+      <w>ediv</w>
+      <w>emul</w>
+      <w>epow</w>
       <w>jgoppert</w>
       <w>modelica</w>
     </words>

@@ -12,9 +12,12 @@
 #include <ostream>
 #include <map>
 #include <list>
-#include "Ast.h"
+#include "ast/ast.h"
+#include "util.h"
 
+using namespace std;
 using namespace modelica_antlr;
+
 
 namespace cymoca {
 
@@ -23,52 +26,51 @@ namespace cymoca {
  */
 class Compiler : public ModelicaBaseListener {
  public:
-  Compiler(std::ifstream &text);
-  virtual ~Compiler() {};
+  Compiler(ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return _tokenStream; }
-  ast::Class::Ptr getRoot() { return _root; }
-
-  typedef std::unordered_map<antlr4::ParserRuleContext *, ast::Node::Ptr> AstMap;
+  ast::Class * getRoot() { return _root; }
+  Compiler(const Compiler&) = delete;
+  Compiler& operator=(const Compiler&) = delete;
+  typedef unordered_map<antlr4::ParserRuleContext *, unique_ptr<ast::Node>> AstMap;
   const AstMap & getAst() { return _ast; }
 
  protected:
-  std::shared_ptr<ModelicaParser> _parser;
+  unique_ptr<ModelicaParser> _parser;
   antlr4::ANTLRInputStream _input;
   ModelicaLexer _lexer;
   antlr4::CommonTokenStream _tokenStream;
-  ast::Class::Ptr _root;
+  ast::Class * _root;
   bool _verbose;
   AstMap _ast;
 
   template<typename T>
-  std::shared_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
+  unique_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
     auto iter = _ast.find(ctx);
     assert(iter != _ast.end());
-    auto res = iter->second;
-    std::shared_ptr<T> val = std::dynamic_pointer_cast<T>(iter->second);
+    unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
     assert(val.get() != nullptr);
-    return val;
+    return move(val);
   }
 
-  void setAst(antlr4::ParserRuleContext *ctx, std::shared_ptr<ast::Node> node) {
+  void setAst(antlr4::ParserRuleContext *ctx, unique_ptr<ast::Node> node) {
     auto iter = _ast.find(ctx);
     assert(node.get() != nullptr);
     assert(iter == _ast.end());
-    _ast[ctx] = node;
+    _ast[ctx] = move(node);
   }
 
   void linkAst(antlr4::ParserRuleContext *to, antlr4::ParserRuleContext *from) {
     auto iter = _ast.find(from);
     assert(iter != _ast.end());
-    setAst(to, iter->second);
+    setAst(to, move(iter->second));
   }
 
   /**
    * Helper methods
    */
 
-  std::string indent(int n);
+  string indent(int n);
 
   /**
    * Listener Functions

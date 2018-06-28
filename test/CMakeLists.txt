@@ -1,6 +1,7 @@
 #-----------------------------------------------------------------------------
 # Test
 #-----------------------------------------------------------------------------
+
 add_executable(test_one
         test_one.cpp)
 target_link_libraries(test_one
@@ -18,6 +19,12 @@ add_test(test_one test_one)
 
 add_executable(test_ast_new
         test_ast_new.cpp)
+target_link_libraries(test_ast_new cymoca_ast)
+target_include_directories(test_ast_new SYSTEM PRIVATE
+        ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}
+        ${EP_PREFIX}/include/antlr4-runtime
+        ${EP_PREFIX}/include)
 
 if (WITH_CASADI)
     add_executable(test_casadi

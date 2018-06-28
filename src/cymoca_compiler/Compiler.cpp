@@ -3,26 +3,26 @@
 //
 
 #include "Compiler.h"
-#include "cymoca_compiler/listener/Lisp.h"
 
 namespace cymoca {
 
-Compiler::Compiler(std::ifstream &text) :
+Compiler::Compiler(ifstream &text) :
+    ModelicaBaseListener(),
     _parser(nullptr),
     _input(text),
     _lexer(&_input),
     _tokenStream(&_lexer),
     _root(nullptr),
-    _verbose(false),
+    _verbose(true),
     _ast() {
   _tokenStream.fill();
-  _parser = std::make_shared<ModelicaParser>(&_tokenStream);
+  _parser = make_unique<ModelicaParser>(&_tokenStream);
   antlr4::tree::ParseTree *tree = _parser->stored_definition();
   antlr4::tree::ParseTreeWalker::DEFAULT.walk(this, tree);
 }
 
-std::string Compiler::indent(int n) {
-  std::string s;
+string Compiler::indent(int n) {
+  string s;
   for (int i = 0; i < n; i++) {
     s.append(" ");
   }
@@ -31,7 +31,7 @@ std::string Compiler::indent(int n) {
 
 void Compiler::visitTerminal(antlr4::tree::TerminalNode *node) {
   if (_verbose) {
-    std::cout << "terminal: " << node->getText() << std::endl;
+    cout << "terminal: " << node->getText() << endl;
   }
 }
 
@@ -40,55 +40,57 @@ void Compiler::visitErrorNode(antlr4::tree::ErrorNode *node) {
 
 void Compiler::enterEveryRule(antlr4::ParserRuleContext *ctx) {
   if (_verbose) {
-    std::cout << indent(ctx->depth()) << ">> " << _parser->getRuleNames()[ctx->getRuleIndex()] << std::endl;
+    cout << indent(ctx->depth()) << ">> " << _parser->getRuleNames()[ctx->getRuleIndex()] << endl;
   }
 }
 
 void Compiler::exitEveryRule(antlr4::ParserRuleContext *ctx) {
   if (_verbose) {
-    std::cout << indent(ctx->depth()) << "<< " << _parser->getRuleNames()[ctx->getRuleIndex()] << std::endl;
+    cout << indent(ctx->depth()) << "<< " << _parser->getRuleNames()[ctx->getRuleIndex()] << endl;
   }
 }
 
 void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *ctx) {
-  std::stringstream ss(ctx->getText());
+  stringstream ss(ctx->getText());
   double num;
   ss >> num;
-  _ast[ctx] = std::make_shared<ast::UnsignedNumber>(num);
+  _ast[ctx] = make_unique<ast::Number>(num);
 }
 
 void Compiler::exitExpr_negative(ModelicaParser::Expr_negativeContext *ctx) {
   auto e = getAst<ast::Expr>(ctx->expr());
-  _ast[ctx] = std::make_shared<ast::Negative>(e);
+  _ast[ctx] = make_unique<ast::UnaryExpr>(ast::UnaryOp::NEG, move(e));
 }
 
 void Compiler::exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *ctx) {
   // TODO handle mutliple levels of naming in IDENT
-  _ast[ctx] = std::make_shared<ast::ComponentRef>(ctx->component_reference()->getText());
+  _ast[ctx] = make_unique<ast::ComponentRef>(ctx->component_reference()->getText());
 }
 
 void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationContext *ctx) {
-  _ast[ctx] = std::make_shared<ast::Component>(ctx->declaration()->getText());
+  _ast[ctx] = make_unique<ast::Component>(ctx->declaration()->getText());
 }
 
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
-  auto c = std::make_shared<ast::Class>();
+  auto c = make_unique<ast::Class>();
 
   //for (auto &elem_list: ctx->element_list()) {
-    //for (auto &elem: elem_list->element()) {
-    //}
+  //for (auto &elem: elem_list->element()) {
+  //}
   //}
 
   for (auto &eq_sec: ctx->equation_section()) {
     auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
-    c->addEquationSection(sec);
+    for (auto &eq: sec->get()) {
+      c->equations().append(move(eq));
+    }
   }
 
   //for (auto &alg_sec: ctx->algorithm_section()) {
   //  for (auto &stmt: alg_sec->statement_list()->statement()) {
   //  }
   //}
-  _root = c;
+  _root = c.get();
 }
 
 void Compiler::exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) {
@@ -103,34 +105,44 @@ void Compiler::exitSimple_expression(ModelicaParser::Simple_expressionContext *c
 void Compiler::exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
   auto left = getAst<ast::Expr>(ctx->simple_expression());
   auto right = getAst<ast::Expr>(ctx->expression());
-  setAst(ctx, std::make_shared<ast::Equation>(left, right));
+  setAst(ctx, make_unique<ast::SimpleEquation>(move(left), move(right)));
 }
 
 void Compiler::exitWhen_equation(ModelicaParser::When_equationContext *ctx) {
-  auto whenEq = std::make_shared<ast::WhenEquation>();
+  auto whenEq = make_unique<ast::WhenEquation>();
   for (size_t i = 0; i < ctx->equation_list().size(); i++) {
     auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
     if (i < ctx->expression().size()) {
-      auto cond = getAst<ast::Expr>(ctx->expression(i));
-      whenEq->addBlock(cond, eqList);
+      auto cond = getAst<ast::LogicExpr>(ctx->expression(i));
+      whenEq->append(make_unique<ast::EquationBlock >(move(cond), move(eqList)));
     } else {
-      whenEq->addBlock(std::make_shared<ast::Boolean>(true), eqList);
+      whenEq->append(make_unique<ast::EquationBlock >(
+          make_unique<ast::Boolean>(true), move(eqList)));
     }
   }
-  setAst(ctx, whenEq);
+  setAst(ctx, move(whenEq));
 }
 
 void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
-  auto eqList = std::make_shared<ast::EquationList>();
+  /* TODO
+  auto eqList = unique_ptr<ast::EquationList>();
   for (auto &eq: ctx->equation()) {
-    eqList->addEquation(getAst<ast::Node>(eq));
+    // need to avoid deleting original
+    auto eqVal = getAst<ast::Equation>(eq);
+    auto copy = static_unique_ptr_cast<ast::Equation>(eqVal->clone());
+    assert(copy.get());
+    eqList->append(move(copy));
   }
-  setAst(ctx, eqList);
+  setAst(ctx, move(eqList));
+  */
 }
 
 void Compiler::exitPrimary_der(ModelicaParser::Primary_derContext *ctx) {
   auto var = getAst<ast::Expr>(ctx->function_call_args()->function_arguments());
-  setAst(ctx, std::make_shared<ast::Derivative>(var));
+  auto args = make_unique<ast::Args>();
+  args->append(move(var));
+  unique_ptr<ast::Node> a = make_unique<ast::FunctionCall>("der", move(args));
+  setAst(ctx, move(a));
 }
 
 void Compiler::exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) {
@@ -140,7 +152,17 @@ void Compiler::exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) 
 void Compiler::exitExpr_relation(ModelicaParser::Expr_relationContext *ctx) {
   auto left = getAst<ast::Expr>(ctx->expr(0));
   auto right = getAst<ast::Expr>(ctx->expr(1));
-  setAst(ctx, std::make_shared<ast::Relation>(left, ctx->op->getText(), right));
+  std::string op = ctx->op->getText();
+  static map<string, ast::RelationOp> convertMap{
+      {"<", ast::RelationOp::LT},
+      {">", ast::RelationOp::GT},
+      {"<=", ast::RelationOp::LE},
+      {">=", ast::RelationOp::GE},
+      {"<>", ast::RelationOp::NEQ}};
+  auto iter = convertMap.find(op);
+  assert(iter != convertMap.end());
+  auto relOp = iter->second;
+  setAst(ctx, make_unique<ast::Relation>(move(left), relOp, move(right)));
 }
 
 void Compiler::exitPrimary_output_expression_list(ModelicaParser::Primary_output_expression_listContext *ctx) {
@@ -165,16 +187,18 @@ void Compiler::exitStatement_options(ModelicaParser::Statement_optionsContext *c
 }
 
 void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
-  auto ifEq = std::make_shared<ast::IfEquation>();
+  auto ifEq = make_unique<ast::IfEquation >();
   for (size_t i = 0; i < ctx->equation_list().size(); i++) {
     auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
     if (i < ctx->expression().size()) {
-      auto cond = getAst<ast::Expr>(ctx->expression(i));
-      ifEq->addBlock(std::make_shared<ast::EquationBlock>(cond, eqList));
+      auto cond = getAst<ast::LogicExpr>(ctx->expression(i));
+      ifEq->append(make_unique<ast::EquationBlock >(move(cond), move(eqList)));
     } else {
-      ifEq->addBlock(std::make_shared<ast::EquationBlock>(
-          std::make_shared<ast::Boolean>(true), eqList));
+      ifEq->append(make_unique<ast::EquationBlock >(
+          make_unique<ast::Boolean>(true), move(eqList)));
     }
   }
-  setAst(ctx, ifEq);}
+  setAst(ctx, move(ifEq));
+}
+
 } // cymoca
