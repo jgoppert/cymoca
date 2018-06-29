@@ -106,7 +106,7 @@ int main(int argc, const char *argv[]) {
     //cout << bar << "\nLisp\n" << bar<< endl;
     cymoca::listener::LispPrinter lispPrinter;
     cymoca::ast::Walker walker;
-    walker.walk(*c.getRoot(), lispPrinter);
+    walker.walk(*c.root(), lispPrinter);
     cout << lispPrinter.get() << endl;
     
   }
