@@ -13,7 +13,6 @@ using namespace cymoca::ast;
 namespace cymoca {
 namespace listener {
 
-
 /**
  * A listener to expand when equations.
  */
@@ -33,13 +32,28 @@ class WhenExpander : public SwapListener {
  public:
   void exit(const WhenEquation &ctx) override {
     auto ifEq = make_unique<IfEquation>();
-    for (auto & e: ctx.elements()) {
-      auto block = e->cloneAs<EquationBlock>();
+    for (auto &block: ctx.elements()) {
+      auto newEqs = make_unique<EquationList>();
       for (auto eq: block->list().elements()) {
-        auto s = static_cast<SimpleEquation *>(eq);
-        _walker.walk(s->left(), _preNamer);
+        assert(eq->getType() == typeid(SimpleEquation));
+        // left side is pre
+        auto newEq = eq->cloneAs<SimpleEquation>();
+        _walker.walk(newEq->left(), _preNamer);
+        newEqs->append(move(newEq));
       }
-      ifEq->append(move(block));
+      auto c_pre = block->condition().cloneAs<LogicExpr>();
+      _walker.walk(*c_pre, _preNamer);
+      // condition and not pre condition
+      auto newCond = make_unique<BinaryLogicExpr>(
+          block->condition().cloneAs<LogicExpr>(),
+          BinaryLogicOp::AND,
+          make_unique<UnaryLogicExpr>(
+              UnaryLogicOp::NOT,
+              move(c_pre)
+          )
+      );
+      ifEq->append(make_unique<EquationBlock>(
+          move(newCond), move(newEqs)));
     }
     setSwap(ctx, move(ifEq));
     swap();

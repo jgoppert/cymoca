@@ -22,6 +22,11 @@ class CasadiListener : public ast::Listener {
  public:
   CasadiListener(bool verbose=false) : _depth(0), _expr(), _verbose(verbose) {
   }
+  ca::SX get(const ast::Node & ctx) {
+    auto s = getExpr(ctx);
+    _expr.clear();
+    return s;
+  }
   std::string indent() {
     std::stringstream ss;
     for (size_t i=0; i < _depth; i++) {
@@ -51,6 +56,29 @@ class CasadiListener : public ast::Listener {
     }
     _depth -=1;
   }
+  void exit(const ast::UnaryLogicExpr &ctx) override {
+    ca::SX e;
+    auto right = getExpr(ctx.right());
+
+    if (ctx.op() == ast::UnaryLogicOp::NOT) {
+      e = !right;
+    } else {
+      assert(false);
+    }
+    setExpr(ctx, e);
+  }
+  void exit(const ast::BinaryLogicExpr &ctx) override {
+    ca::SX e;
+    auto left = getExpr(ctx.left());
+    auto right = getExpr(ctx.right());
+
+    if (ctx.op() == ast::BinaryLogicOp::AND) {
+      e = left && right;
+    } else if (ctx.op() == BinaryLogicOp::OR) {
+      e = left || right;
+    }
+    setExpr(ctx, e);
+  }
   void exit(const ast::Relation &ctx) override {
     ca::SX e;
     auto left = getExpr(ctx.left());
@@ -68,6 +96,8 @@ class CasadiListener : public ast::Listener {
       e = left == right;
     } else if (ctx.op() == ast::RelationOp::NEQ) {
       e = left != right;
+    } else {
+      assert(false);
     }
     setExpr(ctx, e);
   }
@@ -150,32 +180,24 @@ TEST(CompilerTest, Casadi) {
     ASSERT_TRUE(exists(p));
     std::ifstream fileStream(p.string());
     cymoca::Compiler c(fileStream);
-    assert(c.getRoot());
     auto & tree = *c.getRoot();
 
     CasadiListener casadiListener;
     listener::LispPrinter lispListener;
     cymoca::ast::Walker walker;
+
+    // original
     walker.walk(tree, lispListener);
     std::cout << "\nlisp\n" << lispListener.get() << std::endl;
     walker.walk(tree, casadiListener);
-    std::cout << "\ncasadi" << casadiListener.getExpr(tree) << std::endl;
-  }
-  {
-    path p("../../test/models/BouncingBall.mo");
-    ASSERT_TRUE(exists(p));
-    std::ifstream fileStream(p.string());
-    cymoca::Compiler c(fileStream);
-    auto & tree = *c.getRoot();
+    std::cout << "\ncasadi" << casadiListener.get(tree) << std::endl;
 
-    CasadiListener casadiListener;
-    listener::LispPrinter lispListener;
-    cymoca::ast::Walker walker;
+    // apply when expander
     listener::WhenExpander whenExpander;
     walker.walk(tree, whenExpander);
     walker.walk(tree, lispListener);
     std::cout << "\nwhen expanded\n" << lispListener.get() << std::endl;
     walker.walk(tree, casadiListener);
-    std::cout << "\ncasadi" << casadiListener.getExpr(tree) << std::endl;
+    std::cout << "\ncasadi" << casadiListener.get(tree) << std::endl;
   }
 }

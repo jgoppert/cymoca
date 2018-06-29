@@ -14,6 +14,12 @@ class FunctionCall : public Expr {
  public:
   NODE_MACRO(FunctionCall)
   FunctionCall(const string &name, unique_ptr<Args> args);
+  /**
+   * Convenience ctor for single argument.
+   * @param name name of function
+   * @param expr single expression
+   */
+  FunctionCall(const string &name, unique_ptr<Expr> expr);
   // accessors
   const std::string &name() const { return _name; };
   const Args & args() const { return *_args; };

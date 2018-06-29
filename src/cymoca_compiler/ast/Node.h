@@ -99,9 +99,9 @@ class Expr : public Node {
 /**
  * Abstract logic expression class.
  */
-class LogicExpr : public Node {
+class LogicExpr : public Expr {
  public:
-  LogicExpr(const type_info &type) : Node(type) {}
+  LogicExpr(const type_info &type) : Expr(type) {}
 };
 
 /**

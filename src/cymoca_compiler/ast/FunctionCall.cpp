@@ -12,6 +12,11 @@ FunctionCall::FunctionCall(const string &name, unique_ptr<Args> args) :
   _args->setParent(this);
 }
 
+FunctionCall::FunctionCall(const string &name, unique_ptr<Expr> ref) :
+    Expr(typeid(*this)), _name(name), _args() {
+  _args->append(move(ref));
+}
+
 void FunctionCall::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
 }
 
