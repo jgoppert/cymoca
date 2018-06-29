@@ -18,10 +18,6 @@ unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr = {
     {BinaryOp::EPOW, ".^"}
 };
 
-unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr = {
-    {UnaryOp::NEG, "-"}
-};
-
 unordered_map<RelationOp, string, EnumClassHash> relationOpStr = {
     {RelationOp::LT, "<"},
     {RelationOp::LE, "<="},

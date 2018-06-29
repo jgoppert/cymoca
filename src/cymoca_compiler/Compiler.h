@@ -6,12 +6,9 @@
 
 #include <modelica_antlr/ModelicaBaseListener.h>
 #include <modelica_antlr/ModelicaLexer.h>
-#include <typeindex>
 #include <memory>
-#include <stack>
 #include <ostream>
 #include <unordered_map>
-#include <list>
 #include "ast/ast.h"
 #include "util.h"
 
@@ -78,12 +75,11 @@ class Compiler : public ModelicaBaseListener {
  public:
   void visitTerminal(antlr4::tree::TerminalNode *node) override;
   void visitErrorNode(antlr4::tree::ErrorNode *node) override;
-  void enterEveryRule(antlr4::ParserRuleContext *ctx) override;
-  void exitEveryRule(antlr4::ParserRuleContext *ctx) override;
+  void enterEveryRule(antlr4::ParserRuleContext *context) override;
+  void exitEveryRule(antlr4::ParserRuleContext *context) override;
   void exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numberContext *context) override;
   void exitExpr_negative(ModelicaParser::Expr_negativeContext *context) override;
   void exitPrimary_component_reference(ModelicaParser::Primary_component_referenceContext *context) override;
-  void exitComponent_declaration(ModelicaParser::Component_declarationContext *context) override;
   void exitComposition(ModelicaParser::CompositionContext *context) override;
   void exitExpression_simple(ModelicaParser::Expression_simpleContext *context) override;
   void exitSimple_expression(ModelicaParser::Simple_expressionContext *context) override;
@@ -99,6 +95,7 @@ class Compiler : public ModelicaBaseListener {
   void exitStatement_options(ModelicaParser::Statement_optionsContext *context) override;
   void exitEquation_list(ModelicaParser::Equation_listContext *context) override;
   void exitIf_equation(ModelicaParser::If_equationContext *context) override;
+  void exitElement_component_definition(ModelicaParser::Element_component_definitionContext *context) override;
 };
 
 } // cymoca

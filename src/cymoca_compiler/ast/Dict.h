@@ -24,7 +24,6 @@ class Dict : public Node {
     }
   }
   // accessors
-  // node interface
   void set(const string &name, unique_ptr<T> val) {
     val->setParent(this);
     _map[name] = move(val);
@@ -34,6 +33,9 @@ class Dict : public Node {
     assert(&v);
     return v;
   }
+  unordered_map<string, unique_ptr<T>> & memory() { return _map; }
+
+  // node interface
   vector<Node *> children() const override {
     vector<Node *> v;
     for (auto &c: _map) {

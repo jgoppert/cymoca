@@ -3,6 +3,8 @@
 //
 
 #include "Compiler.h"
+#include "ast/ast.h"
+
 
 namespace cymoca {
 
@@ -67,22 +69,25 @@ void Compiler::exitPrimary_component_reference(ModelicaParser::Primary_component
   _ast[ctx] = make_unique<ast::ComponentRef>(ctx->component_reference()->getText());
 }
 
-void Compiler::exitComponent_declaration(ModelicaParser::Component_declarationContext *ctx) {
-  _ast[ctx] = make_unique<ast::Component>(ctx->declaration()->getText());
-}
-
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
-  auto c = make_unique<ast::Class>();
+  // component declarations
+  // TODO handle more than one element list
+  auto newComp = make_unique<ast::ComponentDict>();
+  for (auto & elemList: ctx->element_list()) {
+    for (auto & elem: elemList->element()) {
+      auto d = getAst<ast::ComponentDict>(elem);
+      for (auto &key_val: d->memory()) {
+        newComp->set(key_val.first, move(key_val.second));
+      }
+    }
+  }
 
-  //for (auto &elem_list: ctx->element_list()) {
-  //for (auto &elem: elem_list->element()) {
-  //}
-  //}
-
+  // equations
+  auto newEq = make_unique<ast::EquationList>();
   for (auto &eq_sec: ctx->equation_section()) {
     auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
     for (auto &eq: sec->memory()) {
-      c->equations().append(move(eq));
+      newEq->append(move(eq));
     }
   }
 
@@ -90,6 +95,8 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   //  for (auto &stmt: alg_sec->statement_list()->statement()) {
   //  }
   //}
+
+  auto c = make_unique<ast::Class>(move(newComp), move(newEq));
   _root = c.get();
   setAst(ctx, move(c));
 }
@@ -176,11 +183,11 @@ void Compiler::exitEquation(ModelicaParser::EquationContext *ctx) {
 }
 
 void Compiler::exitEquation_options(ModelicaParser::Equation_optionsContext *ctx) {
-  linkAst(ctx, dynamic_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
+  linkAst(ctx, static_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
 }
 
 void Compiler::exitStatement_options(ModelicaParser::Statement_optionsContext *ctx) {
-  linkAst(ctx, dynamic_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
+  linkAst(ctx, static_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
 }
 
 void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
@@ -196,6 +203,28 @@ void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
     }
   }
   setAst(ctx, move(ifEq));
+}
+
+void Compiler::exitElement_component_definition(ModelicaParser::Element_component_definitionContext *ctx) {
+  auto dict = make_unique<ast::ComponentDict>();
+  auto type = ctx->component_clause()->type_specifier()->getText();
+  auto prefixStr = ctx->component_clause()->type_prefix()->getText();
+  for (auto comp: ctx->component_clause()->component_list()->component_declaration()) {
+    auto name = comp->declaration()->IDENT()->getText();
+    ast::Prefix prefix;
+    if (prefixStr.compare("parameter") == 0) {
+      prefix = ast::Prefix::PARAMETER;
+    } else if (prefixStr.compare("constant") == 0) {
+      prefix = ast::Prefix::CONSTANT;
+    } else if (prefixStr.compare("") == 0) {
+      prefix = ast::Prefix::VARIABLE;
+    } else {
+      assert(false);
+    }
+    auto c = make_unique<ast::Component>(name, type, prefix);
+    dict->set(name, move(c));
+  }
+  setAst(ctx, move(dict));
 }
 
 } // cymoca

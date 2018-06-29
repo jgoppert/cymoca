@@ -6,6 +6,7 @@
 #include "Dict.h"
 #include "List.h"
 #include "Component.h"
+#include "ComponentRef.h"
 
 namespace cymoca {
 namespace ast {

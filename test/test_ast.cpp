@@ -49,9 +49,9 @@ int main() {
       make_unique<ComponentDict>(
           initializer_list<pair<string, unique_ptr<Component>>>(
               {
-                  {"x", make_unique<Component>("x")},
-                  {"v", make_unique<Component>("v")},
-                  {"g", make_unique<Component>("g")}
+                  {"x", make_unique<Component>("x", "Real", Prefix::VARIABLE)},
+                  {"v", make_unique<Component>("v", "Real", Prefix::VARIABLE)},
+                  {"g", make_unique<Component>("g", "Real", Prefix::PARAMETER)}
               }
           )
       ),

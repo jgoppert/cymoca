@@ -44,6 +44,7 @@ class Unary : public Base {
   unique_ptr<Term> _right;
 };
 
+extern unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr;
 extern unordered_map<UnaryLogicOp, string, EnumClassHash> unaryLogicOpStr;
 
 } // ast

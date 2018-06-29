@@ -34,7 +34,7 @@ class LispPrinter : public Listener {
     _ss << "dict of comp";
   }
   void enter(const Component &ctx) override {
-    _ss << ctx.name();
+    _ss << prefixStr[ctx.prefix()] << " " << ctx.name();
   }
   void enter(const ComponentRef &ctx) override {
     _ss << ctx.name();

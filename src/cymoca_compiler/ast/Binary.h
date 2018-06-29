@@ -54,7 +54,6 @@ class Binary : public Base {
 };
 
 extern unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr;
-extern unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr;
 extern unordered_map<RelationOp, string, EnumClassHash> relationOpStr;
 extern unordered_map<BinaryLogicOp, string, EnumClassHash> binaryLogicOpStr;
 
