@@ -11,7 +11,7 @@ namespace ast {
 void SwapListener::swap() {
   for (auto &s: _swap) {
     auto n = (Node *) (s.first);
-    n->getParent()->swapChild(n, move(s.second));
+    n->parent()->swapChild(n, move(s.second));
   }
   _swap.clear();
 }

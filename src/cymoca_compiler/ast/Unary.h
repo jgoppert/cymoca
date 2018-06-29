@@ -18,7 +18,7 @@ class Unary : public Base {
   NODE_MACRO(Unary)
   Unary(Op op, unique_ptr<Term> right) :
       Base(typeid(*this)), _op(op), _right(move(right)) {
-    _right->setParent(this);
+    _right->parent(this);
   }
   // accessors
   Op op() const { return _op; }

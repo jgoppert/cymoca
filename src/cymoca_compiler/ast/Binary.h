@@ -18,8 +18,8 @@ class Binary : public Base {
   NODE_MACRO(Binary)
   Binary(std::unique_ptr<Term> left, Op op, std::unique_ptr<Term> right) :
       Base(typeid(*this)), _left(move(left)), _op(op), _right(move(right)) {
-    _left->setParent(this);
-    _right->setParent(this);
+    _left->parent(this);
+    _right->parent(this);
   }
   // accessors
   const Term &left() const { return *_left; }

@@ -35,7 +35,7 @@ class WhenExpander : public SwapListener {
     for (auto &block: ctx.elements()) {
       auto newEqs = make_unique<EquationList>();
       for (auto eq: block->list().elements()) {
-        assert(eq->getType() == typeid(SimpleEquation));
+        assert(eq->nodeType() == typeid(SimpleEquation));
         // left side is pre
         auto newEq = eq->cloneAs<SimpleEquation>();
         _walker.walk(newEq->left(), _preNamer);

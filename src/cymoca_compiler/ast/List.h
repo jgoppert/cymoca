@@ -26,7 +26,7 @@ class List : public Base {
   // accessors
   // node interface
   void append(unique_ptr<T> val) {
-    val->setParent(this);
+    val->parent(this);
     _list.push_back(move(val));
   }
   vector<T *> elements() {

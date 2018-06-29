@@ -11,8 +11,8 @@ namespace ast {
 
 SimpleStatement::SimpleStatement(unique_ptr<ComponentRef> ref, unique_ptr<Expr> expr) :
     Statement(typeid(*this)), _ref(move(ref)), _expr(move(expr)) {
-  _ref->setParent(this);
-  _expr->setParent(this);
+  _ref->parent(this);
+  _expr->parent(this);
 }
 
 vector<Node *> SimpleStatement::children() const {

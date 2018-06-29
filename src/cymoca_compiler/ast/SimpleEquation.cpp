@@ -10,8 +10,8 @@ namespace ast {
 
 SimpleEquation::SimpleEquation(unique_ptr<Expr> left, unique_ptr<Expr> right)
     : Equation(typeid(*this)), _left(move(left)), _right(move(right)) {
-  _left->setParent(this);
-  _right->setParent(this);
+  _left->parent(this);
+  _right->parent(this);
 }
 
 vector<Node *> SimpleEquation::children() const {

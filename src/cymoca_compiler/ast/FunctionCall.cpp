@@ -9,7 +9,7 @@ namespace ast {
 
 FunctionCall::FunctionCall(const string &name, unique_ptr<Args> args) :
     Expr(typeid(*this)), _name(name), _args(move(args)) {
-  _args->setParent(this);
+  _args->parent(this);
 }
 
 FunctionCall::FunctionCall(const string &name, unique_ptr<Expr> ref) :

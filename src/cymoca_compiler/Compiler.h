@@ -26,11 +26,11 @@ class Compiler : public ModelicaBaseListener {
   Compiler(ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return _tokenStream; }
-  ast::Class * getRoot() { return _root; }
+  ast::Class * root() { return _root; }
   Compiler(const Compiler&) = delete;
   Compiler& operator=(const Compiler&) = delete;
   typedef unordered_map<antlr4::ParserRuleContext *, unique_ptr<ast::Node>> AstMap;
-  const AstMap & getAst() { return _ast; }
+  const AstMap & ast() { return _ast; }
 
  protected:
   unique_ptr<ModelicaParser> _parser;
@@ -42,7 +42,7 @@ class Compiler : public ModelicaBaseListener {
   AstMap _ast;
 
   template<typename T>
-  unique_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
+  unique_ptr<T> ast(antlr4::ParserRuleContext *ctx) {
     auto iter = _ast.find(ctx);
     assert(iter != _ast.end());
     unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
@@ -50,7 +50,7 @@ class Compiler : public ModelicaBaseListener {
     return val;
   }
 
-  void setAst(antlr4::ParserRuleContext *ctx, unique_ptr<ast::Node> node) {
+  void ast(antlr4::ParserRuleContext *ctx, unique_ptr<ast::Node> node) {
     auto iter = _ast.find(ctx);
     assert(node.get() != nullptr);
     assert(iter == _ast.end());
@@ -60,7 +60,7 @@ class Compiler : public ModelicaBaseListener {
   void linkAst(antlr4::ParserRuleContext *to, antlr4::ParserRuleContext *from) {
     auto iter = _ast.find(from);
     assert(iter != _ast.end());
-    setAst(to, move(iter->second));
+    ast(to, move(iter->second));
   }
 
   /**

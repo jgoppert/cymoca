@@ -60,7 +60,7 @@ void Compiler::exitPrimary_unsigned_number(ModelicaParser::Primary_unsigned_numb
 }
 
 void Compiler::exitExpr_negative(ModelicaParser::Expr_negativeContext *ctx) {
-  auto e = getAst<ast::Expr>(ctx->expr());
+  auto e = ast<ast::Expr>(ctx->expr());
   _ast[ctx] = make_unique<ast::UnaryExpr>(ast::UnaryOp::NEG, move(e));
 }
 
@@ -75,7 +75,7 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   auto newComp = make_unique<ast::ComponentDict>();
   for (auto & elemList: ctx->element_list()) {
     for (auto & elem: elemList->element()) {
-      auto d = getAst<ast::ComponentDict>(elem);
+      auto d = ast<ast::ComponentDict>(elem);
       for (auto &key_val: d->memory()) {
         newComp->set(key_val.first, move(key_val.second));
       }
@@ -85,7 +85,7 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   // equations
   auto newEq = make_unique<ast::EquationList>();
   for (auto &eq_sec: ctx->equation_section()) {
-    auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
+    auto sec = ast<ast::EquationList>(eq_sec->equation_list());
     for (auto &eq: sec->memory()) {
       newEq->append(move(eq));
     }
@@ -98,7 +98,7 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
 
   auto c = make_unique<ast::Class>(move(newComp), move(newEq));
   _root = c.get();
-  setAst(ctx, move(c));
+  ast(ctx, move(c));
 }
 
 void Compiler::exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) {
@@ -111,42 +111,42 @@ void Compiler::exitSimple_expression(ModelicaParser::Simple_expressionContext *c
 }
 
 void Compiler::exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) {
-  auto left = getAst<ast::Expr>(ctx->simple_expression());
-  auto right = getAst<ast::Expr>(ctx->expression());
-  setAst(ctx, make_unique<ast::SimpleEquation>(move(left), move(right)));
+  auto left = ast<ast::Expr>(ctx->simple_expression());
+  auto right = ast<ast::Expr>(ctx->expression());
+  ast(ctx, make_unique<ast::SimpleEquation>(move(left), move(right)));
 }
 
 void Compiler::exitWhen_equation(ModelicaParser::When_equationContext *ctx) {
   auto whenEq = make_unique<ast::WhenEquation>();
   for (size_t i = 0; i < ctx->equation_list().size(); i++) {
-    auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
+    auto eqList = ast<ast::EquationList>(ctx->equation_list(i));
     if (i < ctx->expression().size()) {
-      auto cond = getAst<ast::LogicExpr>(ctx->expression(i));
+      auto cond = ast<ast::LogicExpr>(ctx->expression(i));
       whenEq->append(make_unique<ast::EquationBlock >(move(cond), move(eqList)));
     } else {
       whenEq->append(make_unique<ast::EquationBlock >(
           make_unique<ast::Boolean>(true), move(eqList)));
     }
   }
-  setAst(ctx, move(whenEq));
+  ast(ctx, move(whenEq));
 }
 
 void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
   auto eqList = make_unique<ast::EquationList>();
   for (auto &eq: ctx->equation()) {
     // need to avoid deleting original
-    auto eqVal = getAst<ast::Equation>(eq);
+    auto eqVal = ast<ast::Equation>(eq);
     eqList->append(move(eqVal));
   }
-  setAst(ctx, move(eqList));
+  ast(ctx, move(eqList));
 }
 
 void Compiler::exitPrimary_der(ModelicaParser::Primary_derContext *ctx) {
-  auto var = getAst<ast::Expr>(ctx->function_call_args()->function_arguments());
+  auto var = ast<ast::Expr>(ctx->function_call_args()->function_arguments());
   auto args = make_unique<ast::Args>();
   args->append(move(var));
   unique_ptr<ast::Node> a = make_unique<ast::FunctionCall>("der", move(args));
-  setAst(ctx, move(a));
+  ast(ctx, move(a));
 }
 
 void Compiler::exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) {
@@ -154,8 +154,8 @@ void Compiler::exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) 
 }
 
 void Compiler::exitExpr_relation(ModelicaParser::Expr_relationContext *ctx) {
-  auto left = getAst<ast::Expr>(ctx->expr(0));
-  auto right = getAst<ast::Expr>(ctx->expr(1));
+  auto left = ast<ast::Expr>(ctx->expr(0));
+  auto right = ast<ast::Expr>(ctx->expr(1));
   std::string op = ctx->op->getText();
   static unordered_map<string, ast::RelationOp> convertMap{
       {"<", ast::RelationOp::LT},
@@ -166,7 +166,7 @@ void Compiler::exitExpr_relation(ModelicaParser::Expr_relationContext *ctx) {
   auto iter = convertMap.find(op);
   assert(iter != convertMap.end());
   auto relOp = iter->second;
-  setAst(ctx, make_unique<ast::Relation>(move(left), relOp, move(right)));
+  ast(ctx, make_unique<ast::Relation>(move(left), relOp, move(right)));
 }
 
 void Compiler::exitPrimary_output_expression_list(ModelicaParser::Primary_output_expression_listContext *ctx) {
@@ -193,16 +193,16 @@ void Compiler::exitStatement_options(ModelicaParser::Statement_optionsContext *c
 void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
   auto ifEq = make_unique<ast::IfEquation >();
   for (size_t i = 0; i < ctx->equation_list().size(); i++) {
-    auto eqList = getAst<ast::EquationList>(ctx->equation_list(i));
+    auto eqList = ast<ast::EquationList>(ctx->equation_list(i));
     if (i < ctx->expression().size()) {
-      auto cond = getAst<ast::LogicExpr>(ctx->expression(i));
+      auto cond = ast<ast::LogicExpr>(ctx->expression(i));
       ifEq->append(make_unique<ast::EquationBlock >(move(cond), move(eqList)));
     } else {
       ifEq->append(make_unique<ast::EquationBlock >(
           make_unique<ast::Boolean>(true), move(eqList)));
     }
   }
-  setAst(ctx, move(ifEq));
+  ast(ctx, move(ifEq));
 }
 
 void Compiler::exitElement_component_definition(ModelicaParser::Element_component_definitionContext *ctx) {
@@ -224,7 +224,7 @@ void Compiler::exitElement_component_definition(ModelicaParser::Element_componen
     auto c = make_unique<ast::Component>(name, type, prefix);
     dict->set(name, move(c));
   }
-  setAst(ctx, move(dict));
+  ast(ctx, move(dict));
 }
 
 } // cymoca

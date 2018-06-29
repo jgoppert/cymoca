@@ -25,7 +25,7 @@ class Dict : public Node {
   }
   // accessors
   void set(const string &name, unique_ptr<T> val) {
-    val->setParent(this);
+    val->parent(this);
     _map[name] = move(val);
   }
   T &get(const string &name) {

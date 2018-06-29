@@ -13,8 +13,8 @@ namespace ast {
 
 Class::Class(unique_ptr<Dict<Component>> components, unique_ptr<List<Equation>> equations) :
     Node(typeid(*this)), _components(move(components)), _equations(move(equations)) {
-  _components->setParent(this);
-  _equations->setParent(this);
+  _components->parent(this);
+  _equations->parent(this);
 }
 
 Class::Class() : Class(make_unique<Dict<Component>>(), make_unique<List<Equation>>()) {

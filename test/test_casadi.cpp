@@ -43,13 +43,13 @@ class CasadiListener : public ast::Listener {
   }
   void enterEvery(const ast::Node &ctx) override {
     if (_verbose) {
-      std::cout << indent() << ctx.getType().name() << " {" << std::endl;
+      std::cout << indent() << ctx.nodeType().name() << " {" << std::endl;
     }
     _depth += 1;
   }
   void exitEvery(const ast::Node &ctx) override {
     if (_verbose) {
-      std::cout << indent() << "} " << ctx.getType().name() << std::endl;
+      std::cout << indent() << "} " << ctx.nodeType().name() << std::endl;
     }
     _depth -= 1;
   }
@@ -176,7 +176,7 @@ TEST(CasadiTest, BouncingBall) {
   ASSERT_TRUE(exists(p));
   std::ifstream fileStream(p.string());
   cymoca::Compiler c(fileStream);
-  auto &tree = *c.getRoot();
+  auto &tree = *c.root();
 
   CasadiListener casadiListener;
   listener::LispPrinter lispListener;

@@ -12,7 +12,7 @@ Component::Component(const string &name, const string & type, const Prefix &pref
     Node(typeid(*this)), _name(name),
     _type(make_unique<ComponentRef>(type)), _prefix(prefix)
 {
-  _type->setParent(this);
+  _type->parent(this);
 }
 
 void Component::swapChild(Node *oldChild, unique_ptr<Node> newChild) {

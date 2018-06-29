@@ -20,6 +20,6 @@ TEST(ParseTest, BouncingBall) {
 
   listener::LispPrinter listener;
   Walker walker;
-  walker.walk(*c.getRoot(), listener);
+  walker.walk(*c.root(), listener);
   std::cout << listener.get() << std::endl;
 }

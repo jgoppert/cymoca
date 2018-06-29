@@ -43,9 +43,9 @@ class Node {
   Node(const Node &other) = delete;
   Node &operator=(const Node &other) = delete;
   // accessors
-  void setParent(Node *node) { _parent = node; }
-  Node *getParent() const { return _parent; }
-  const type_info &getType() const { return _type; }
+  void parent(Node *node) { _parent = node; }
+  Node *parent() const { return _parent; }
+  const type_info &nodeType() const { return _type; }
   /**
    * Get a vector of Node *'s to all children of the Node,
    * this is used for tree traversal.
