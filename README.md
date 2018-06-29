@@ -15,6 +15,7 @@ A Modelica compiler written in modern C++ with Python bindings.
   * [Tree Rewriting](src/cymoca_compiler/listener/WhenExpander.h)
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 * Python bindings planned.
+* Data format for simulations [HDF5](https://www.hdfgroup.org/)
 
 ## Road Map
 
