@@ -6,7 +6,7 @@
 
 #include "Listener.h"
 #include <memory>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
@@ -18,7 +18,7 @@ class SwapListener : public Listener {
   void swap();
   void setSwap(const Node &ctx, unique_ptr<Node> node);
  private:
-  map<const Node *, unique_ptr<Node>> _swap{};
+  unordered_map<const Node *, unique_ptr<Node>> _swap{};
 };
 
 } // ast

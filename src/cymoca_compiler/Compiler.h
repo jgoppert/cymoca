@@ -10,7 +10,7 @@
 #include <memory>
 #include <stack>
 #include <ostream>
-#include <map>
+#include <unordered_map>
 #include <list>
 #include "ast/ast.h"
 #include "util.h"

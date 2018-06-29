@@ -7,7 +7,7 @@
 #include "Node.h"
 #include "cymoca_compiler/util.h"
 
-#include <map>
+#include <unordered_map>
 
 namespace cymoca {
 namespace ast {
@@ -44,7 +44,7 @@ class Unary : public Base {
   unique_ptr<Term> _right;
 };
 
-extern map<UnaryLogicOp, string> unaryLogicOpStr;
+extern unordered_map<UnaryLogicOp, string, EnumClassHash> unaryLogicOpStr;
 
 } // ast
 } // cymoca

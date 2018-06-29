@@ -7,6 +7,7 @@
 
 #include "cymoca_compiler/Compiler.h"
 #include "cymoca_compiler/listener/LispPrinter.h"
+#include "cymoca_compiler/listener/WhenExpander.h"
 
 
 using namespace boost::filesystem;
@@ -78,11 +79,11 @@ class CasadiListener : public ast::Listener {
   }
   void exit(const ast::WhenEquation &ctx) override {
     // TODO casadi can't handle these, preprocess first
-    auto & b = ctx.list();
+    auto & b = ctx.elements();
     setExpr(ctx, getExpr(b[0]->condition()));
   }
   void exit(const ast::IfEquation &ctx) override {
-    auto & blocks = ctx.list();
+    auto & blocks = ctx.elements();
     auto e = ca::SX::if_else_zero(
         getExpr(blocks[blocks.size() - 1]->condition()),
         getExpr(blocks[blocks.size() - 1]->list()));
@@ -96,7 +97,7 @@ class CasadiListener : public ast::Listener {
   }
   void exit(const ast::EquationList &ctx) override {
     std::vector<ca::SX> eqs;
-    for (auto & eq: ctx.list()) {
+    for (auto & eq: ctx.elements()) {
       assert(eq.get());
       eqs.push_back(getExpr(*eq));
     }
@@ -108,7 +109,7 @@ class CasadiListener : public ast::Listener {
     getExpr(ctx.equations());
 
     auto & sections = ctx.equations();
-    for (auto & sec: sections.list()) {
+    for (auto & sec: sections.elements()) {
       eqs.push_back(getExpr(*sec));
     }
     setExpr(ctx, ca::SX::vertcat(eqs));
@@ -121,7 +122,7 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, e);
   }
   void exit(const ast::FunctionCall &ctx) override {
-    auto & expr = *(ctx.args().list()[0]);
+    auto & expr = *(ctx.args().elements()[0]);
     auto & var = static_cast<ComponentRef &>(expr);
     setExpr(ctx, ca::SX::sym(ctx.name() + "(" + var.name() + ")"));
   }
@@ -160,23 +161,22 @@ TEST(CompilerTest, Casadi) {
     std::cout << "\ncasadi" << casadiListener.getExpr(tree) << std::endl;
   }
   {
-    /*
-
     path p("../../test/models/BouncingBall.mo");
     ASSERT_TRUE(exists(p));
     std::ifstream fileStream(p.string());
     cymoca::Compiler c(fileStream);
-    //auto & tree = *c.getRoot();
+    auto & tree = *c.getRoot();
 
     CasadiListener casadiListener;
     listener::LispPrinter lispListener;
     cymoca::ast::Walker walker;
     listener::WhenExpander whenExpander;
-    walker.walk(whenExpander, tree);
-    walker.walk(lispListener, tree);
+    walker.walk(tree, whenExpander);
+    whenExpander.swap();
+
+    walker.walk(tree, lispListener);
     std::cout << "\nwhen expanded\n" << lispListener.get() << std::endl;
-    walker.walk(casadiListener, tree);
+    walker.walk(tree, casadiListener);
     std::cout << "\ncasadi" << casadiListener.getExpr(tree) << std::endl;
- */
   }
 }

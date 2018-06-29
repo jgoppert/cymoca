@@ -7,7 +7,7 @@
 #include "Node.h"
 #include "cymoca_compiler/util.h"
 
-#include <map>
+#include <unordered_map>
 
 namespace cymoca {
 namespace ast {
@@ -53,10 +53,10 @@ class Binary : public Base {
   std::unique_ptr<Term> _right;
 };
 
-extern map<BinaryOp, string> binaryOpStr;
-extern map<UnaryOp, string> unaryOpStr;
-extern map<RelationOp, string> relationOpStr;
-extern map<BinaryLogicOp, string> binaryLogicOpStr;
+extern unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr;
+extern unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr;
+extern unordered_map<RelationOp, string, EnumClassHash> relationOpStr;
+extern unordered_map<BinaryLogicOp, string, EnumClassHash> binaryLogicOpStr;
 
 } // ast
 } // cymoca

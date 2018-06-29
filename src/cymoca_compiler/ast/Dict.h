@@ -7,7 +7,7 @@
 #include "Node.h"
 #include "cymoca_compiler/util.h"
 
-#include <map>
+#include <unordered_map>
 
 namespace cymoca {
 namespace ast {
@@ -61,7 +61,7 @@ class Dict : public Node {
     return move(newDict);
   }
  protected:
-  map<string, unique_ptr<T>> _map;
+  unordered_map<string, unique_ptr<T>> _map;
 };
 
 } // ast

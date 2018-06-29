@@ -13,6 +13,7 @@ void SwapListener::swap() {
     auto n = (Node *) (s.first);
     n->getParent()->swapChild(n, move(s.second));
   }
+  _swap.clear();
 }
 
 void SwapListener::setSwap(const Node &ctx, unique_ptr<Node> node) {

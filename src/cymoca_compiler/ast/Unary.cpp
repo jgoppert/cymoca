@@ -7,7 +7,7 @@
 namespace cymoca {
 namespace ast {
 
-map<UnaryLogicOp, string> unaryLogicOpStr = {
+unordered_map<UnaryLogicOp, string, EnumClassHash> unaryLogicOpStr = {
     {UnaryLogicOp::NOT, "not"}
 };
 

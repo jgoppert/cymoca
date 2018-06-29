@@ -20,6 +20,7 @@ add_library(cymoca_compiler STATIC
         Compiler.cpp
         Compiler.h
         listener/LispPrinter.h
+        listener/WhenExpander.h
         )
 
 target_link_libraries(cymoca_compiler

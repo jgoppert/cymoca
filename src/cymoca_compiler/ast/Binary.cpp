@@ -7,7 +7,7 @@
 namespace cymoca {
 namespace ast {
 
-map<BinaryOp, string> binaryOpStr = {
+unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr = {
     {BinaryOp::ADD, "+"},
     {BinaryOp::SUB, "-"},
     {BinaryOp::MUL, "*"},
@@ -18,11 +18,11 @@ map<BinaryOp, string> binaryOpStr = {
     {BinaryOp::EPOW, ".^"}
 };
 
-map<UnaryOp, string> unaryOpStr = {
+unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr = {
     {UnaryOp::NEG, "-"}
 };
 
-map<RelationOp, string> relationOpStr = {
+unordered_map<RelationOp, string, EnumClassHash> relationOpStr = {
     {RelationOp::LT, "<"},
     {RelationOp::LE, "<="},
     {RelationOp::GT, ">"},
@@ -31,7 +31,7 @@ map<RelationOp, string> relationOpStr = {
     {RelationOp::NEQ, "<>"}
 };
 
-map<BinaryLogicOp, string> binaryLogicOpStr = {
+unordered_map<BinaryLogicOp, string, EnumClassHash> binaryLogicOpStr = {
     {BinaryLogicOp::AND, "and"},
     {BinaryLogicOp::OR, "or"},
 };
