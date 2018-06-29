@@ -6,6 +6,7 @@
 
 #include <sstream>
 #include "cymoca_compiler/ast/ast.h"
+#include "SwapListener.h"
 
 using namespace std;
 using namespace cymoca::ast;

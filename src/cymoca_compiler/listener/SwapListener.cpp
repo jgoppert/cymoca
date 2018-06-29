@@ -6,7 +6,7 @@
 #include "cymoca_compiler/ast/Node.h"
 
 namespace cymoca {
-namespace ast {
+namespace listener {
 
 void SwapListener::apply() {
   for (auto &s: _swap) {
@@ -20,5 +20,5 @@ void SwapListener::set(const Node &ctx, unique_ptr<Node> node) {
   _swap[&ctx] = move(node);
 }
 
-} // ast
+} // listener
 } // cymoca

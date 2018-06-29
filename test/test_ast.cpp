@@ -8,6 +8,7 @@
 
 #include <cymoca_compiler/ast/ast.h>
 #include <cymoca_compiler/listener/LispPrinter.h>
+#include <cymoca_compiler/listener/SwapListener.h>
 
 
 using namespace std;

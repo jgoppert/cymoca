@@ -9,9 +9,10 @@
 #include "../../../../../../../usr/include/c++/5/unordered_map"
 
 using namespace std;
+using namespace cymoca::ast;
 
 namespace cymoca {
-namespace ast {
+namespace listener {
 
 class SwapListener : public Listener {
  public:
@@ -21,5 +22,5 @@ class SwapListener : public Listener {
   unordered_map<const Node *, unique_ptr<Node>> _swap{};
 };
 
-} // ast
+} // listener
 } // cymoca
