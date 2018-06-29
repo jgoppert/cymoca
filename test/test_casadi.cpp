@@ -3,7 +3,6 @@
 #include <boost/filesystem.hpp>
 #include <vector>
 #include <casadi/casadi.hpp>
-#include <stack>
 
 #include "cymoca_compiler/Compiler.h"
 #include "cymoca_compiler/listener/LispPrinter.h"
