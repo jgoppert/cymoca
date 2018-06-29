@@ -9,9 +9,9 @@ A Modelica compiler written in modern C++ with Python bindings.
 * Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md).
 * Listener based generators, easily compile Modelica to any desired output
   * Basic Example: [LispListener](src/cymoca_compiler/listener/LispPrinter.h).
-  * Complex Example: [WhenExpander](src/cymoca_compiler/listener/WhenExpander.h).
 * Listener based compiler, easy to read and extend
-  * [Compiler](src/cymoca_compiler/Compiler.cpp).
+  * [Tree Rewriting](src/cymoca_compiler/listener/WhenExpander.h)
+  * [Compiler](src/cymoca_compiler/Compiler.cpp)
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 * Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development.
 * Python bindings planned.
