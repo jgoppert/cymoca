@@ -54,6 +54,9 @@ class LispPrinter : public Listener {
   void enter(const EquationBlock &ctx) override {
     _ss << "eq block";
   }
+  void enter(const FunctionCall &ctx) override {
+    _ss << ctx.name();
+  }
   void enter(const StatementBlock &ctx) override {
     _ss << "stmt block";
   }
