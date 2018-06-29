@@ -20,8 +20,8 @@ using namespace cymoca::listener;
  */
 class AddOne : public SwapListener {
   void exit(const Number &ctx) override {
-    setSwap(ctx, make_unique<Number>(ctx.val() + 1));
-    swap();
+    set(ctx, make_unique<Number>(ctx.val() + 1));
+    apply();
   }
 };
 

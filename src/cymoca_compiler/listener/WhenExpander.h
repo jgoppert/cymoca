@@ -25,8 +25,8 @@ class WhenExpander : public SwapListener {
       auto args = make_unique<Args>();
       args->append(ctx.cloneAs<ComponentRef>());
       auto pre = make_unique<FunctionCall>("pre", move(args));
-      setSwap(ctx, move(pre));
-      swap();
+      set(ctx, move(pre));
+      apply();
     }
   } _preNamer{};
  public:
@@ -55,8 +55,8 @@ class WhenExpander : public SwapListener {
       ifEq->append(make_unique<EquationBlock>(
           move(newCond), move(newEqs)));
     }
-    setSwap(ctx, move(ifEq));
-    swap();
+    set(ctx, move(ifEq));
+    apply();
   }
 };
 

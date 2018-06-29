@@ -20,8 +20,6 @@ add_library(cymoca_ast STATIC
         SimpleEquation.h
         SimpleEquation.cpp
         SimpleStatement.h
-        SwapListener.cpp
-        SwapListener.h
         Unary.cpp
         Unary.h
         Value.h

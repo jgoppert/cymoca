@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "Listener.h"
-#include <memory>
-#include <unordered_map>
+#include "../ast/Listener.h"
+#include "../../../../../../../usr/include/c++/5/memory"
+#include "../../../../../../../usr/include/c++/5/unordered_map"
 
 using namespace std;
 
@@ -15,8 +15,8 @@ namespace ast {
 
 class SwapListener : public Listener {
  public:
-  void swap();
-  void setSwap(const Node &ctx, unique_ptr<Node> node);
+  void apply();
+  void set(const Node &ctx, unique_ptr<Node> node);
  private:
   unordered_map<const Node *, unique_ptr<Node>> _swap{};
 };

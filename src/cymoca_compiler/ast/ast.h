@@ -18,7 +18,6 @@
 #include "Node.h"
 #include "SimpleEquation.h"
 #include "SimpleStatement.h"
-#include "SwapListener.h"
 #include "Unary.h"
 #include "Value.h"
 #include "Walker.h"
