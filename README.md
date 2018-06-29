@@ -11,8 +11,8 @@ A Modelica compiler written in modern C++ with Python bindings.
   * Lisp string printing [LispListener](src/cymoca_compiler/listener/LispPrinter.h).
   * Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development, [Demo](test/test_casadi.cpp).
 * Listener based compiler
-  * [Tree Rewriting](src/cymoca_compiler/listener/WhenExpander.h)
   * [Compiler](src/cymoca_compiler/Compiler.cpp)
+  * [Tree Rewriting](src/cymoca_compiler/listener/WhenExpander.h)
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 * Python bindings planned.
 
