@@ -20,7 +20,7 @@ class Component : public Node {
   NODE_MACRO(Component)
   Component(const string &name, const string & type, const Prefix &prefix);
   // accessors
-  const std::string &name() const { return _name; };
+  const string &name() const { return _name; };
   const Prefix & prefix() const { return _prefix; };
   // node interface
   vector<Node *> children() const override;

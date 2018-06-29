@@ -156,7 +156,7 @@ void Compiler::exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) 
 void Compiler::exitExpr_relation(ModelicaParser::Expr_relationContext *ctx) {
   auto left = ast<ast::Expr>(ctx->expr(0));
   auto right = ast<ast::Expr>(ctx->expr(1));
-  std::string op = ctx->op->getText();
+  string op = ctx->op->getText();
   static unordered_map<string, ast::RelationOp> convertMap{
       {"<", ast::RelationOp::LT},
       {">", ast::RelationOp::GT},

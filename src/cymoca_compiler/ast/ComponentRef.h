@@ -15,7 +15,7 @@ class ComponentRef : public Expr {
   NODE_MACRO(ComponentRef)
   explicit ComponentRef(const string &name);
   // accessors
-  const std::string &name() const { return _name; }
+  const string &name() const { return _name; }
   // node interface
   vector<Node *> children() const override;
   void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;

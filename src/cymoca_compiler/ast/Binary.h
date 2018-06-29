@@ -16,7 +16,7 @@ template<class Base, class Term, class Op>
 class Binary : public Base {
  public:
   NODE_MACRO(Binary)
-  Binary(std::unique_ptr<Term> left, Op op, std::unique_ptr<Term> right) :
+  Binary(unique_ptr<Term> left, Op op, unique_ptr<Term> right) :
       Base(typeid(*this)), _left(move(left)), _op(op), _right(move(right)) {
     _left->parent(this);
     _right->parent(this);
@@ -48,9 +48,9 @@ class Binary : public Base {
         static_unique_ptr_cast<Term>(_right->clone()));
   }
  protected:
-  std::unique_ptr<Term> _left;
+  unique_ptr<Term> _left;
   Op _op;
-  std::unique_ptr<Term> _right;
+  unique_ptr<Term> _right;
 };
 
 extern unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr;

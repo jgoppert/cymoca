@@ -17,8 +17,8 @@ static_unique_ptr_cast(unique_ptr<Base> &&p) {
 struct EnumClassHash
 {
   template <typename T>
-  std::size_t operator()(T t) const
+  size_t operator()(T t) const
   {
-    return static_cast<std::size_t>(t);
+    return static_cast<size_t>(t);
   }
 };

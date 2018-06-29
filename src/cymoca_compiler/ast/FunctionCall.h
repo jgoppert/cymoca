@@ -21,7 +21,7 @@ class FunctionCall : public Expr {
    */
   FunctionCall(const string &name, unique_ptr<Expr> expr);
   // accessors
-  const std::string &name() const { return _name; };
+  const string &name() const { return _name; };
   const Args & args() const { return *_args; };
   Args & args() { return *_args; };
   // node interface

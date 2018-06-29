@@ -9,12 +9,13 @@
 
 using namespace boost::filesystem;
 using namespace cymoca;
+using namespace std;
 namespace ca = casadi;
 
 class CasadiListener : public ast::Listener {
  private:
   size_t _depth;
-  std::map<const ast::Node *, unique_ptr<ca::SX>> _expr;
+  map<const ast::Node *, unique_ptr<ca::SX>> _expr;
   bool _verbose;
  public:
   CasadiListener(bool verbose = false) : _depth(0), _expr(), _verbose(verbose) {
@@ -24,8 +25,8 @@ class CasadiListener : public ast::Listener {
     _expr.clear();
     return s;
   }
-  std::string indent() {
-    std::stringstream ss;
+  string indent() {
+    stringstream ss;
     for (size_t i = 0; i < _depth; i++) {
       ss << "-->";
     }
@@ -43,13 +44,13 @@ class CasadiListener : public ast::Listener {
   }
   void enterEvery(const ast::Node &ctx) override {
     if (_verbose) {
-      std::cout << indent() << ctx.nodeType().name() << " {" << std::endl;
+      cout << indent() << ctx.nodeType().name() << " {" << endl;
     }
     _depth += 1;
   }
   void exitEvery(const ast::Node &ctx) override {
     if (_verbose) {
-      std::cout << indent() << "} " << ctx.nodeType().name() << std::endl;
+      cout << indent() << "} " << ctx.nodeType().name() << endl;
     }
     _depth -= 1;
   }
@@ -124,7 +125,7 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, e);
   }
   void exit(const ast::EquationList &ctx) override {
-    std::vector<ca::SX> eqs;
+    vector<ca::SX> eqs;
     for (auto &eq: ctx.elements()) {
       assert(eq);
       eqs.push_back(getExpr(*eq));
@@ -133,7 +134,7 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, e);
   }
   void exit(const ast::Class &ctx) override {
-    std::vector<ca::SX> eqs;
+    vector<ca::SX> eqs;
     getExpr(ctx.equations());
 
     auto &sections = ctx.equations();
@@ -164,17 +165,17 @@ TEST(CasadiTest, BasicFunction) {
   auto y = x * 2;
   auto f = casadi::Function(
       "f",
-      std::vector<casadi::SX>({x}),
-      std::vector<casadi::SX>({y}),
-      std::vector<std::string>({"x"}),
-      std::vector<std::string>({"y"})
+      vector<casadi::SX>({x}),
+      vector<casadi::SX>({y}),
+      vector<string>({"x"}),
+      vector<string>({"y"})
   );
 }
 
 TEST(CasadiTest, BouncingBall) {
   path p("../../test/models/BouncingBall.mo");
   ASSERT_TRUE(exists(p));
-  std::ifstream fileStream(p.string());
+  ifstream fileStream(p.string());
   cymoca::Compiler c(fileStream);
   auto &tree = *c.root();
 
@@ -184,15 +185,15 @@ TEST(CasadiTest, BouncingBall) {
 
   // original
   walker.walk(tree, lispListener);
-  std::cout << "\nlisp\n" << lispListener.get() << std::endl;
+  cout << "\nlisp\n" << lispListener.get() << endl;
   walker.walk(tree, casadiListener);
-  std::cout << "\ncasadi" << casadiListener.get(tree) << std::endl;
+  cout << "\ncasadi" << casadiListener.get(tree) << endl;
 
   // apply when expander
   listener::WhenExpander whenExpander;
   walker.walk(tree, whenExpander);
   walker.walk(tree, lispListener);
-  std::cout << "\nwhen expanded\n" << lispListener.get() << std::endl;
+  cout << "\nwhen expanded\n" << lispListener.get() << endl;
   walker.walk(tree, casadiListener);
-  std::cout << "\ncasadi" << casadiListener.get(tree) << std::endl;
+  cout << "\ncasadi" << casadiListener.get(tree) << endl;
 }
