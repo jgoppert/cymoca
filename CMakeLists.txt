@@ -125,6 +125,7 @@ add_subdirectory(apps/cymoca)
 if (WITH_TEST)
     enable_testing()
     add_subdirectory(test)
+    add_custom_target(ctest_hook ctest)
 endif()
 
 #-----------------------------------------------------------------------------

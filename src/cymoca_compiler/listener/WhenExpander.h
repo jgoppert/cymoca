@@ -28,7 +28,7 @@ class WhenExpander : public SwapListener {
       setSwap(ctx, move(pre));
       swap();
     }
-  } _preNamer;
+  } _preNamer{};
  public:
   void exit(const WhenEquation &ctx) override {
     auto ifEq = make_unique<IfEquation>();

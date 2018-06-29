@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <sstream>
+#include <gtest/gtest.h>
+
 #include <cymoca_compiler/ast/ast.h>
 #include <cymoca_compiler/listener/LispPrinter.h>
 
@@ -23,7 +25,7 @@ class AddOne : public SwapListener {
   }
 };
 
-int main() {
+TEST(Ast, Basic) {
 
   auto e1 = make_unique<BinaryExpr>(
       make_unique<Number>(1),

@@ -12,20 +12,17 @@ include_directories(
 
 add_compile_options(-Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
 
-add_executable(test_one
-        test_one.cpp)
-target_link_libraries(test_one
-        cymoca_compiler
-        gtest_main
-        gtest
-        )
-add_test(test_one test_one)
+# test parse
+add_executable(test_parse test_parse.cpp)
+target_link_libraries(test_parse cymoca_compiler gtest_main gtest)
+add_test(test_parse test_parse)
 
-add_executable(test_ast
-        test_ast.cpp)
-target_link_libraries(test_ast cymoca_ast)
+# test ast
+add_executable(test_ast test_ast.cpp)
+target_link_libraries(test_ast cymoca_compiler gtest_main gtest)
 add_test(test_ast test_ast)
 
+# test casadi
 if (WITH_CASADI)
     add_executable(test_casadi
             test_casadi.cpp)
@@ -35,16 +32,10 @@ if (WITH_CASADI)
             gtest_main
             gtest
             )
-    target_compile_options(test_casadi PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
-    target_include_directories(test_casadi SYSTEM PRIVATE
-            ${PROJECT_SOURCE_DIR}/src
-            ${PROJECT_BINARY_DIR}
-            ${EP_PREFIX}/include/antlr4-runtime
-            ${EP_PREFIX}/include)
     add_test(test_casadi test_casadi)
 endif()
 
-
+# cli
 add_test(cli_help ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca -h)
 add_test(cli_compile ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca ${CMAKE_CURRENT_SOURCE_DIR}/models/Simple.mo)
 

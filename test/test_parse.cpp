@@ -9,7 +9,7 @@
 using namespace boost::filesystem;
 using namespace cymoca;
 
-TEST(CompilerTest, Simple) {
+TEST(ParseTest, BouncingBall) {
   std::cout << std::endl;
   path p("../../test/models/BouncingBall.mo");
   ASSERT_TRUE(exists(p));
