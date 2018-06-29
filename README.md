@@ -14,6 +14,7 @@ A Modelica compiler written in modern C++ with Python bindings.
   * [Compiler](src/cymoca_compiler/Compiler.cpp)
 * C++14 used throughout, minimal copying, low memory footprint, and fast.
 * Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development.
+  * [Demo](test/test_casadi.cpp)
 * Python bindings planned.
 
 ## Road Map
