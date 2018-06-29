@@ -37,10 +37,8 @@ class ConditionBlock : public T {
     assert(false);
   }
   unique_ptr<Node> clone() const override {
-    auto condCopy = _condition->clone();
-    auto c = static_unique_ptr_cast<LogicExpr>(move(condCopy));
-    auto listCopy = _list->clone();
-    auto l = static_unique_ptr_cast<List<T>>(move(listCopy));
+    auto c = _condition->cloneAs<LogicExpr>();
+    auto l = _list->cloneAsList();
     auto cb = make_unique<ConditionBlock>(move(c), move(l));
     return move(cb);
   }

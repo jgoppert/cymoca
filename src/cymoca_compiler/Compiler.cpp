@@ -81,7 +81,7 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
 
   for (auto &eq_sec: ctx->equation_section()) {
     auto sec = getAst<ast::EquationList>(eq_sec->equation_list());
-    for (auto &eq: sec->elements()) {
+    for (auto &eq: sec->memory()) {
       c->equations().append(move(eq));
     }
   }

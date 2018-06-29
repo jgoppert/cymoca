@@ -35,10 +35,9 @@ void Class::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
 }
 
 unique_ptr<Node> Class::clone() const {
-  auto comps = static_unique_ptr_cast<Dict<Component>>(_components->clone());
-  auto eqs = static_unique_ptr_cast<List<Equation>>(_equations->clone());
-  auto c = make_unique<Class>(move(comps), move(eqs));
-  return move(c);
+  return make_unique<Class>(
+      _components->cloneAs<Dict<Component>>(),
+      _equations->cloneAs<List<Equation>>());
 }
 
 } // ast

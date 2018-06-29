@@ -17,8 +17,9 @@ using namespace cymoca::listener;
  * A listener to add one to every number.
  */
 class AddOne : public SwapListener {
-  void enter(const Number &ctx) override {
+  void exit(const Number &ctx) override {
     setSwap(ctx, make_unique<Number>(ctx.val() + 1));
+    swap();
   }
 };
 
@@ -34,11 +35,10 @@ int main() {
   walker.walk(*e1, printer);
   cout << printer.get() << endl;
 
-  auto e1Copy = e1->clone();
+  auto e1Copy = e1->cloneAs<BinaryExpr>();
 
   AddOne addListener;
   walker.walk(*e1, addListener);
-  addListener.swap();
   walker.walk(*e1, printer);
   cout << "rewrite:" << printer.get() << endl;
 

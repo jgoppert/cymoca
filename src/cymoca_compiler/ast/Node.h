@@ -13,6 +13,7 @@
 #include <cassert>
 
 #include "Listener.h"
+#include "cymoca_compiler/util.h"
 
 using namespace std;
 
@@ -76,6 +77,12 @@ class Node {
    * @return
    */
   virtual unique_ptr<Node> clone() const = 0;
+
+  template<class T>
+  unique_ptr<T> cloneAs() const {
+    return static_unique_ptr_cast<T>(clone());
+  }
+
  protected:
   const type_info &_type;
   Node *_parent;

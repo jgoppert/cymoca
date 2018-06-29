@@ -22,6 +22,11 @@ class Value : public Base {
   unique_ptr<Node> clone() const override {
     return make_unique<Value>(val());
   }
+
+  unique_ptr<Value<T>> cloneAsValue() const {
+    return static_unique_ptr_cast<Value<T>>(clone());
+  }
+
  protected:
   T _val;
 };

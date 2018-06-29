@@ -33,8 +33,8 @@ void SimpleEquation::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
 
 unique_ptr<Node> SimpleEquation::clone() const {
   return make_unique<SimpleEquation>(
-      static_unique_ptr_cast<Expr>(_left->clone()),
-      static_unique_ptr_cast<Expr>(_right->clone()));
+      _left->cloneAs<Expr>(),
+      _right->cloneAs<Expr>());
 }
 
 } // ast

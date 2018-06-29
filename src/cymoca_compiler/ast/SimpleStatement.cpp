@@ -34,8 +34,8 @@ void SimpleStatement::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
 
 unique_ptr<Node> SimpleStatement::clone() const {
   return make_unique<SimpleStatement>(
-      static_unique_ptr_cast<ComponentRef>(_ref->clone()),
-      static_unique_ptr_cast<Expr>(_expr->clone()));
+      _ref->cloneAs<ComponentRef>(),
+      _expr->cloneAs<Expr>());
 }
 
 } // ast

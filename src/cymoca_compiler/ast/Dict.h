@@ -60,6 +60,11 @@ class Dict : public Node {
     }
     return move(newDict);
   }
+
+  unique_ptr<Dict<T>> cloneAsDict() {
+    return static_unique_ptr_cast<Dict<T>>(clone());
+  }
+
  protected:
   unordered_map<string, unique_ptr<T>> _map;
 };

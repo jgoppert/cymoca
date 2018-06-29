@@ -16,6 +16,8 @@ class SimpleEquation : public Equation {
   // accessors
   const Expr &left() const { return *_left; }
   const Expr &right() const { return *_right; }
+  Expr &left() { return *_left; }
+  Expr &right() { return *_right; }
   vector<Node *> children() const override ;
   void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;

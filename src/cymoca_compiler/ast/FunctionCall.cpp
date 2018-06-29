@@ -21,8 +21,7 @@ vector<Node *> FunctionCall::children() const {
 
 
 unique_ptr<Node> FunctionCall::clone() const {
-  auto args = static_unique_ptr_cast<Args>(_args->clone());
-  return make_unique<FunctionCall>(name(), move(args));
+  return make_unique<FunctionCall>(name(), _args->cloneAsList());
 }
 
 } // ast

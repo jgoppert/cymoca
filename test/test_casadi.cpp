@@ -79,11 +79,12 @@ class CasadiListener : public ast::Listener {
   }
   void exit(const ast::WhenEquation &ctx) override {
     // TODO casadi can't handle these, preprocess first
-    auto & b = ctx.elements();
+    auto b = ctx.elements();
     setExpr(ctx, getExpr(b[0]->condition()));
   }
   void exit(const ast::IfEquation &ctx) override {
-    auto & blocks = ctx.elements();
+    auto blocks = ctx.elements();
+    assert (blocks.size() > 0);
     auto e = ca::SX::if_else_zero(
         getExpr(blocks[blocks.size() - 1]->condition()),
         getExpr(blocks[blocks.size() - 1]->list()));
@@ -98,7 +99,7 @@ class CasadiListener : public ast::Listener {
   void exit(const ast::EquationList &ctx) override {
     std::vector<ca::SX> eqs;
     for (auto & eq: ctx.elements()) {
-      assert(eq.get());
+      assert(eq);
       eqs.push_back(getExpr(*eq));
     }
     auto e = ca::SX::vertcat(eqs);
@@ -122,8 +123,8 @@ class CasadiListener : public ast::Listener {
     setExpr(ctx, e);
   }
   void exit(const ast::FunctionCall &ctx) override {
-    auto & expr = *(ctx.args().elements()[0]);
-    auto & var = static_cast<ComponentRef &>(expr);
+    auto expr = ctx.args().elements()[0];
+    auto & var = static_cast<const ComponentRef &> (*expr);
     setExpr(ctx, ca::SX::sym(ctx.name() + "(" + var.name() + ")"));
   }
   void exit(const ast::UnaryExpr &ctx) override {
@@ -172,8 +173,6 @@ TEST(CompilerTest, Casadi) {
     cymoca::ast::Walker walker;
     listener::WhenExpander whenExpander;
     walker.walk(tree, whenExpander);
-    whenExpander.swap();
-
     walker.walk(tree, lispListener);
     std::cout << "\nwhen expanded\n" << lispListener.get() << std::endl;
     walker.walk(tree, casadiListener);
