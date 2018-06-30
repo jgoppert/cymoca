@@ -1,7 +1,7 @@
-#include <iostream>
-#include <gtest/gtest.h>
 #include <boost/filesystem.hpp>
 #include <casadi/casadi.hpp>
+#include <gtest/gtest.h>
+#include <iostream>
 
 #include "cymoca_compiler/Compiler.h"
 #include "cymoca_compiler/listener/LispPrinter.h"
@@ -13,13 +13,14 @@ using namespace std;
 namespace ca = casadi;
 
 class CasadiListener : public ast::ConstListener {
- private:
+private:
   size_t _depth;
   map<const ast::Node *, unique_ptr<ca::SX>> _expr;
   bool _verbose;
- public:
-  CasadiListener(bool verbose = false) : _depth(0), _expr(), _verbose(verbose) {
-  }
+
+public:
+  CasadiListener(bool verbose = false)
+      : _depth(0), _expr(), _verbose(verbose) {}
   ca::SX get(const ast::Node &ctx) {
     auto s = getExpr(ctx);
     _expr.clear();
@@ -112,21 +113,19 @@ class CasadiListener : public ast::ConstListener {
   }
   void exit(const ast::IfEquation &ctx) override {
     auto blocks = ctx.elements();
-    assert (blocks.size() > 0);
-    auto e = ca::SX::if_else_zero(
-        getExpr(blocks[blocks.size() - 1]->condition()),
-        getExpr(blocks[blocks.size() - 1]->list()));
+    assert(blocks.size() > 0);
+    auto e =
+        ca::SX::if_else_zero(getExpr(blocks[blocks.size() - 1]->condition()),
+                             getExpr(blocks[blocks.size() - 1]->list()));
     for (size_t i = blocks.size() - 1; i > 0; i--) {
-      e = ca::SX::if_else(
-          getExpr(blocks[i]->condition()),
-          getExpr(blocks[i]->list()),
-          e);
+      e = ca::SX::if_else(getExpr(blocks[i]->condition()),
+                          getExpr(blocks[i]->list()), e);
     }
     setExpr(ctx, e);
   }
   void exit(const ast::EquationList &ctx) override {
     vector<ca::SX> eqs;
-    for (auto &eq: ctx.elements()) {
+    for (auto &eq : ctx.elements()) {
       assert(eq);
       eqs.push_back(getExpr(*eq));
     }
@@ -138,7 +137,7 @@ class CasadiListener : public ast::ConstListener {
     getExpr(ctx.equations());
 
     auto &sections = ctx.equations();
-    for (auto &sec: sections.elements()) {
+    for (auto &sec : sections.elements()) {
       eqs.push_back(getExpr(*sec));
     }
     setExpr(ctx, ca::SX::vertcat(eqs));
@@ -152,7 +151,7 @@ class CasadiListener : public ast::ConstListener {
   }
   void exit(const ast::FunctionCall &ctx) override {
     auto expr = ctx.args().elements()[0];
-    auto &var = static_cast<const ComponentRef &> (*expr);
+    auto &var = static_cast<const ComponentRef &>(*expr);
     setExpr(ctx, ca::SX::sym(ctx.name() + "(" + var.name() + ")"));
   }
   void exit(const ast::UnaryExpr &ctx) override {
@@ -163,13 +162,9 @@ class CasadiListener : public ast::ConstListener {
 TEST(CasadiTest, BasicFunction) {
   auto x = casadi::SX::sym("x");
   auto y = x * 2;
-  auto f = casadi::Function(
-      "f",
-      vector<casadi::SX>({x}),
-      vector<casadi::SX>({y}),
-      vector<string>({"x"}),
-      vector<string>({"y"})
-  );
+  auto f =
+      casadi::Function("f", vector<casadi::SX>({x}), vector<casadi::SX>({y}),
+                       vector<string>({"x"}), vector<string>({"y"}));
 }
 
 TEST(CasadiTest, BouncingBall) {
@@ -197,3 +192,5 @@ TEST(CasadiTest, BouncingBall) {
   walker.walk((const Node &)tree, casadiListener);
   cout << "\ncasadi" << casadiListener.get(tree) << endl;
 }
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

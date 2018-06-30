@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include "Node.h"
 #include "Listener.h"
+#include "Node.h"
 
 namespace cymoca {
 namespace ast {
 
 class Walker {
- public:
+public:
   virtual ~Walker() = default;
 
   /**
@@ -28,8 +28,8 @@ class Walker {
    * @param node The current node.
    * @param listener The listener.
    */
-  virtual void enter(Node &node, Listener & listener);
-  virtual void enter(const Node &node, ConstListener & listener);
+  virtual void enter(Node &node, Listener &listener);
+  virtual void enter(const Node &node, ConstListener &listener);
 
   /**
    * Exit routine, if you want to change the order
@@ -37,10 +37,11 @@ class Walker {
    * @param node The current node.
    * @param listener The listener.
    */
-  virtual void exit(Node &node, Listener & listener);
-  virtual void exit(const Node &node, ConstListener & listener);
-
+  virtual void exit(Node &node, Listener &listener);
+  virtual void exit(const Node &node, ConstListener &listener);
 };
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

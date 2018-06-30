@@ -10,20 +10,22 @@ namespace cymoca {
 namespace ast {
 
 class SimpleStatement : public Statement {
- public:
+public:
   NODE_MACRO(SimpleStatement)
   SimpleStatement(unique_ptr<ComponentRef> ref, unique_ptr<Expr> expr);
   // accessors
   const ComponentRef &ref() const { return *_ref; }
-  const Expr & expr() const { return *_expr; }
+  const Expr &expr() const { return *_expr; }
   vector<Node *> children() const override;
   void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
- protected:
+
+protected:
   unique_ptr<ComponentRef> _ref;
   unique_ptr<Expr> _expr;
 };
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
 
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -11,30 +11,28 @@
 namespace cymoca {
 namespace ast {
 
-enum class Prefix {
-  PARAMETER, CONSTANT, VARIABLE
-};
+enum class Prefix { PARAMETER, CONSTANT, VARIABLE };
 
-class Component : public Node {
- public:
+class Component : public Element {
+public:
   NODE_MACRO(Component)
-  Component(const string &name, const string & type, const Prefix &prefix);
+  Component(const string &name, const string &type, const Prefix &prefix);
   // accessors
   const string &name() const { return _name; }
-  const ComponentRef & type() const { return *_type; }
-  const Prefix & prefix() const { return _prefix; }
+  const ComponentRef &type() const { return *_type; }
+  const Prefix &prefix() const { return _prefix; }
   // node interface
   vector<Node *> children() const override;
   void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
- protected:
+
+protected:
   string _name;
   unique_ptr<ComponentRef> _type;
   Prefix _prefix;
-
 };
 
 extern unordered_map<Prefix, string, EnumClassHash> prefixStr;
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca

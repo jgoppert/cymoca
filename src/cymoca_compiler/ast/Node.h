@@ -8,9 +8,9 @@
 // Created by jgoppert on 6/27/18.
 //
 
+#include <cassert>
 #include <memory>
 #include <vector>
-#include <cassert>
 
 #include "Listener.h"
 #include "cymoca_compiler/util.h"
@@ -28,17 +28,19 @@ namespace ast {
  * 3. Declare node class. Implement required node functions.
  */
 
-#define NODE_MACRO(NAME) \
-void enter(Listener & listener) override { listener.enter(*this); } \
-void exit(Listener & listener) override { listener.exit(*this); } \
-void enter(ConstListener & listener) const override { listener.enter(*this); } \
-void exit(ConstListener & listener) const override { listener.exit(*this); }
+#define NODE_MACRO(NAME)                                                       \
+  void enter(Listener &listener) override { listener.enter(*this); }           \
+  void exit(Listener &listener) override { listener.exit(*this); }             \
+  void enter(ConstListener &listener) const override {                         \
+    listener.enter(*this);                                                     \
+  }                                                                            \
+  void exit(ConstListener &listener) const override { listener.exit(*this); }
 
 /**
  * An abstract base class for an AST node.
  */
 class Node {
- public:
+public:
   Node(const type_info &type) : _type(type), _parent(nullptr) {}
   virtual ~Node() = default;
   // delete copy and deep copy with clone to avoid implicit copying
@@ -76,19 +78,18 @@ class Node {
    * @param oldNode A pointer to the old Node.
    * @param newNode A unique_ptr to the new Node.
    */
-  virtual void swapChild(Node & oldNode, unique_ptr<Node> newNode) = 0;
+  virtual void swapChild(Node &oldNode, unique_ptr<Node> newNode) = 0;
   /**
    * Perform a deep copy.
    * @return
    */
   virtual unique_ptr<Node> clone() const = 0;
 
-  template<class T>
-  unique_ptr<T> cloneAs() const {
+  template <class T> unique_ptr<T> cloneAs() const {
     return static_unique_ptr_cast<T>(clone());
   }
 
- protected:
+protected:
   const type_info &_type;
   Node *_parent;
 };
@@ -97,7 +98,7 @@ class Node {
  * Abstract expression class.
  */
 class Expr : public Node {
- public:
+public:
   Expr(const type_info &type) : Node(type) {}
 };
 
@@ -105,7 +106,7 @@ class Expr : public Node {
  * Abstract logic expression class.
  */
 class LogicExpr : public Expr {
- public:
+public:
   LogicExpr(const type_info &type) : Expr(type) {}
 };
 
@@ -113,7 +114,7 @@ class LogicExpr : public Expr {
  * Abstract equation class.
  */
 class Equation : public Node {
- public:
+public:
   Equation(const type_info &type) : Node(type) {}
 };
 
@@ -121,9 +122,19 @@ class Equation : public Node {
  * Abstract statement class.
  */
 class Statement : public Node {
- public:
+public:
   Statement(const type_info &type) : Node(type) {}
 };
 
-} // ast
-} // cymoca
+/**
+ * Abstract element class.
+ */
+class Element : public Node {
+public:
+  Element(const type_info &type) : Node(type) {}
+};
+
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -31,6 +31,11 @@ A Modelica compiler written in modern C++ with Python bindings.
 * Binaries are provided here: [releases](https://github.com/jgoppert/cymoca/releases/latest). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
 * You can build from source using cmake.
 
+## Contributing
+
+* Coding standard: [LLVM](https://llvm.org/docs/CodingStandards.html)
+* If you want to get started, feel free to make a PR. The easiest place to start is with a new generator derived from Listener/ConstListener.
+
 ## License
 
 * BSD-3-clause, open source and free for commercial use. [LICENSE](LICENSE)

@@ -25,23 +25,17 @@ class Listener;
 class LabelIf;
 class LabelWhen;
 
-template<class T, class Base=Expr>
-class Value;
+template <class T, class Base = Expr> class Value;
 
-template<class Base, class Term, class Op>
-class Binary;
+template <class Base, class Term, class Op> class Binary;
 
-template<class Base, class Term, class Op>
-class Unary;
+template <class Base, class Term, class Op> class Unary;
 
-template<class Term>
-class Dict;
+template <class Term> class Dict;
 
-template<class Term, class Base=Node, class Label=Node>
-class List;
+template <class Term, class Base = Node, class Label = Node> class List;
 
-template<class Term>
-class ConditionBlock;
+template <class Term> class ConditionBlock;
 
 enum class BinaryOp { ADD, SUB, MUL, DIV, POW, EMUL, EDIV, EPOW };
 enum class UnaryOp { NEG };
@@ -67,5 +61,7 @@ using Number = Value<double>;
 using Boolean = Value<bool, LogicExpr>;
 using Args = List<Expr>;
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

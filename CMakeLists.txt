@@ -5,11 +5,10 @@ project(cymoca C CXX)
 option(WITH_CASADI "enable casadi" OFF)
 option(WITH_TEST "enable casadi" OFF)
 
-
 #-----------------------------------------------------------------------------
 # Setup
 #-----------------------------------------------------------------------------
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 14)
 set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
@@ -20,6 +19,14 @@ if (WIN32)
 else (WIN32)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
 endif (WIN32)
+
+# copy compile commands to source directory for auto-completion with vim etc.
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL
+    "export compile commands, useful for vim completion" FORCE)
+add_custom_target(copy_compile_commands ALL
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${PROJECT_BINARY_DIR}/compile_commands.json ${PROJECT_SOURCE_DIR}
+    DEPENDS cymoca)
 
 # packages
 set(Boost_USE_STATIC_LIBS ON)
@@ -51,9 +58,9 @@ string(REGEX REPLACE ${version_regex} "\\2" VERSION_MINOR ${VERSION})
 string(REGEX REPLACE ${version_regex} "\\3" VERSION_PATCH ${VERSION})
 string(REGEX REPLACE ${version_regex} "\\4" VERSION_SHA ${VERSION})
 set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.cpp.in
-        ${CMAKE_CURRENT_BINARY_DIR}/version.cpp)
-set(version_file "${CMAKE_CURRENT_BINARY_DIR}/version.cpp")
+configure_file(${PROJECT_SOURCE_DIR}/cmake/version.cpp.in
+    ${PROJECT_BINARY_DIR}/version.cpp)
+set(version_file "${PROJECT_BINARY_DIR}/version.cpp")
 
 #-----------------------------------------------------------------------------
 # Google Test
@@ -125,7 +132,6 @@ add_subdirectory(apps/cymoca)
 if (WITH_TEST)
     enable_testing()
     add_subdirectory(test)
-    add_custom_target(ctest_hook ctest)
 endif()
 
 #-----------------------------------------------------------------------------

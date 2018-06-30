@@ -9,9 +9,8 @@
 namespace cymoca {
 namespace ast {
 
-
 class ComponentRef : public Expr {
- public:
+public:
   NODE_MACRO(ComponentRef)
   explicit ComponentRef(const string &name);
   // accessors
@@ -20,9 +19,12 @@ class ComponentRef : public Expr {
   vector<Node *> children() const override;
   void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
- protected:
+
+protected:
   string _name;
 };
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

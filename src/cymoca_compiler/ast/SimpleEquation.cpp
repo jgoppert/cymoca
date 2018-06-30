@@ -3,7 +3,6 @@
 //
 
 #include "SimpleEquation.h"
-#include "cymoca_compiler/util.h"
 
 namespace cymoca {
 namespace ast {
@@ -32,10 +31,11 @@ void SimpleEquation::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
 }
 
 unique_ptr<Node> SimpleEquation::clone() const {
-  return make_unique<SimpleEquation>(
-      _left->cloneAs<Expr>(),
-      _right->cloneAs<Expr>());
+  return make_unique<SimpleEquation>(_left->cloneAs<Expr>(),
+                                     _right->cloneAs<Expr>());
 }
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

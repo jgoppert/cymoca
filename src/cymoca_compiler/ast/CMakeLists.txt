@@ -24,4 +24,6 @@ add_library(cymoca_ast STATIC
         Value.h
         Walker.cpp
         Walker.h
-)
+        )
+
+# vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

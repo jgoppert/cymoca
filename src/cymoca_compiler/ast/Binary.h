@@ -12,12 +12,11 @@
 namespace cymoca {
 namespace ast {
 
-template<class Base, class Term, class Op>
-class Binary : public Base {
- public:
+template <class Base, class Term, class Op> class Binary : public Base {
+public:
   NODE_MACRO(Binary)
-  Binary(unique_ptr<Term> left, Op op, unique_ptr<Term> right) :
-      Base(typeid(*this)), _left(move(left)), _op(op), _right(move(right)) {
+  Binary(unique_ptr<Term> left, Op op, unique_ptr<Term> right)
+      : Base(typeid(*this)), _left(move(left)), _op(op), _right(move(right)) {
     _left->parent(this);
     _right->parent(this);
   }
@@ -42,12 +41,12 @@ class Binary : public Base {
     }
   }
   unique_ptr<Node> clone() const override {
-    return make_unique<Binary>(
-        static_unique_ptr_cast<Term>(_left->clone()),
-        op(),
-        static_unique_ptr_cast<Term>(_right->clone()));
+    return make_unique<Binary>(static_unique_ptr_cast<Term>(_left->clone()),
+                               op(),
+                               static_unique_ptr_cast<Term>(_right->clone()));
   }
- protected:
+
+protected:
   unique_ptr<Term> _left;
   Op _op;
   unique_ptr<Term> _right;
@@ -57,5 +56,7 @@ extern unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr;
 extern unordered_map<RelationOp, string, EnumClassHash> relationOpStr;
 extern unordered_map<BinaryLogicOp, string, EnumClassHash> binaryLogicOpStr;
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

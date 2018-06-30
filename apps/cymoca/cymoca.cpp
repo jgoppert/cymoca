@@ -1,9 +1,9 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
-#include <cymoca_compiler/Compiler.h>
-#include <cymoca_compiler/version.h>
-#include <cymoca_compiler/listener/LispPrinter.h>
+#include "cymoca_compiler/Compiler.h"
+#include "cymoca_compiler/version.h"
+#include "cymoca_compiler/listener/LispPrinter.h"
 
 using namespace boost::filesystem;
 namespace po = boost::program_options;
@@ -24,7 +24,7 @@ void usage(
   cout << "Cymoca Modelica Compiler " << VERSION << endl;
   cout << "usage: " << appName << " [options] model.mo" << endl;
   cout << desc << endl;
-  (void)pos_desc; // ignore unused
+  (void) pos_desc; // ignore unused
 }
 
 //------------------------------------------------------------------------
@@ -85,7 +85,7 @@ int main(int argc, const char *argv[]) {
 
     // horizontal bar for output
     string bar = "";
-    for (int i=0; i<78; i++) {
+    for (int i = 0; i < 78; i++) {
       bar += "=";
     }
 
@@ -108,11 +108,11 @@ int main(int argc, const char *argv[]) {
     cymoca::ast::Walker walker;
     walker.walk(*c.root(), lispPrinter);
     cout << lispPrinter.get() << endl;
-    
+
   }
   catch (exception &e) {
     cerr << "Unhandled Exception reached the top of main: "
-              << e.what() << ", application will now exit" << endl;
+         << e.what() << ", application will now exit" << endl;
     return ERROR_UNHANDLED_EXCEPTION;
 
   }

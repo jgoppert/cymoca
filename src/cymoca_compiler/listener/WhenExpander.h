@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <sstream>
 #include "cymoca_compiler/ast/ast.h"
+#include <sstream>
 
 using namespace std;
 using namespace cymoca::ast;
@@ -17,10 +17,10 @@ namespace listener {
  * A listener to expand when equations.
  */
 class WhenExpander : public Listener {
- private:
+private:
   Walker _walker{};
   class PreNamer : public Listener {
-   public:
+  public:
     void exit(ComponentRef &ctx) override {
       auto args = make_unique<Args>();
       args->append(ctx.cloneAs<ComponentRef>());
@@ -28,12 +28,13 @@ class WhenExpander : public Listener {
       ctx.parent()->swapChild(ctx, move(pre));
     }
   } _preNamer{};
- public:
+
+public:
   void exit(WhenEquation &ctx) override {
     auto ifEq = make_unique<IfEquation>();
-    for (auto &block: ctx.elements()) {
+    for (auto &block : ctx.elements()) {
       auto newEqs = make_unique<EquationList>();
-      for (auto eq: block->list().elements()) {
+      for (auto eq : block->list().elements()) {
         assert(eq->nodeType() == typeid(SimpleEquation));
         // left side is pre
         auto newEq = eq->cloneAs<SimpleEquation>();
@@ -44,19 +45,15 @@ class WhenExpander : public Listener {
       _walker.walk(*c_pre, _preNamer);
       // condition and not pre condition
       auto newCond = make_unique<BinaryLogicExpr>(
-          block->condition().cloneAs<LogicExpr>(),
-          BinaryLogicOp::AND,
-          make_unique<UnaryLogicExpr>(
-              UnaryLogicOp::NOT,
-              move(c_pre)
-          )
-      );
-      ifEq->append(make_unique<EquationBlock>(
-          move(newCond), move(newEqs)));
+          block->condition().cloneAs<LogicExpr>(), BinaryLogicOp::AND,
+          make_unique<UnaryLogicExpr>(UnaryLogicOp::NOT, move(c_pre)));
+      ifEq->append(make_unique<EquationBlock>(move(newCond), move(newEqs)));
     }
     ctx.parent()->swapChild(ctx, move(ifEq));
   }
 };
 
-} // listener
-} // cymoca
+} // namespace listener
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

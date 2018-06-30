@@ -8,10 +8,10 @@
 namespace cymoca {
 namespace ast {
 
-Component::Component(const string &name, const string & type, const Prefix &prefix) :
-    Node(typeid(*this)), _name(name),
-    _type(make_unique<ComponentRef>(type)), _prefix(prefix)
-{
+Component::Component(const string &name, const string &type,
+                     const Prefix &prefix)
+    : Element(typeid(*this)), _name(name),
+      _type(make_unique<ComponentRef>(type)), _prefix(prefix) {
   _type->parent(this);
 }
 
@@ -24,21 +24,19 @@ void Component::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
   }
 }
 
-vector<Node *> Component::children() const {
-  return { _type.get() };
-}
-
+vector<Node *> Component::children() const { return {_type.get()}; }
 
 unique_ptr<Node> Component::clone() const {
   return make_unique<Component>(name(), _type->name(), _prefix);
 }
 
-unordered_map<Prefix , string, EnumClassHash> prefixStr = {
+unordered_map<Prefix, string, EnumClassHash> prefixStr = {
     {Prefix::PARAMETER, "parameter"},
     {Prefix::CONSTANT, "constant"},
     {Prefix::VARIABLE, ""},
 };
 
+} // namespace ast
+} // namespace cymoca
 
-} // ast
-} // cymoca
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

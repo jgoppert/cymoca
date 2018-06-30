@@ -5,12 +5,15 @@
 #pragma once
 
 /**
- * This class contains all of the listener hooks for nodes. It uses macros to keep the
- * code small. If you add a new node type, add it to both the Listener and ConstListener
+ * This class contains all of the listener hooks for nodes. It uses macros to
+ * keep the
+ * code small. If you add a new node type, add it to both the Listener and
+ * ConstListener
  * class using the macros.
  */
 
-// TODO It might be better to use a python script or similar to generate this file if the maintenance gets out of hand.
+// TODO It might be better to use a python script or similar to generate this
+// file if the maintenance gets out of hand.
 
 #include "declarations.h"
 #include <cassert>
@@ -18,16 +21,16 @@
 namespace cymoca {
 namespace ast {
 
-#define VISITOR_MACRO(NAME) \
-virtual void enter(NAME & ctx) {}; \
-virtual void exit(NAME & ctx) {};
+#define VISITOR_MACRO(NAME)                                                    \
+  virtual void enter(NAME &ctx){};                                             \
+  virtual void exit(NAME &ctx){};
 
 class Listener {
- public:
+public:
   Listener() = default;
   virtual ~Listener() = default;
-  virtual void enterEvery(Node &ctx) {};
-  virtual void exitEvery(Node &ctx) {};
+  virtual void enterEvery(Node &ctx){};
+  virtual void exitEvery(Node &ctx){};
   VISITOR_MACRO(Args)
   VISITOR_MACRO(BinaryExpr)
   VISITOR_MACRO(BinaryLogicExpr)
@@ -53,16 +56,16 @@ class Listener {
   VISITOR_MACRO(WhenStatement)
 };
 
-#define VISITOR_CONST_MACRO(NAME) \
-virtual void enter(const NAME & ctx) {}; \
-virtual void exit(const NAME & ctx) {};
+#define VISITOR_CONST_MACRO(NAME)                                              \
+  virtual void enter(const NAME &ctx){};                                       \
+  virtual void exit(const NAME &ctx){};
 
 class ConstListener {
- public:
+public:
   ConstListener() = default;
   virtual ~ConstListener() = default;
-  virtual void enterEvery(const Node &ctx) {};
-  virtual void exitEvery(const Node &ctx) {};
+  virtual void enterEvery(const Node &ctx){};
+  virtual void exitEvery(const Node &ctx){};
   VISITOR_CONST_MACRO(Args)
   VISITOR_CONST_MACRO(BinaryExpr)
   VISITOR_CONST_MACRO(BinaryLogicExpr)
@@ -88,7 +91,7 @@ class ConstListener {
   VISITOR_CONST_MACRO(WhenStatement)
 };
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
 
-
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

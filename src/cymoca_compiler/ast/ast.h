@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include "declarations.h"
-#include "Node.h"
 #include "Binary.h"
 #include "Class.h"
 #include "Component.h"
@@ -21,4 +19,6 @@
 #include "Unary.h"
 #include "Value.h"
 #include "Walker.h"
+#include "declarations.h"
 
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -2,15 +2,13 @@
 // Created by jgoppert on 6/27/18.
 //
 
-#include <iostream>
-#include <sstream>
 #include <gtest/gtest.h>
+#include <iostream>
 
-#include <cymoca_compiler/ast/ast.h>
-#include <cymoca_compiler/listener/LispPrinter.h>
-#include "cymoca_compiler/listener/WhenExpander.h"
+#include "cymoca_compiler/ast/ast.h"
 #include "cymoca_compiler/listener/Flattener.h"
-
+#include "cymoca_compiler/listener/LispPrinter.h"
+#include "cymoca_compiler/listener/WhenExpander.h"
 
 using namespace std;
 
@@ -21,17 +19,12 @@ using namespace cymoca::listener;
  * A listener to add one to every number.
  */
 class AddOne : public Listener {
-  void exit(Number &ctx) override {
-    ctx.val() += 1;
-  }
+  void exit(Number &ctx) override { ctx.val() += 1; }
 };
 
 TEST(Ast, Basic) {
-
-  auto e1 = make_unique<BinaryExpr>(
-      make_unique<Number>(1),
-      BinaryOp::SUB,
-      make_unique<Number>(1));
+  auto e1 = make_unique<BinaryExpr>(make_unique<Number>(1), BinaryOp::SUB,
+                                    make_unique<Number>(1));
 
   LispPrinter lispListener;
   Walker walker;
@@ -51,60 +44,33 @@ TEST(Ast, Basic) {
   auto model = make_unique<Class>(
       make_unique<ComponentDict>(
           initializer_list<pair<string, unique_ptr<Component>>>(
-              {
-                  {"x", make_unique<Component>("x", "Real", Prefix::VARIABLE)},
-                  {"v", make_unique<Component>("v", "Real", Prefix::VARIABLE)},
-                  {"g", make_unique<Component>("g", "Real", Prefix::PARAMETER)}
-              }
-          )
-      ),
-      make_unique<List<Equation>>(
-          initializer_list<unique_ptr<Equation>>(
-              {
-                  // der(x) = v
-                  make_unique<SimpleEquation>(
-                      make_unique<FunctionCall>("der",make_unique<ComponentRef>("x")),
-                      make_unique<ComponentRef>("v")
-                  ),
-                  // der(v) = -g
-                  make_unique<SimpleEquation>(
-                      make_unique<FunctionCall>("der", make_unique<ComponentRef>("v")),
-                      make_unique<UnaryExpr>(
-                          UnaryOp::NEG,
-                          make_unique<ComponentRef>("g")
-                      )
-                  ),
-                  // when (x<0) v = -v
-                  make_unique<WhenEquation>(
-                      initializer_list<unique_ptr<EquationBlock>>(
-                          {
-                              make_unique<EquationBlock>(
-                                  make_unique<Relation>(
-                                      make_unique<ComponentRef>("x"),
-                                      RelationOp::LT,
-                                      make_unique<Number>(0)
-                                  ),
-                                  make_unique<EquationList>(
-                                      initializer_list<unique_ptr<Equation>>(
-                                          {
-                                              make_unique<SimpleEquation>(
-                                                  make_unique<ComponentRef>("v"),
-                                                  make_unique<UnaryExpr>(
-                                                      UnaryOp::NEG,
-                                                      make_unique<ComponentRef>("v")
-                                                  )
-                                              )
-                                          }
-                                      )
-                                  )
-                              )
-                          }
-                      )
-                  )
-              }
-          )
-      )
-  );
+              {{"x", make_unique<Component>("x", "Real", Prefix::VARIABLE)},
+               {"v", make_unique<Component>("v", "Real", Prefix::VARIABLE)},
+               {"g", make_unique<Component>("g", "Real", Prefix::PARAMETER)}})),
+      make_unique<List<Equation>>(initializer_list<unique_ptr<Equation>>(
+          {// der(x) = v
+           make_unique<SimpleEquation>(
+               make_unique<FunctionCall>("der", make_unique<ComponentRef>("x")),
+               make_unique<ComponentRef>("v")),
+           // der(v) = -g
+           make_unique<SimpleEquation>(
+               make_unique<FunctionCall>("der", make_unique<ComponentRef>("v")),
+               make_unique<UnaryExpr>(UnaryOp::NEG,
+                                      make_unique<ComponentRef>("g"))),
+           // when (x<0) v = -v
+           make_unique<WhenEquation>(
+               initializer_list<unique_ptr<EquationBlock>>(
+                   {make_unique<EquationBlock>(
+                       make_unique<Relation>(make_unique<ComponentRef>("x"),
+                                             RelationOp::LT,
+                                             make_unique<Number>(0)),
+                       make_unique<EquationList>(
+                           initializer_list<unique_ptr<Equation>>(
+                               {make_unique<SimpleEquation>(
+                                   make_unique<ComponentRef>("v"),
+                                   make_unique<UnaryExpr>(
+                                       UnaryOp::NEG, make_unique<ComponentRef>(
+                                                         "v")))})))}))})));
 
   walker.walk(*model, lispListener);
   cout << "model:" << lispListener.get() << endl;
@@ -120,6 +86,6 @@ TEST(Ast, Basic) {
   walker.walk(*model, flattener);
   walker.walk(*model, lispListener);
   cout << "\nflattened\n" << lispListener.get() << endl;
-
-
 }
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

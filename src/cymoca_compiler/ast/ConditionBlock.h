@@ -9,17 +9,16 @@
 namespace cymoca {
 namespace ast {
 
-template<class T>
-class ConditionBlock : public T {
- public:
+template <class T> class ConditionBlock : public T {
+public:
   NODE_MACRO(ConditionBlock)
-  ConditionBlock(unique_ptr<LogicExpr> condition, unique_ptr<List<T>> list) :
-      T(typeid(*this)), _condition(move(condition)), _list(move(list)) {}
+  ConditionBlock(unique_ptr<LogicExpr> condition, unique_ptr<List<T>> list)
+      : T(typeid(*this)), _condition(move(condition)), _list(move(list)) {}
   // accessors
-  LogicExpr & condition() { return *_condition; }
-  const LogicExpr & condition() const { return *_condition; }
-  List<T> & list() { return *_list; }
-  const List<T> & list() const { return *_list; }
+  LogicExpr &condition() { return *_condition; }
+  const LogicExpr &condition() const { return *_condition; }
+  List<T> &list() { return *_list; }
+  const List<T> &list() const { return *_list; }
   // node interface
   vector<Node *> children() const override {
     return {_condition.get(), _list.get()};
@@ -42,10 +41,13 @@ class ConditionBlock : public T {
     auto cb = make_unique<ConditionBlock>(move(c), move(l));
     return move(cb);
   }
- protected:
+
+protected:
   unique_ptr<LogicExpr> _condition;
   unique_ptr<List<T>> _list;
 };
 
-} // ast
-} // cymoca
+} // namespace ast
+} // namespace cymoca
+
+// vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

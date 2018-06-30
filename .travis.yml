@@ -15,20 +15,18 @@ matrix:
     addons:
       apt:
         packages:
+        - clang-format-6.0
         - g++-5
-        - valgrind
-        - lcov
-        - libxerces-c-dev
         - libboost-filesystem-dev
         - libboost-program-options-dev
-        - libicu-dev
         sources:
         - ubuntu-toolchain-r-test
+        - sourceline: 'deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-6.0 main'
+          key_url: 'http://llvm.org/apt/llvm-snapshot.gpg.key'
 
 before_install: 
 
 install:
-- sudo ./tools/install_xsd_amd64_deb.sh
 - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
 - echo ${PATH}
 - echo ${CXX}
@@ -44,6 +42,7 @@ install:
   fi
 
 script:
+- ./scripts/format.sh 0
 - mkdir -p build
 - cd build
 - cmake .. -DWITH_CASADI=OFF -DWITH_TEST=ON
