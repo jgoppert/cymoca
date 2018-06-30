@@ -33,6 +33,9 @@ class LispPrinter : public ConstListener {
   void enter(const Dict<Component> &ctx) override {
     _ss << "dict of comp";
   }
+  void exit(const Dict<Component> &ctx) override {
+    _ss << "\n";
+  }
   void enter(const Component &ctx) override {
     _ss << prefixStr[ctx.prefix()] << " " << ctx.name();
   }
@@ -41,6 +44,9 @@ class LispPrinter : public ConstListener {
   }
   void enter(const List<Equation> &ctx) override {
     _ss << "list of eq";
+  }
+  void exit(const List<Equation> &ctx) override {
+    _ss << "";
   }
   void enter(const Number &ctx) override {
     _ss << ctx.val();

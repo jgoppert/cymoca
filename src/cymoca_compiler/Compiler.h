@@ -37,7 +37,7 @@ class Compiler : public ModelicaBaseListener {
   antlr4::ANTLRInputStream _input;
   ModelicaLexer _lexer;
   antlr4::CommonTokenStream _tokenStream;
-  ast::Class * _root;
+  ast::Class * _root{nullptr};
   bool _verbose;
   AstMap _ast;
 
