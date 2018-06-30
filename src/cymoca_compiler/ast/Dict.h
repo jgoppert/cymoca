@@ -43,10 +43,10 @@ class Dict : public Node {
     }
     return v;
   }
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override {
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override {
     // TODO: doing a linear search to find the right pointer, slow
     for (auto &c: _map) {
-      if (c.second.get() == oldChild) {
+      if (c.second.get() == &oldChild) {
         auto e = static_unique_ptr_cast<T>(move(newChild));
         c.second.swap(e);
         return;

@@ -30,11 +30,11 @@ class Binary : public Base {
   vector<Node *> children() const override {
     return {_left.get(), _right.get()};
   }
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override {
-    if (oldChild == _left.get()) {
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override {
+    if (&oldChild == _left.get()) {
       auto e = static_unique_ptr_cast<Term>(move(newChild));
       _left.swap(e);
-    } else if (oldChild == _right.get()) {
+    } else if (&oldChild == _right.get()) {
       auto e = static_unique_ptr_cast<Term>(move(newChild));
       _right.swap(e);
     } else {

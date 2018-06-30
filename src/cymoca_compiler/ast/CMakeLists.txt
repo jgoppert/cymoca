@@ -14,7 +14,6 @@ add_library(cymoca_ast STATIC
         FunctionCall.h
         List.h
         Listener.h
-        Node.cpp
         Node.h
         SimpleStatement.cpp
         SimpleEquation.h

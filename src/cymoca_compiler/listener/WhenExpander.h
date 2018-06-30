@@ -6,7 +6,6 @@
 
 #include <sstream>
 #include "cymoca_compiler/ast/ast.h"
-#include "SwapListener.h"
 
 using namespace std;
 using namespace cymoca::ast;
@@ -17,21 +16,20 @@ namespace listener {
 /**
  * A listener to expand when equations.
  */
-class WhenExpander : public SwapListener {
+class WhenExpander : public Listener {
  private:
   Walker _walker{};
-  class PreNamer : public SwapListener {
+  class PreNamer : public Listener {
    public:
-    void exit(const ComponentRef &ctx) override {
+    void exit(ComponentRef &ctx) override {
       auto args = make_unique<Args>();
       args->append(ctx.cloneAs<ComponentRef>());
       auto pre = make_unique<FunctionCall>("pre", move(args));
-      set(ctx, move(pre));
-      apply();
+      ctx.parent()->swapChild(ctx, move(pre));
     }
   } _preNamer{};
  public:
-  void exit(const WhenEquation &ctx) override {
+  void exit(WhenEquation &ctx) override {
     auto ifEq = make_unique<IfEquation>();
     for (auto &block: ctx.elements()) {
       auto newEqs = make_unique<EquationList>();
@@ -56,8 +54,7 @@ class WhenExpander : public SwapListener {
       ifEq->append(make_unique<EquationBlock>(
           move(newCond), move(newEqs)));
     }
-    set(ctx, move(ifEq));
-    apply();
+    ctx.parent()->swapChild(ctx, move(ifEq));
   }
 };
 

@@ -29,15 +29,17 @@ namespace ast {
  */
 
 #define NODE_MACRO(NAME) \
-void enter(Listener & listener) const override { listener.enter(*this); } \
-void exit(Listener & listener) const override { listener.exit(*this); }
+void enter(Listener & listener) override { listener.enter(*this); } \
+void exit(Listener & listener) override { listener.exit(*this); } \
+void enter(ConstListener & listener) const override { listener.enter(*this); } \
+void exit(ConstListener & listener) const override { listener.exit(*this); }
 
 /**
  * An abstract base class for an AST node.
  */
 class Node {
  public:
-  Node(const type_info &type);
+  Node(const type_info &type) : _type(type), _parent(nullptr) {}
   virtual ~Node() = default;
   // delete copy and deep copy with clone to avoid implicit copying
   Node(const Node &other) = delete;
@@ -53,15 +55,18 @@ class Node {
    */
   virtual vector<Node *> children() const = 0;
   /**
+   * Listener callback that executes when exiting a node.
+   * @param listener The listener class.
+   */
+  virtual void enter(Listener &listener) = 0;
+  virtual void enter(ConstListener &listener) const = 0;
+
+  /**
    * Listener callback that executes when entering a node.
    * @param listener The listener class.
    */
-  virtual void exit(Listener &listener) const = 0;
-  /**
- * Listener callback that executes when exiting a node.
- * @param listener The listener class.
- */
-  virtual void enter(Listener &listener) const = 0;
+  virtual void exit(Listener &listener) = 0;
+  virtual void exit(ConstListener &listener) const = 0;
 
   /**
    * Swap the old and new node. The oldNode is
@@ -71,7 +76,7 @@ class Node {
    * @param oldNode A pointer to the old Node.
    * @param newNode A unique_ptr to the new Node.
    */
-  virtual void swapChild(Node *oldNode, unique_ptr<Node> newNode) = 0;
+  virtual void swapChild(Node & oldNode, unique_ptr<Node> newNode) = 0;
   /**
    * Perform a deep copy.
    * @return

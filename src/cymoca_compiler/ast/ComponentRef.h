@@ -18,7 +18,7 @@ class ComponentRef : public Expr {
   const string &name() const { return _name; }
   // node interface
   vector<Node *> children() const override;
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
  protected:
   string _name;

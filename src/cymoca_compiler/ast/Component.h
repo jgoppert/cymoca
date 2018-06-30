@@ -20,11 +20,12 @@ class Component : public Node {
   NODE_MACRO(Component)
   Component(const string &name, const string & type, const Prefix &prefix);
   // accessors
-  const string &name() const { return _name; };
-  const Prefix & prefix() const { return _prefix; };
+  const string &name() const { return _name; }
+  const ComponentRef & type() const { return *_type; }
+  const Prefix & prefix() const { return _prefix; }
   // node interface
   vector<Node *> children() const override;
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
  protected:
   string _name;

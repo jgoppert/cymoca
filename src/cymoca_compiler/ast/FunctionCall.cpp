@@ -13,11 +13,16 @@ FunctionCall::FunctionCall(const string &name, unique_ptr<Args> args) :
 }
 
 FunctionCall::FunctionCall(const string &name, unique_ptr<Expr> ref) :
-    Expr(typeid(*this)), _name(name), _args() {
+    Expr(typeid(*this)), _name(name), _args(make_unique<Args>()) {
+  _args->parent(this);
   _args->append(move(ref));
 }
 
-void FunctionCall::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
+void FunctionCall::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
+  if (_args.get() == &oldChild) {
+    auto newArgs = static_unique_ptr_cast<Args>(move(newChild));
+    _args.swap(newArgs);
+  }
 }
 
 vector<Node *> FunctionCall::children() const {

@@ -19,7 +19,7 @@ class SimpleEquation : public Equation {
   Expr &left() { return *_left; }
   Expr &right() { return *_right; }
   vector<Node *> children() const override ;
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
  protected:
   unique_ptr<Expr> _left;

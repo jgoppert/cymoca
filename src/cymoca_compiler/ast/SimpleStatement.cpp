@@ -19,12 +19,12 @@ vector<Node *> SimpleStatement::children() const {
   return {_ref.get(), _expr.get()};
 }
 
-void SimpleStatement::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
-  if (oldChild == _ref.get()) {
+void SimpleStatement::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
+  if (&oldChild == _ref.get()) {
     auto e = static_unique_ptr_cast<ComponentRef>(move(newChild));
     _ref.swap(e);
     return;
-  } else if (oldChild == _expr.get()) {
+  } else if (&oldChild == _expr.get()) {
     auto e = static_unique_ptr_cast<Expr>(move(newChild));
     _expr.swap(e);
     return;

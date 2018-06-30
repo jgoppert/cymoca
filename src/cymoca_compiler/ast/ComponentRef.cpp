@@ -14,7 +14,7 @@ vector<Node *> ComponentRef::children() const {
   return {};
 }
 
-void ComponentRef::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
+void ComponentRef::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
 
 }
 

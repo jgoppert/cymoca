@@ -18,12 +18,12 @@ vector<Node *> SimpleEquation::children() const {
   return {_left.get(), _right.get()};
 }
 
-void SimpleEquation::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
-  if (oldChild == _left.get()) {
+void SimpleEquation::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
+  if (&oldChild == _left.get()) {
     auto e = static_unique_ptr_cast<Expr>(move(newChild));
     _left.swap(e);
     return;
-  } else if (oldChild == _right.get()) {
+  } else if (&oldChild == _right.get()) {
     auto e = static_unique_ptr_cast<Expr>(move(newChild));
     _right.swap(e);
     return;

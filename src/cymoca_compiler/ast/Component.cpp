@@ -15,8 +15,8 @@ Component::Component(const string &name, const string & type, const Prefix &pref
   _type->parent(this);
 }
 
-void Component::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
-  if (oldChild == _type.get()) {
+void Component::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
+  if (&oldChild == _type.get()) {
     auto c = static_unique_ptr_cast<ComponentRef>(move(newChild));
     _type.swap(c);
   } else {

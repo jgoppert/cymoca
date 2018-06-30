@@ -16,7 +16,7 @@ namespace listener {
 /**
  * A listener to print to quasi-lisp format.
  */
-class LispPrinter : public Listener {
+class LispPrinter : public ConstListener {
  protected:
   stringstream _ss;
  public:

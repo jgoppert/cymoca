@@ -26,7 +26,7 @@ class FunctionCall : public Expr {
   Args & args() { return *_args; };
   // node interface
   vector<Node *> children() const override;
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
  protected:
   string _name;

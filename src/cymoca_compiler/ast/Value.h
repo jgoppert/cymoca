@@ -15,10 +15,11 @@ class Value : public Base {
   NODE_MACRO(Value)
   explicit Value(T val) : Base(typeid(*this)), _val(val) {};
   // accessors
-  T val() const { return _val; }
+  T & val() { return _val; }
+  const T & val() const { return _val; }
   // node interface
   vector<Node *> children() const override { return {}; }
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override {}
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override {}
   unique_ptr<Node> clone() const override {
     return make_unique<Value>(val());
   }

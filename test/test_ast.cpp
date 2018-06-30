@@ -8,7 +8,8 @@
 
 #include <cymoca_compiler/ast/ast.h>
 #include <cymoca_compiler/listener/LispPrinter.h>
-#include <cymoca_compiler/listener/SwapListener.h>
+#include "cymoca_compiler/listener/WhenExpander.h"
+#include "cymoca_compiler/listener/Flattener.h"
 
 
 using namespace std;
@@ -19,10 +20,9 @@ using namespace cymoca::listener;
 /**
  * A listener to add one to every number.
  */
-class AddOne : public SwapListener {
-  void exit(const Number &ctx) override {
-    set(ctx, make_unique<Number>(ctx.val() + 1));
-    apply();
+class AddOne : public Listener {
+  void exit(Number &ctx) override {
+    ctx.val() += 1;
   }
 };
 
@@ -33,20 +33,20 @@ TEST(Ast, Basic) {
       BinaryOp::SUB,
       make_unique<Number>(1));
 
-  LispPrinter printer;
+  LispPrinter lispListener;
   Walker walker;
-  walker.walk(*e1, printer);
-  cout << printer.get() << endl;
+  walker.walk(*e1, lispListener);
+  cout << lispListener.get() << endl;
 
   auto e1Copy = e1->cloneAs<BinaryExpr>();
 
   AddOne addListener;
   walker.walk(*e1, addListener);
-  walker.walk(*e1, printer);
-  cout << "rewrite:" << printer.get() << endl;
+  walker.walk(*e1, lispListener);
+  cout << "rewrite:" << lispListener.get() << endl;
 
-  walker.walk(*e1Copy, printer);
-  cout << "original:" << printer.get() << endl;
+  walker.walk(*e1Copy, lispListener);
+  cout << "original:" << lispListener.get() << endl;
 
   auto model = make_unique<Class>(
       make_unique<ComponentDict>(
@@ -61,17 +61,20 @@ TEST(Ast, Basic) {
       make_unique<List<Equation>>(
           initializer_list<unique_ptr<Equation>>(
               {
+                  // der(x) = v
                   make_unique<SimpleEquation>(
-                      make_unique<ComponentRef>("x"),
+                      make_unique<FunctionCall>("der",make_unique<ComponentRef>("x")),
                       make_unique<ComponentRef>("v")
                   ),
+                  // der(v) = -g
                   make_unique<SimpleEquation>(
-                      make_unique<ComponentRef>("v"),
+                      make_unique<FunctionCall>("der", make_unique<ComponentRef>("v")),
                       make_unique<UnaryExpr>(
                           UnaryOp::NEG,
                           make_unique<ComponentRef>("g")
                       )
                   ),
+                  // when (x<0) v = -v
                   make_unique<WhenEquation>(
                       initializer_list<unique_ptr<EquationBlock>>(
                           {
@@ -103,6 +106,20 @@ TEST(Ast, Basic) {
       )
   );
 
-  walker.walk(*model, printer);
-  cout << "model:" << printer.get() << endl;
+  walker.walk(*model, lispListener);
+  cout << "model:" << lispListener.get() << endl;
+
+  // apply when expander
+  WhenExpander whenExpander;
+  walker.walk(*model, whenExpander);
+  walker.walk(*model, lispListener);
+  cout << "\nwhen expanded\n" << lispListener.get() << endl;
+
+  // apply flattener
+  Flattener flattener;
+  walker.walk(*model, flattener);
+  walker.walk(*model, lispListener);
+  cout << "\nflattened\n" << lispListener.get() << endl;
+
+
 }

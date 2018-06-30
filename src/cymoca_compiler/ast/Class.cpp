@@ -25,11 +25,11 @@ vector<Node *> Class::children() const {
   return {_components.get(), _equations.get()};
 }
 
-void Class::swapChild(Node *oldChild, unique_ptr<Node> newChild) {
-  if (oldChild == _components.get()) {
+void Class::swapChild(Node &oldChild, unique_ptr<Node> newChild) {
+  if (&oldChild == _components.get()) {
     auto e = static_unique_ptr_cast<Dict<Component>>(move(newChild));
     _components.swap(e);
-  } else if (oldChild == _equations.get()) {
+  } else if (&oldChild == _equations.get()) {
     auto e = static_unique_ptr_cast<List<Equation>>(move(newChild));
     _equations.swap(e);
   }

@@ -53,10 +53,10 @@ class List : public Base {
     }
     return v;
   }
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override {
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override {
     // TODO: doing a linear search to find the right pointer, slow
     for (auto &c: _list) {
-      if (c.get() == oldChild) {
+      if (c.get() == &oldChild) {
         auto e = static_unique_ptr_cast<T>(move(newChild));
         c.swap(e);
         return;

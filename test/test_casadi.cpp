@@ -12,7 +12,7 @@ using namespace cymoca;
 using namespace std;
 namespace ca = casadi;
 
-class CasadiListener : public ast::Listener {
+class CasadiListener : public ast::ConstListener {
  private:
   size_t _depth;
   map<const ast::Node *, unique_ptr<ca::SX>> _expr;
@@ -194,6 +194,6 @@ TEST(CasadiTest, BouncingBall) {
   walker.walk(tree, whenExpander);
   walker.walk(tree, lispListener);
   cout << "\nwhen expanded\n" << lispListener.get() << endl;
-  walker.walk(tree, casadiListener);
+  walker.walk((const Node &)tree, casadiListener);
   cout << "\ncasadi" << casadiListener.get(tree) << endl;
 }

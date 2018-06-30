@@ -27,8 +27,8 @@ class Unary : public Base {
   vector<Node *> children() const override {
     return {_right.get()};
   }
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override {
-    if (oldChild == _right.get()) {
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override {
+    if (&oldChild ==  _right.get()) {
       auto e = static_unique_ptr_cast<Term>(move(newChild));
       _right.swap(e);
       return;

@@ -20,6 +20,7 @@ class Walker {
    * @param listener The listener.
    */
   void walk(Node &node, Listener &listener);
+  void walk(const Node &node, ConstListener &listener);
 
   /**
    * Enter routine, if you want to change the order
@@ -28,6 +29,7 @@ class Walker {
    * @param listener The listener.
    */
   virtual void enter(Node &node, Listener & listener);
+  virtual void enter(const Node &node, ConstListener & listener);
 
   /**
    * Exit routine, if you want to change the order
@@ -36,6 +38,8 @@ class Walker {
    * @param listener The listener.
    */
   virtual void exit(Node &node, Listener & listener);
+  virtual void exit(const Node &node, ConstListener & listener);
+
 };
 
 } // ast

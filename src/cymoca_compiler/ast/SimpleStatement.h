@@ -17,7 +17,7 @@ class SimpleStatement : public Statement {
   const ComponentRef &ref() const { return *_ref; }
   const Expr & expr() const { return *_expr; }
   vector<Node *> children() const override;
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
  protected:
   unique_ptr<ComponentRef> _ref;

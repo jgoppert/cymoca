@@ -24,12 +24,12 @@ class ConditionBlock : public T {
   vector<Node *> children() const override {
     return {_condition.get(), _list.get()};
   }
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override {
-    if (_condition.get() == oldChild) {
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override {
+    if (_condition.get() == &oldChild) {
       auto e = static_unique_ptr_cast<LogicExpr>(move(newChild));
       _condition.swap(e);
       return;
-    } else if (_list.get() == oldChild) {
+    } else if (_list.get() == &oldChild) {
       auto e = static_unique_ptr_cast<List<T>>(move(newChild));
       _list.swap(e);
       return;

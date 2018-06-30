@@ -21,7 +21,7 @@ class Class : public Node {
   List<Equation> &equations() { return *_equations; };
   // node interface
   vector<Node *> children() const override;
-  void swapChild(Node *oldChild, unique_ptr<Node> newChild) override;
+  void swapChild(Node &oldChild, unique_ptr<Node> newChild) override;
   unique_ptr<Node> clone() const override;
  protected:
   unique_ptr<Dict<Component>> _components;
