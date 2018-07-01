@@ -76,40 +76,25 @@ public:
   void visitErrorNode(antlr4::tree::ErrorNode *node) override;
   void enterEveryRule(antlr4::ParserRuleContext *context) override;
   void exitEveryRule(antlr4::ParserRuleContext *context) override;
-  void exitPrimary_unsigned_number(
-      ModelicaParser::Primary_unsigned_numberContext *context) override;
+  void exitComposition(ModelicaParser::CompositionContext *ctx) override;
   void
-  exitExpr_negative(ModelicaParser::Expr_negativeContext *context) override;
-  void exitPrimary_component_reference(
-      ModelicaParser::Primary_component_referenceContext *context) override;
-  void exitComposition(ModelicaParser::CompositionContext *context) override;
-  void exitExpression_simple(
-      ModelicaParser::Expression_simpleContext *context) override;
-  void exitSimple_expression(
-      ModelicaParser::Simple_expressionContext *context) override;
+  exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) override;
   void
-  exitEquation_simple(ModelicaParser::Equation_simpleContext *context) override;
-  void exitPrimary_der(ModelicaParser::Primary_derContext *context) override;
+  exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) override;
   void
-  exitArgs_expression(ModelicaParser::Args_expressionContext *context) override;
-  void
-  exitExpr_relation(ModelicaParser::Expr_relationContext *context) override;
-  void exitPrimary_output_expression_list(
-      ModelicaParser::Primary_output_expression_listContext *context) override;
-  void exitOutput_expression_list(
-      ModelicaParser::Output_expression_listContext *context) override;
-  void exitEquation(ModelicaParser::EquationContext *context) override;
-  void
-  exitWhen_equation(ModelicaParser::When_equationContext *context) override;
-  void exitEquation_options(
-      ModelicaParser::Equation_optionsContext *context) override;
-  void exitStatement_options(
-      ModelicaParser::Statement_optionsContext *context) override;
-  void
-  exitEquation_list(ModelicaParser::Equation_listContext *context) override;
-  void exitIf_equation(ModelicaParser::If_equationContext *context) override;
+  exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) override;
+  void exitEquation(ModelicaParser::EquationContext *ctx) override;
+  void exitWhen_equation(ModelicaParser::When_equationContext *ctx) override;
+  void exitEquation_list(ModelicaParser::Equation_listContext *ctx) override;
+  void exitIf_equation(ModelicaParser::If_equationContext *ctx) override;
   void exitElement_component_definition(
-      ModelicaParser::Element_component_definitionContext *context) override;
+      ModelicaParser::Element_component_definitionContext *ctx) override;
+  void exitExpr_number(ModelicaParser::Expr_numberContext *ctx) override;
+  void exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) override;
+  void exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) override;
+  void exitExpr_ref(ModelicaParser::Expr_refContext *ctx) override;
+  void exitExpr_func(ModelicaParser::Expr_funcContext *ctx) override;
+  void exitExpr_output(ModelicaParser::Expr_outputContext *context) override;
 };
 
 } // namespace cymoca

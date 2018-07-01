@@ -21,15 +21,16 @@ class_specifier:
     long_class_specifier | short_class_specifier | der_class_specifier;
 
 long_class_specifier:
-    IDENT string_comment composition END IDENT
-    | EXTENDS IDENT class_modification? string_comment composition END IDENT;
+    IDENT string_comment? composition END IDENT
+    | EXTENDS IDENT class_modification? string_comment? composition END IDENT;
 
 short_class_specifier:
-    IDENT '=' base_prefix type_specifier array_subscripts? class_modification? comment
-    | IDENT '=' ENUMERATION '(' (enum_list?  | ':') ')' comment;
+    IDENT '=' base_prefix type_specifier array_subscripts?
+        class_modification? comment?
+    | IDENT '=' ENUMERATION '(' (enum_list?  | ':') ')' comment?;
 
 der_class_specifier:
-    IDENT '=' DER '(' type_specifier ',' IDENT ( ',' IDENT )* ')' comment;
+    IDENT '=' DER '(' type_specifier ',' IDENT ( ',' IDENT )* ')' comment?;
 
 base_prefix:
     (INPUT | OUTPUT)?;
@@ -38,7 +39,7 @@ enum_list:
     enumeration_literal (',' enumeration_literal)*;
 
 enumeration_literal:
-    IDENT comment;
+    IDENT comment?;
 
 composition:
     element_list
@@ -65,17 +66,18 @@ element:
     | REDECLARE? FINAL? INNER? OUTER? (
         class_definition
         | REPLACEABLE? class_definition
-        (constraining_clause comment)?
+        (constraining_clause comment?)?
     )  #element_class_definition
     | REDECLARE? FINAL? INNER? OUTER? (
         component_clause
         | REPLACEABLE? component_clause
-        (constraining_clause comment)?
+        (constraining_clause comment?)?
     )  #element_component_definition
     ;
 
 import_clause:
-    IMPORT (IDENT '=' name | name ('.' ('*' | '{' import_list '}' ) ) ? ) comment;
+    IMPORT (IDENT '=' name | name ('.' ('*' | '{' import_list '}' ) ) ? )
+    comment?;
 
 import_list:
     IDENT (',' IDENT);
@@ -98,13 +100,10 @@ component_list:
     component_declaration (',' component_declaration)*;
 
 component_declaration:
-    declaration condition_attribute? comment;
+    IDENT array_subscripts? modification? condition_attribute? comment?;
 
 condition_attribute:
     IF expression;
-
-declaration:
-    IDENT array_subscripts? modification?;
 
 // B.2.5 Modification
 modification:
@@ -125,7 +124,7 @@ element_modification_or_replaceable:
     EACH? FINAL? (element_modification | element_replaceable);
 
 element_modification:
-    name modification? string_comment;
+    name modification? string_comment?;
 
 // Not used, but in Spec?
 //element_redeclaration:
@@ -137,11 +136,11 @@ element_modification:
 element_replaceable:
     REPLACEABLE (short_class_definition | component_clause1) constraining_clause?;
 
+// expand component_declaration1 and embed in component_clause1 to
+// avoid extra level of parse tree
 component_clause1:
-    type_prefix type_specifier component_declaration1;
+    type_prefix type_specifier IDENT array_subscripts? modification? comment?;
 
-component_declaration1:
-    declaration comment;
 
 short_class_definition:
     class_prefixes short_class_specifier;
@@ -156,26 +155,25 @@ equation_list:
 statement_list:
     (statement ';')*;
 
+// don't use equation_list here to avoid extra level of parse tree
 equation_section:
-    INITIAL? EQUATION equation_list;
+    INITIAL? EQUATION (equation ';')*;
 
+// don't use statement_list here to avoid extra level of parse tree
 algorithm_section:
-    INITIAL? ALGORITHM statement_list;
+    INITIAL? ALGORITHM (statement ';')*;
 
+// expanding simple expression to remove extra layer of parse tree
 equation_simple:
-    simple_expression '=' expression;
-
-equation_options:
-    equation_simple
-    | if_equation
-    | for_equation
-    | connect_clause
-    | when_equation
-    | component_reference function_call_args
-    ;
+    expr ( ':' expr ( ':' expr )? )? '=' expression;
 
 equation:
-    equation_options comment;
+    (equation_simple
+         | if_equation
+         | for_equation
+         | connect_clause
+         | when_equation
+         | component_reference function_call_args) comment?;
 
 statement_comp_ref:
     component_reference (':=' expression | function_call_args);
@@ -183,19 +181,15 @@ statement_comp_ref:
 statement_output:
     '(' output_expression_list ')' ':=' component_reference function_call_args;
 
-statement_options:
-    statement_comp_ref
-    | statement_output
-    | BREAK
-    | RETURN
-    | if_statement
-    | for_statement
-    | while_statement
-    | when_statement
-    ;
-
 statement:
-    statement_options comment;
+    (statement_comp_ref
+         | statement_output
+         | BREAK
+         | RETURN
+         | if_statement
+         | for_statement
+         | while_statement
+         | when_statement) comment?;
 
 if_equation:
     IF expression THEN
@@ -264,38 +258,35 @@ connect_clause:
 
 // B.2.7 Expressions
 expression:
-    simple_expression  # expression_simple
+    expr ( ':' expr ( ':' expr )? )?  # expression_simple
     | IF expression THEN expression (ELSEIF expression THEN expression)* ELSE expression  # expression_if
     ;
-
-simple_expression:
-    expr ( ':' expr ( ':' expr )? )?;
 
 // this is a reformulation of the standard to remove extra levels
 // of the parse tree that exist due to precedence and can be reformulated
 // by ordering the recursive rules
 expr :
-    UNSIGNED_NUMBER                                         # primary_unsigned_number
-    | STRING                                                # primary_string
-    | FALSE                                                 # primary_false
-    | TRUE                                                  # primary_true
-    | component_reference function_call_args                # primary_function
-    | DER function_call_args                                # primary_der
-    | INITIAL function_call_args                            # primary_initial
-    | PURE function_call_args                               # primary_pure
-    | component_reference                                   # primary_component_reference
-    | '(' output_expression_list ')'                        # primary_output_expression_list
-    | '[' expression_list (';' expression_list)* ']'        # primary_expression_list
-    | '{' array_arguments '}'                               # primary_array
-    | END                                                   # primary_end
-    | expr op=('^' | '.^') expr                             # expr_factor
-    | expr op=('*' | '/' | '.*' | './') expr                # expr_term
-    | op='-' expr                                           # expr_negative
-    | expr  op=('+' | '-' | '.+' | '.-') expr               # expr_arithmetic
-    | expr  op=('<' | '<=' | '>' | '>=' | '==' | '<>') expr # expr_relation
-    | 'not' expr                                            # expr_logical_factor
-    | expr 'and' expr                                       # expr_logical_term
-    | expr 'or' expr                                        # expr_logical
+    UNSIGNED_NUMBER                                         # expr_number
+    | STRING                                                # expr_string
+    | value=FALSE                                           # expr_bool
+    | value=TRUE                                            # expr_bool
+    | component_reference function_call_args                # expr_func
+    | func=DER function_call_args                           # expr_func
+    | func=INITIAL function_call_args                       # expr_func
+    | func=PURE function_call_args                          # expr_func
+    | component_reference                                   # expr_ref
+    | '(' output_expression_list ')'                        # expr_output
+    | '[' expression_list (';' expression_list)* ']'        # expr_list
+    | '{' array_arguments '}'                               # expr_array
+    | END                                                   # epxr_end
+    | expr op=('^' | '.^') expr                             # expr_binary
+    | expr op=('*' | '/' | '.*' | './') expr                # expr_binary
+    | op='-' expr                                           # expr_unary
+    | expr op=('+' | '-' | '.+' | '.-') expr                # expr_binary
+    | expr op=('<' | '<=' | '>' | '>=' | '==' | '<>') expr  # expr_binary
+    | op='not' expr                                         # expr_unary
+    | expr op='and' expr                                    # expr_binary
+    | expr op='or' expr                                     # expr_binary
     ;
 
 type_specifier: '.'? name;
@@ -347,8 +338,10 @@ subscript:
 comment:
     string_comment annotation?;
 
+// set comment to require at least one string to
+// trim empty comments from parse tree
 string_comment:
-    (STRING ('+' STRING)*)?;
+    (STRING ('+' STRING)*)+;
 
 annotation:
     ANNOTATION class_modification;

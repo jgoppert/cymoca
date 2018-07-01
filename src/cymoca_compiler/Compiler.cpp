@@ -47,26 +47,6 @@ void Compiler::exitEveryRule(antlr4::ParserRuleContext *ctx) {
   }
 }
 
-void Compiler::exitPrimary_unsigned_number(
-    ModelicaParser::Primary_unsigned_numberContext *ctx) {
-  stringstream ss(ctx->getText());
-  double num;
-  ss >> num;
-  _ast[ctx] = make_unique<ast::Number>(num);
-}
-
-void Compiler::exitExpr_negative(ModelicaParser::Expr_negativeContext *ctx) {
-  auto e = ast<ast::Expr>(ctx->expr());
-  _ast[ctx] = make_unique<ast::UnaryExpr>(ast::UnaryOp::NEG, move(e));
-}
-
-void Compiler::exitPrimary_component_reference(
-    ModelicaParser::Primary_component_referenceContext *ctx) {
-  // TODO handle mutliple levels of naming in IDENT
-  _ast[ctx] =
-      make_unique<ast::ComponentRef>(ctx->component_reference()->getText());
-}
-
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   // component declarations
   // TODO handle more than one element list
@@ -86,10 +66,8 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   auto newEq = make_unique<ast::EquationList>();
 
   for (auto &eq_sec : ctx->equation_section()) {
-    auto sec = ast<ast::EquationList>(eq_sec->equation_list());
-
-    for (auto &eq : sec->memory()) {
-      newEq->append(move(eq));
+    for (auto &eq : eq_sec->equation()) {
+      newEq->append(ast<ast::Equation>(eq));
     }
   }
 
@@ -105,18 +83,12 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
 
 void Compiler::exitExpression_simple(
     ModelicaParser::Expression_simpleContext *ctx) {
-  linkAst(ctx, ctx->simple_expression());
-}
-
-void Compiler::exitSimple_expression(
-    ModelicaParser::Simple_expressionContext *ctx) {
-  // TODO handle other : expr's
   linkAst(ctx, ctx->expr(0));
 }
 
 void Compiler::exitEquation_simple(
     ModelicaParser::Equation_simpleContext *ctx) {
-  auto left = ast<ast::Expr>(ctx->simple_expression());
+  auto left = ast<ast::Expr>(ctx->expr(0));
   auto right = ast<ast::Expr>(ctx->expression());
   ast(ctx, make_unique<ast::SimpleEquation>(move(left), move(right)));
 }
@@ -152,58 +124,13 @@ void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
   ast(ctx, move(eqList));
 }
 
-void Compiler::exitPrimary_der(ModelicaParser::Primary_derContext *ctx) {
-  auto var = ast<ast::Expr>(ctx->function_call_args()->function_arguments());
-  auto args = make_unique<ast::Args>();
-  args->append(move(var));
-  unique_ptr<ast::Node> a = make_unique<ast::FunctionCall>("der", move(args));
-  ast(ctx, move(a));
-}
-
 void Compiler::exitArgs_expression(
     ModelicaParser::Args_expressionContext *ctx) {
   linkAst(ctx, ctx->expression());
 }
 
-void Compiler::exitExpr_relation(ModelicaParser::Expr_relationContext *ctx) {
-  auto left = ast<ast::Expr>(ctx->expr(0));
-  auto right = ast<ast::Expr>(ctx->expr(1));
-  string op = ctx->op->getText();
-  static unordered_map<string, ast::RelationOp> convertMap{
-      {"<", ast::RelationOp::LT},
-      {">", ast::RelationOp::GT},
-      {"<=", ast::RelationOp::LE},
-      {">=", ast::RelationOp::GE},
-      {"<>", ast::RelationOp::NEQ}};
-  auto iter = convertMap.find(op);
-  assert(iter != convertMap.end());
-  auto relOp = iter->second;
-  ast(ctx, make_unique<ast::Relation>(move(left), relOp, move(right)));
-}
-
-void Compiler::exitPrimary_output_expression_list(
-    ModelicaParser::Primary_output_expression_listContext *ctx) {
-  linkAst(ctx, ctx->output_expression_list());
-}
-
-void Compiler::exitOutput_expression_list(
-    ModelicaParser::Output_expression_listContext *ctx) {
-  // TODO handle other items in list
-  linkAst(ctx, ctx->expression(0));
-}
-
 void Compiler::exitEquation(ModelicaParser::EquationContext *ctx) {
-  linkAst(ctx, ctx->equation_options());
-}
-
-void Compiler::exitEquation_options(
-    ModelicaParser::Equation_optionsContext *ctx) {
-  linkAst(ctx, static_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
-}
-
-void Compiler::exitStatement_options(
-    ModelicaParser::Statement_optionsContext *ctx) {
-  linkAst(ctx, static_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
+  linkAst(ctx, dynamic_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
 }
 
 void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
@@ -233,7 +160,7 @@ void Compiler::exitElement_component_definition(
 
   for (auto comp :
        ctx->component_clause()->component_list()->component_declaration()) {
-    auto name = comp->declaration()->IDENT()->getText();
+    auto name = comp->IDENT()->getText();
     ast::Prefix prefix;
 
     if (prefixStr == "parameter") {
@@ -242,7 +169,7 @@ void Compiler::exitElement_component_definition(
     } else if (prefixStr == "constant") {
       prefix = ast::Prefix::CONSTANT;
 
-    } else if (prefixStr == "") {
+    } else if (prefixStr.empty()) {
       prefix = ast::Prefix::VARIABLE;
 
     } else {
@@ -254,6 +181,56 @@ void Compiler::exitElement_component_definition(
   }
 
   ast(ctx, move(dict));
+}
+
+void Compiler::exitExpr_number(ModelicaParser::Expr_numberContext *ctx) {
+  stringstream ss(ctx->getText());
+  double num;
+  ss >> num;
+  ast(ctx, make_unique<ast::Number>(num));
+}
+
+void Compiler::exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) {
+  auto e = ast<ast::Expr>(ctx->expr());
+  assert(ctx->op->getText() == "-");
+  ast(ctx, make_unique<ast::UnaryExpr>(ast::UnaryOp::NEG, move(e)));
+}
+
+void Compiler::exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) {
+  auto left = ast<ast::Expr>(ctx->expr(0));
+  auto right = ast<ast::Expr>(ctx->expr(1));
+  string op = ctx->op->getText();
+  static unordered_map<string, ast::RelationOp> convertMap{
+      {"<", ast::RelationOp::LT},
+      {">", ast::RelationOp::GT},
+      {"<=", ast::RelationOp::LE},
+      {">=", ast::RelationOp::GE},
+      {"<>", ast::RelationOp::NEQ}};
+  auto iter = convertMap.find(op);
+  assert(iter != convertMap.end());
+  auto relOp = iter->second;
+  ast(ctx, make_unique<ast::Relation>(move(left), relOp, move(right)));
+}
+
+void Compiler::exitExpr_ref(ModelicaParser::Expr_refContext *ctx) {
+  // TODO handle mutliple levels of naming in IDENT
+  ast(ctx,
+      make_unique<ast::ComponentRef>(ctx->component_reference()->getText()));
+}
+
+void Compiler::exitExpr_func(ModelicaParser::Expr_funcContext *ctx) {
+  auto var = ast<ast::Expr>(ctx->function_call_args()->function_arguments());
+  auto args = make_unique<ast::Args>();
+  args->append(move(var));
+  if (ctx->component_reference())
+    throw logic_error("not implemented");
+  string name = ctx->func->getText();
+  unique_ptr<ast::Node> a = make_unique<ast::FunctionCall>(name, move(args));
+  ast(ctx, move(a));
+}
+
+void Compiler::exitExpr_output(ModelicaParser::Expr_outputContext *ctx) {
+  linkAst(ctx, ctx->output_expression_list()->expression(0));
 }
 
 } // namespace cymoca
