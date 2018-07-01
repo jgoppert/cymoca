@@ -57,20 +57,21 @@ $ ./cymoca ./test/models/BouncingBall.mo
 * You can build from source using cmake.
 * Dependencies
    * Anltr4 C++ runtime (automatically downloaded and built using cmake)
+   * gtest, optional, (automatically downloaded and built with cmake) enabled with -DWITH_TEST=ON
    * libboost-filesystem-dev
    * libboost-program-options-dev
-   * gtest, optional, enabled with -DWITH_TEST=ON
    * casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
 
 * A quick example of building with cmake:
 ```bash
-$ apt-get install libboost-filesystem-dev libboost-program-options-dev
+$ sudo apt-get install libboost-filesystem-dev libboost-program-options-dev
 $ git clone https://github.com/jgoppert/cymoca
+$ cd cymoca
 $ mkdir -p build
-$ cd build && cmake ..
+$ cd build && cmake -DWITH_TEST=ON ..
 $ make -j4
-$ cpack -G DEB
 $ ctest
+$ cpack -G DEB
 $ sudo apt-get install cymoca*.deb
 ```
 
