@@ -10,7 +10,7 @@ then
 fi
 apply=$1
 
-files=`find . -regex "./\(src\|test\).*\(cpp\|h\|c\|hpp\)"`
+files=`find . -regex "./\(src\|test\).*\.\(cpp\|h\|c\|hpp\)"`
 
 if [ $apply == 1 ]
 then
