@@ -42,9 +42,9 @@ enumeration_literal:
     IDENT comment?;
 
 composition:
-    element_list
-    (PUBLIC element_list
-        | PROTECTED element_list
+    (private_elem+=element ';')*
+    (PUBLIC (public_elem+=element ';')*
+        | PROTECTED (protected_elem+=element ';')*
         | equation_section
         | algorithm_section
     )*
@@ -57,32 +57,26 @@ language_specification:
 external_function_call:
     (component_reference '=')? IDENT '(' expression_list? ')';
 
-element_list:
-    (element ';')*;
-
 element:
-    import_clause                              # element_import_clause
-    | extends_clause                           # element_extends_clause
+    IMPORT (IDENT '=' name | name ('.' ('*' |
+        '{' import_list '}' ) ) ? ) comment?                   # elem_import
+    | EXTENDS type_specifier class_modification? annotation?   # elem_extends
     | REDECLARE? FINAL? INNER? OUTER? (
         class_definition
         | REPLACEABLE? class_definition
-        (constraining_clause comment?)?)       # element_class_definition
+        (constraining_clause comment?)?)                       # elem_class
     | REDECLARE? FINAL? INNER? OUTER? (
         component_clause
         | REPLACEABLE? component_clause
-        (constraining_clause comment?)?)       # element_component_definition
+        (constraining_clause comment?)?)                       # elem_comp
     ;
-
-import_clause:
-    IMPORT (IDENT '=' name | name ('.' ('*' | '{' import_list '}' ) ) ? )
-    comment?;
 
 import_list:
     IDENT (',' IDENT);
 
 // B.2.3 Extends
-extends_clause:
-    EXTENDS type_specifier class_modification? annotation?;
+
+// moved expanded extends_clause to element to compress parse tree
 
 constraining_clause:
     CONSTRAINEDBY type_specifier class_modification?;
@@ -259,7 +253,8 @@ expr :
     | expr op='or' expr                                     # expr_binary
     ;
 
-type_specifier: '.'? name;
+// expand name gramamr in type_specifier to remove level of parse tree
+type_specifier: '.'? IDENT ('.' IDENT)*;
 
 name: IDENT ('.' IDENT)*;
 

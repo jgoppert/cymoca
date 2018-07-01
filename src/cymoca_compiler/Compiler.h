@@ -79,8 +79,8 @@ public:
   void exitComposition(ModelicaParser::CompositionContext *ctx) override;
   void
   exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) override;
-  void exitElement_component_definition(
-      ModelicaParser::Element_component_definitionContext *ctx) override;
+  // element
+  void exitElem_comp(ModelicaParser::Elem_compContext *ctx) override;
   // expressions
   void exitExpr_number(ModelicaParser::Expr_numberContext *ctx) override;
   void exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) override;

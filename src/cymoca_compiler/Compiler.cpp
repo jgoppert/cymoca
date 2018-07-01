@@ -49,16 +49,24 @@ void Compiler::exitEveryRule(antlr4::ParserRuleContext *ctx) {
 
 void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
   // component declarations
-  // TODO handle more than one element list
   auto newComp = make_unique<ast::ComponentDict>();
-
-  for (auto &elemList : ctx->element_list()) {
-    for (auto &elem : elemList->element()) {
-      auto d = ast<ast::ComponentDict>(elem);
-
-      for (auto &key_val : d->memory()) {
-        newComp->set(key_val.first, move(key_val.second));
-      }
+  // TODO store private/public/protected access
+  for (auto &elem : ctx->private_elem) {
+    auto d = ast<ast::ComponentDict>(elem);
+    for (auto &key_val : d->memory()) {
+      newComp->set(key_val.first, move(key_val.second));
+    }
+  }
+  for (auto &elem : ctx->public_elem) {
+    auto d = ast<ast::ComponentDict>(elem);
+    for (auto &key_val : d->memory()) {
+      newComp->set(key_val.first, move(key_val.second));
+    }
+  }
+  for (auto &elem : ctx->protected_elem) {
+    auto d = ast<ast::ComponentDict>(elem);
+    for (auto &key_val : d->memory()) {
+      newComp->set(key_val.first, move(key_val.second));
     }
   }
 
@@ -86,8 +94,7 @@ void Compiler::exitExpression_simple(
   linkAst(ctx, ctx->expr(0));
 }
 
-void Compiler::exitElement_component_definition(
-    ModelicaParser::Element_component_definitionContext *ctx) {
+void Compiler::exitElem_comp(ModelicaParser::Elem_compContext *ctx) {
   auto dict = make_unique<ast::ComponentDict>();
   auto type = ctx->component_clause()->type_specifier()->getText();
   auto prefixStr = ctx->component_clause()->type_prefix()->getText();
