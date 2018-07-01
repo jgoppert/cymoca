@@ -2,8 +2,18 @@ cmake_minimum_required(VERSION 3.5)
 
 project(cymoca C CXX)
 
+if(NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Setting build type to 'DEBUG' as none was specified.")
+    set(CMAKE_BUILD_TYPE "Debug" CACHE
+      STRING "Choose the type of build." FORCE)
+    # Set the possible values of build type for cmake-gui
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+        "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
 option(WITH_CASADI "enable casadi" OFF)
-option(WITH_TEST "enable casadi" OFF)
+option(WITH_TEST "enable testing" OFF)
+option(WITH_COVERAGE "enable coverage" OFF)
 
 #-----------------------------------------------------------------------------
 # Setup
@@ -50,6 +60,7 @@ link_directories(${EP_PREFIX}/lib)
 #-----------------------------------------------------------------------------
 include(GetGitRevisionDescription)
 git_describe(VERSION --tags --dirty=-dirty)
+message(STATUS "Version: ${VERSION}")
 
 #parse the version information into pieces.
 set(version_regex "([0-9]*).([0-9]*).([0-9]*)-?(.*)$")
@@ -121,7 +132,7 @@ add_dependencies(antlr4-runtime antlr4cpp)
 add_subdirectory(src/modelica_antlr)
 add_subdirectory(src/cymoca_compiler)
 
-    #-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
 # Applications
 #-----------------------------------------------------------------------------
 add_subdirectory(apps/cymoca)
@@ -137,6 +148,7 @@ endif()
 #-----------------------------------------------------------------------------
 # CPack
 #-----------------------------------------------------------------------------
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_CONTACT james.goppert@gmail.com)
 set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})

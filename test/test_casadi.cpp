@@ -40,6 +40,7 @@ public:
   }
   void setExpr(const ast::Node &ctx, const ca::SX &e) {
     auto iter = _expr.find(&ctx);
+    (void)iter; // ignore unused when assertion removed
     assert(iter == _expr.end());
     _expr[&ctx] = make_unique<ca::SX>(e);
   }
