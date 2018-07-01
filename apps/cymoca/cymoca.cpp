@@ -5,7 +5,7 @@
 #include "cymoca_compiler/version.h"
 #include "cymoca_compiler/listener/LispPrinter.h"
 
-using namespace boost::filesystem;
+namespace fs = boost::filesystem;
 namespace po = boost::program_options;
 using namespace std;
 
@@ -35,8 +35,6 @@ int main(int argc, const char *argv[]) {
 
     /** Define and parse the program options 
      */
-    namespace po = boost::program_options;
-
     po::options_description generic("Generic options");
     generic.add_options()
         ("help,h", "print help message");
@@ -90,7 +88,7 @@ int main(int argc, const char *argv[]) {
     }
 
     // compile
-    path model_path(vm["model"].as<string>());
+    fs::path model_path(vm["model"].as<string>());
     assert(exists(model_path));
     ifstream fileStream(model_path.string());
     cymoca::Compiler c(fileStream);

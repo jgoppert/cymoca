@@ -18,8 +18,8 @@ then
 else
 	clang-format-6.0 -output-replacements-xml $files | grep -c "<replacement " >/dev/null
 	if [ $? -ne 1 ]; then 
-    	echo "Commit did not match clang-format"
-		git-clang-format-6.0 --diff
+    	echo "Commit did not match clang-format, please run '$0 1'"
+		git clang-format-6.0 --diff HEAD^ $files
     	exit 1
 	fi
 fi
