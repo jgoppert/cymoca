@@ -7,9 +7,9 @@
 #include "cymoca_compiler/listener/LispPrinter.h"
 #include "cymoca_compiler/listener/WhenExpander.h"
 
-using namespace boost::filesystem;
 using namespace cymoca;
 using namespace std;
+namespace fs = boost::filesystem;
 namespace ca = casadi;
 
 class CasadiListener : public ast::ConstListener {
@@ -168,7 +168,7 @@ TEST(CasadiTest, BasicFunction) {
 }
 
 TEST(CasadiTest, BouncingBall) {
-  path p("../../test/models/BouncingBall.mo");
+  fs::path p("../../test/models/BouncingBall.mo");
   ASSERT_TRUE(exists(p));
   ifstream fileStream(p.string());
   cymoca::Compiler c(fileStream);
