@@ -67,16 +67,16 @@ following dependencies are met:
 
 * A quick example of building with cmake:
 ```bash
-$ sudo apt-get install libboost-filesystem-dev libboost-program-options-dev
-$ git clone https://github.com/jgoppert/cymoca
-$ cd cymoca
-$ mkdir -p build
-$ cd build && cmake -DWITH_TEST=ON ..
-$ make -j4
-$ ctest
-$ cpack -G DEB
-$ sudo dpkg -i cymoca*.deb
-$ cymoca my_model.mo
+sudo apt-get install libboost-filesystem-dev libboost-program-options-dev
+git clone https://github.com/jgoppert/cymoca
+cd cymoca
+mkdir -p build
+cd build && cmake -DWITH_TEST=ON ..
+make -j4
+ctest
+cpack -G DEB
+sudo dpkg -i cymoca*.deb
+cymoca my_model.mo
 ```
 
 ## Contributing
