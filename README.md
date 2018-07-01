@@ -56,11 +56,11 @@ $ ./cymoca ./test/models/BouncingBall.mo
 
 * You can build from source using cmake.
 * Dependencies
- * Anltr4 C++ runtime (automatically downloaded and built using cmake)
- * libboost-filesystem-dev
- * libboost-program-options-dev
- * gtest, optional, enabled with -DWITH_TEST=ON
- * casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
+   * Anltr4 C++ runtime (automatically downloaded and built using cmake)
+   * libboost-filesystem-dev
+   * libboost-program-options-dev
+   * gtest, optional, enabled with -DWITH_TEST=ON
+   * casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
 
 * A quick example of building with cmake:
 ```bash
