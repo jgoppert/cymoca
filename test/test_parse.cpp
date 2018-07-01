@@ -7,7 +7,7 @@
 
 using namespace std;
 using namespace cymoca;
-namespace fs=boost::filesystem;
+namespace fs = boost::filesystem;
 
 TEST(ParseTest, BouncingBall) {
   cout << endl;
