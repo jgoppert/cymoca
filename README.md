@@ -49,8 +49,11 @@ $ ./cymoca ./test/models/BouncingBall.mo
 
 ### Binary
 
-* Binaries are provided here: [releases](https://github.com/jgoppert/cymoca/releases/latest). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
-* glibc 2.2.5, everything else is statically linked, which means it should run on all mac/linux variants.
+* Binaries are provided here: [releases](https://github.com/jgoppert/cymoca/releases/latest).
+* The cymoca-...-Linux.zip is statically linked so it should work on all linux variants and Mac out of the box given the
+following dependencies are met:
+* Dependencies
+   * glib 2.2.5
 
 ### Build from Source
 
@@ -72,7 +75,8 @@ $ cd build && cmake -DWITH_TEST=ON ..
 $ make -j4
 $ ctest
 $ cpack -G DEB
-$ sudo apt-get install cymoca*.deb
+$ sudo dpkg -i cymoca*.deb
+$ cymoca my_model.mo
 ```
 
 ## Contributing
