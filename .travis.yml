@@ -1,4 +1,5 @@
 language: cpp
+cache: ccache
 env:
   global:
   - LINUX_DIST=trusty
