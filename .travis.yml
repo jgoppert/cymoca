@@ -31,7 +31,7 @@ install:
 - echo ${PATH}
 - echo ${CXX}
 - "${CXX} --version"
-- "${CXX} -v"
+- "${CXX} -v"/
 - sudo pip install codecov
 - |
   if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then

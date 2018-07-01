@@ -47,8 +47,32 @@ $ ./cymoca ./test/models/BouncingBall.mo
 
 ## Install
 
+### Binary
+
 * Binaries are provided here: [releases](https://github.com/jgoppert/cymoca/releases/latest). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
+* glibc 2.2.5, everything else is statically linked, which means it should run on all mac/linux variants.
+
+### Build from Source
+
 * You can build from source using cmake.
+* Dependencies
+ * Anltr4 C++ runtime (automatically downloaded and built using cmake)
+ * libboost-filesystem-dev
+ * libboost-program-options-dev
+ * gtest, optional, enabled with -DWITH_TEST=ON
+ * casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
+
+* A quick example of building with cmake:
+```bash
+$ apt-get install libboost-filesystem-dev libboost-program-options-dev
+$ git clone https://github.com/jgoppert/cymoca
+$ mkdir -p build
+$ cd build && cmake ..
+$ make -j4
+$ cpack -G DEB
+$ ctest
+$ sudo apt-get install cymoca*.deb
+```
 
 ## Contributing
 
