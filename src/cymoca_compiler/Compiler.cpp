@@ -86,72 +86,6 @@ void Compiler::exitExpression_simple(
   linkAst(ctx, ctx->expr(0));
 }
 
-void Compiler::exitEquation_simple(
-    ModelicaParser::Equation_simpleContext *ctx) {
-  auto left = ast<ast::Expr>(ctx->expr(0));
-  auto right = ast<ast::Expr>(ctx->expression());
-  ast(ctx, make_unique<ast::SimpleEquation>(move(left), move(right)));
-}
-
-void Compiler::exitWhen_equation(ModelicaParser::When_equationContext *ctx) {
-  auto whenEq = make_unique<ast::WhenEquation>();
-
-  for (size_t i = 0; i < ctx->equation_list().size(); i++) {
-    auto eqList = ast<ast::EquationList>(ctx->equation_list(i));
-
-    if (i < ctx->expression().size()) {
-      auto cond = ast<ast::LogicExpr>(ctx->expression(i));
-      whenEq->append(make_unique<ast::EquationBlock>(move(cond), move(eqList)));
-
-    } else {
-      whenEq->append(make_unique<ast::EquationBlock>(
-          make_unique<ast::Boolean>(true), move(eqList)));
-    }
-  }
-
-  ast(ctx, move(whenEq));
-}
-
-void Compiler::exitEquation_list(ModelicaParser::Equation_listContext *ctx) {
-  auto eqList = make_unique<ast::EquationList>();
-
-  for (auto &eq : ctx->equation()) {
-    // need to avoid deleting original
-    auto eqVal = ast<ast::Equation>(eq);
-    eqList->append(move(eqVal));
-  }
-
-  ast(ctx, move(eqList));
-}
-
-void Compiler::exitArgs_expression(
-    ModelicaParser::Args_expressionContext *ctx) {
-  linkAst(ctx, ctx->expression());
-}
-
-void Compiler::exitEquation(ModelicaParser::EquationContext *ctx) {
-  linkAst(ctx, dynamic_cast<antlr4::ParserRuleContext *>(ctx->children[0]));
-}
-
-void Compiler::exitIf_equation(ModelicaParser::If_equationContext *ctx) {
-  auto ifEq = make_unique<ast::IfEquation>();
-
-  for (size_t i = 0; i < ctx->equation_list().size(); i++) {
-    auto eqList = ast<ast::EquationList>(ctx->equation_list(i));
-
-    if (i < ctx->expression().size()) {
-      auto cond = ast<ast::LogicExpr>(ctx->expression(i));
-      ifEq->append(make_unique<ast::EquationBlock>(move(cond), move(eqList)));
-
-    } else {
-      ifEq->append(make_unique<ast::EquationBlock>(
-          make_unique<ast::Boolean>(true), move(eqList)));
-    }
-  }
-
-  ast(ctx, move(ifEq));
-}
-
 void Compiler::exitElement_component_definition(
     ModelicaParser::Element_component_definitionContext *ctx) {
   auto dict = make_unique<ast::ComponentDict>();
@@ -231,6 +165,107 @@ void Compiler::exitExpr_func(ModelicaParser::Expr_funcContext *ctx) {
 
 void Compiler::exitExpr_output(ModelicaParser::Expr_outputContext *ctx) {
   linkAst(ctx, ctx->output_expression_list()->expression(0));
+}
+
+void Compiler::exitEq_simple(ModelicaParser::Eq_simpleContext *ctx) {
+  auto left = ast<ast::Expr>(ctx->expr(0));
+  auto right = ast<ast::Expr>(ctx->expression());
+  ast(ctx, make_unique<ast::SimpleEquation>(move(left), move(right)));
+}
+
+void Compiler::exitEq_if(ModelicaParser::Eq_ifContext *ctx) {
+  auto ifEq = make_unique<ast::IfEquation>();
+
+  for (size_t i = 0; i < ctx->eq_block().size(); i++) {
+    auto eqList = ast<ast::EquationList>(ctx->eq_block(i));
+
+    if (i < ctx->expression().size()) {
+      auto cond = ast<ast::LogicExpr>(ctx->expression(i));
+      ifEq->append(make_unique<ast::EquationBlock>(move(cond), move(eqList)));
+
+    } else {
+      ifEq->append(make_unique<ast::EquationBlock>(
+          make_unique<ast::Boolean>(true), move(eqList)));
+    }
+  }
+
+  ast(ctx, move(ifEq));
+}
+
+void Compiler::exitEq_for(ModelicaParser::Eq_forContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitEq_connect(ModelicaParser::Eq_connectContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitEq_when(ModelicaParser::Eq_whenContext *ctx) {
+  auto whenEq = make_unique<ast::WhenEquation>();
+
+  for (size_t i = 0; i < ctx->eq_block().size(); i++) {
+    auto eqList = ast<ast::EquationList>(ctx->eq_block(i));
+
+    if (i < ctx->expression().size()) {
+      auto cond = ast<ast::LogicExpr>(ctx->expression(i));
+      whenEq->append(make_unique<ast::EquationBlock>(move(cond), move(eqList)));
+
+    } else {
+      whenEq->append(make_unique<ast::EquationBlock>(
+          make_unique<ast::Boolean>(true), move(eqList)));
+    }
+  }
+  ast(ctx, move(whenEq));
+}
+
+void Compiler::exitEq_func(ModelicaParser::Eq_funcContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_keyword(ModelicaParser::Stmt_keywordContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_for(ModelicaParser::Stmt_forContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) {
+  throw logic_error("not implemented");
+}
+void Compiler::exitEq_block(ModelicaParser::Eq_blockContext *ctx) {
+  auto eqList = make_unique<ast::EquationList>();
+
+  for (auto &eq : ctx->equation()) {
+    // need to avoid deleting original
+    auto eqVal = ast<ast::Equation>(eq);
+    eqList->append(move(eqVal));
+  }
+
+  ast(ctx, move(eqList));
+}
+void Compiler::exitStmt_block(ModelicaParser::Stmt_blockContext *ctx) {
+  throw logic_error("not implemented");
+}
+
+void Compiler::exitArgs_expr(ModelicaParser::Args_exprContext *ctx) {
+  linkAst(ctx, ctx->expression());
 }
 
 } // namespace cymoca

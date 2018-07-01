@@ -61,18 +61,16 @@ element_list:
     (element ';')*;
 
 element:
-    import_clause           # element_import_clause
-    | extends_clause        # element_extends_clause
+    import_clause                              # element_import_clause
+    | extends_clause                           # element_extends_clause
     | REDECLARE? FINAL? INNER? OUTER? (
         class_definition
         | REPLACEABLE? class_definition
-        (constraining_clause comment?)?
-    )  #element_class_definition
+        (constraining_clause comment?)?)       # element_class_definition
     | REDECLARE? FINAL? INNER? OUTER? (
         component_clause
         | REPLACEABLE? component_clause
-        (constraining_clause comment?)?
-    )  #element_component_definition
+        (constraining_clause comment?)?)       # element_component_definition
     ;
 
 import_clause:
@@ -134,7 +132,8 @@ element_modification:
 //        | element_replaceable);
 
 element_replaceable:
-    REPLACEABLE (short_class_definition | component_clause1) constraining_clause?;
+    REPLACEABLE (short_class_definition | component_clause1)
+        constraining_clause?;
 
 // expand component_declaration1 and embed in component_clause1 to
 // avoid extra level of parse tree
@@ -148,80 +147,77 @@ short_class_definition:
 // B.2.6 Equations
 
 // added to group equations by block
-equation_list:
+eq_block:
     (equation ';')*;
 
 // added to group equations by block
-statement_list:
+stmt_block:
     (statement ';')*;
 
-// don't use equation_list here to avoid extra level of parse tree
+// don't use eq_block here to avoid extra level of parse tree
 equation_section:
     INITIAL? EQUATION (equation ';')*;
 
-// don't use statement_list here to avoid extra level of parse tree
+// don't use statement_block here to avoid extra level of parse tree
 algorithm_section:
     INITIAL? ALGORITHM (statement ';')*;
 
 // expanding simple expression to remove extra layer of parse tree
-equation_simple:
-    expr ( ':' expr ( ':' expr )? )? '=' expression;
-
 equation:
-    (equation_simple
-         | if_equation
-         | for_equation
-         | connect_clause
-         | when_equation
-         | component_reference function_call_args) comment?;
-
-statement_comp_ref:
-    component_reference (':=' expression | function_call_args);
-
-statement_output:
-    '(' output_expression_list ')' ':=' component_reference function_call_args;
+    expr ( ':' expr ( ':' expr )? )?
+        '=' expression comment?                             # eq_simple
+    | IF expression THEN
+        eq_block
+      (ELSEIF expression THEN
+        eq_block
+      )*
+      (ELSE
+        eq_block
+      )?
+       END IF comment?                                      # eq_if
+    | FOR for_indices LOOP
+        (equation ';')*
+      END FOR comment?                                      # eq_for
+    | CONNECT '(' component_reference ','
+                    component_reference ')' comment?        # eq_connect
+    | WHEN expression THEN
+        eq_block
+      (ELSEWHEN expression THEN
+        eq_block
+      )*
+      END WHEN comment?                                     # eq_when
+    | component_reference function_call_args comment?       # eq_func
+    ;
 
 statement:
-    (statement_comp_ref
-         | statement_output
-         | BREAK
-         | RETURN
-         | if_statement
-         | for_statement
-         | while_statement
-         | when_statement) comment?;
-
-if_equation:
-    IF expression THEN
-        equation_list
-    (ELSEIF expression THEN
-        equation_list
-    )*
-    (ELSE
-        equation_list
-    )?
-    END IF;
-
-if_statement:
-    IF expression THEN
-        statement_list
-    (ELSEIF expression THEN
-        statement_list
-    )*
-    (ELSE
-        statement_list
-    )?
-    END IF;
-
-for_equation:
-    FOR for_indices LOOP
-        equation_list
-    END FOR;
-
-for_statement:
-    FOR for_indices LOOP
-        statement_list
-    END FOR;
+    component_reference (':=' expression |
+            function_call_args) comment?                    # stmt_ref
+    | '(' output_expression_list ')' ':='
+        component_reference function_call_args comment?     # stmt_func
+    | keyword=BREAK comment?                                # stmt_keyword
+    | keyword=RETURN comment?                               # stmt_keyword
+    | IF expression THEN
+        stmt_block
+      (ELSEIF expression THEN
+        stmt_block
+      )*
+      (ELSE
+        stmt_block
+      )?
+      END IF comment?                                       # stmt_if
+    | FOR for_indices LOOP
+        (statement ';')*
+      END FOR comment?                                      # stmt_for
+    | WHILE expression LOOP
+        (statement ';')*
+      END WHEN comment?                                     # stmt_while
+    | WHEN expression THEN
+        stmt_block
+      (ELSEWHEN expression THEN
+        stmt_block
+      )*
+      END WHEN comment?                                     # stmt_when
+    ;
 
 for_indices:
     for_index (',' for_index);
@@ -229,37 +225,11 @@ for_indices:
 for_index:
     IDENT (IN expression)?;
 
-while_statement:
-    WHEN expression LOOP
-        (statement ';')*
-    (ELSEWHEN expression THEN
-        (statement ';')*
-    )*
-    END WHEN;
-
-when_equation:
-    WHEN expression THEN
-        equation_list
-    (ELSEWHEN expression THEN
-        equation_list
-    )*
-    END WHEN;
-
-when_statement:
-    WHEN expression THEN
-        statement_list
-    (ELSEWHEN expression THEN
-        statement_list
-    )*
-    END WHEN;
-
-connect_clause:
-    CONNECT '(' component_reference ',' component_reference ')';
-
 // B.2.7 Expressions
 expression:
     expr ( ':' expr ( ':' expr )? )?  # expression_simple
-    | IF expression THEN expression (ELSEIF expression THEN expression)* ELSE expression  # expression_if
+    | IF expression THEN expression
+        (ELSEIF expression THEN expression)* ELSE expression # expression_if
     ;
 
 // this is a reformulation of the standard to remove extra levels
@@ -300,9 +270,11 @@ function_call_args:
     '(' function_arguments? ')';
 
 function_arguments:
-    expression (',' function_argumments_non_first | FOR for_indices)?  # args_expression
-    | FUNCTION name '(' named_arguments? ')' (',' function_argumments_non_first)?  # args_function
-    | named_arguments  # args_named
+    expression (',' function_argumments_non_first |
+            FOR for_indices)?                           # args_expr
+    | FUNCTION name '(' named_arguments? ')'
+            (',' function_argumments_non_first)?        # args_func
+    | named_arguments                                   # args_named
     ;
 
 function_argumments_non_first:
@@ -415,7 +387,8 @@ WITHIN : 'within';
 IDENT : NONDIGIT ( DIGIT | NONDIGIT )* | Q_IDENT;
 STRING : '"' ('\\"' | ~('"'))* '"';
 //STRING : '"' (S_CHAR | S_ESCAPE | ' ')* '"';
-UNSIGNED_NUMBER : UNSIGNED_INTEGER  ( '.' UNSIGNED_NUMBER? )* ( [eE] [+-]? UNSIGNED_INTEGER)?;
+UNSIGNED_NUMBER : UNSIGNED_INTEGER  ( '.' UNSIGNED_NUMBER? )*
+    ( [eE] [+-]? UNSIGNED_INTEGER)?;
 COMMENT :
     ('/' '/' .*? '\n' | '/*' .*? '*/') -> channel(HIDDEN)
     ;

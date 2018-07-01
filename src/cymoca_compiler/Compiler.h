@@ -22,7 +22,7 @@ namespace cymoca {
  */
 class Compiler : public ModelicaBaseListener {
 public:
-  Compiler(ifstream &text);
+  explicit Compiler(ifstream &text);
   ModelicaParser &getParser() { return *_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return _tokenStream; }
   ast::Class *root() { return _root; }
@@ -45,13 +45,13 @@ protected:
     auto iter = _ast.find(ctx);
     assert(iter != _ast.end());
     unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
-    assert(val.get() != nullptr);
+    assert(val != nullptr);
     return val;
   }
 
   void ast(antlr4::ParserRuleContext *ctx, unique_ptr<ast::Node> node) {
     auto iter = _ast.find(ctx);
-    assert(node.get() != nullptr);
+    assert(node != nullptr);
     assert(iter == _ast.end());
     _ast[ctx] = move(node);
   }
@@ -79,22 +79,34 @@ public:
   void exitComposition(ModelicaParser::CompositionContext *ctx) override;
   void
   exitExpression_simple(ModelicaParser::Expression_simpleContext *ctx) override;
-  void
-  exitEquation_simple(ModelicaParser::Equation_simpleContext *ctx) override;
-  void
-  exitArgs_expression(ModelicaParser::Args_expressionContext *ctx) override;
-  void exitEquation(ModelicaParser::EquationContext *ctx) override;
-  void exitWhen_equation(ModelicaParser::When_equationContext *ctx) override;
-  void exitEquation_list(ModelicaParser::Equation_listContext *ctx) override;
-  void exitIf_equation(ModelicaParser::If_equationContext *ctx) override;
   void exitElement_component_definition(
       ModelicaParser::Element_component_definitionContext *ctx) override;
+  // expressions
   void exitExpr_number(ModelicaParser::Expr_numberContext *ctx) override;
   void exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) override;
   void exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) override;
   void exitExpr_ref(ModelicaParser::Expr_refContext *ctx) override;
   void exitExpr_func(ModelicaParser::Expr_funcContext *ctx) override;
   void exitExpr_output(ModelicaParser::Expr_outputContext *context) override;
+  // equations
+  void exitEq_simple(ModelicaParser::Eq_simpleContext *context) override;
+  void exitEq_if(ModelicaParser::Eq_ifContext *context) override;
+  void exitEq_for(ModelicaParser::Eq_forContext *context) override;
+  void exitEq_connect(ModelicaParser::Eq_connectContext *context) override;
+  void exitEq_when(ModelicaParser::Eq_whenContext *context) override;
+  void exitEq_func(ModelicaParser::Eq_funcContext *context) override;
+  // statements
+  void exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) override;
+  void exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) override;
+  void exitStmt_keyword(ModelicaParser::Stmt_keywordContext *ctx) override;
+  void exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) override;
+  void exitStmt_for(ModelicaParser::Stmt_forContext *ctx) override;
+  void exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) override;
+  void exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) override;
+  // misc
+  void exitEq_block(ModelicaParser::Eq_blockContext *ctx) override;
+  void exitStmt_block(ModelicaParser::Stmt_blockContext *context) override;
+  void exitArgs_expr(ModelicaParser::Args_exprContext *context) override;
 };
 
 } // namespace cymoca
