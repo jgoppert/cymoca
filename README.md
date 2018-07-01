@@ -7,6 +7,7 @@ A Modelica compiler written in modern C++ with Python bindings.
 ## Features
 
 * Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md).
+![AST](doc/ast.png)
 * Listener based generators decoupled from the AST, easy to compile Modelica to new targets.
   * Lisp string printing [LispListener](src/cymoca_compiler/listener/LispPrinter.h).
   * Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development, [Demo](test/test_casadi.cpp).
