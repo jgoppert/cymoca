@@ -53,7 +53,7 @@ $ ./cymoca ./test/models/BouncingBall.mo
 * The cymoca-...-Linux.zip is statically linked so it should work on all linux variants and Mac out of the box given the
 following dependencies are met:
 * Dependencies
-   * glib 2.2.5
+   * glibc 2.2.5
 
 ### Build from Source
 
