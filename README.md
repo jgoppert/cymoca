@@ -27,6 +27,23 @@ A Modelica compiler written in modern C++ with Python bindings.
 * [ ] NuSMV output for state machines to support model checking.
 * [ ] Python bindings.
 
+# Command Line
+
+This command line just prints the LISP generator output currently, but it will be extended to support various generators.
+
+"""bash
+$ ./cymoca -h
+Cymoca Modelica Compiler 0.0.9-60-g9dd7a23
+usage: cymoca [options] model.mo
+Options:
+
+Generic options:
+  -h [ --help ]          print help message
+
+$ ./cymoca ./test/models/BouncingBall.mo 
+(class(dict of comp( v(Real))(parameter g(Real))( x(Real))
+"""
+
 ## Install
 
 * Binaries are provided here: [releases](https://github.com/jgoppert/cymoca/releases/latest). The cymoca-...-Linux.zip is statically linked to all dependencies and only requires glibc 2.2.5 to be installed. This means it should work on all linux variants and Mac out of the box.
