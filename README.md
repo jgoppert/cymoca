@@ -42,6 +42,7 @@ Generic options:
 
 $ ./cymoca ./test/models/BouncingBall.mo 
 (class(dict of comp( v(Real))(parameter g(Real))( x(Real))
+)(list of eq(=(der((x)))(v))(=(der((v)))(-(g)))(when(eq block(<(x)(0))(list of eq(=(v)(-(v))))))))
 ```
 
 ## Install
