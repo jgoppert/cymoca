@@ -51,6 +51,7 @@ protected:
 
   void ast(antlr4::ParserRuleContext *ctx, unique_ptr<ast::Node> node) {
     auto iter = _ast.find(ctx);
+    (void)iter; // avoid unused warning when assertions removed
     assert(node != nullptr);
     assert(iter == _ast.end());
     _ast[ctx] = move(node);
