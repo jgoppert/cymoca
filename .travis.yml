@@ -65,10 +65,6 @@ after_success:
   - if [ "${CPACK}" = "ON" ]; then cpack -G ZIP; fi
   - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-5; fi
 
-# avoids building master branch and PR branch for each PR
-branches:
-  only:
-  - master
 deploy:
   provider: releases
   api_key:
@@ -78,7 +74,6 @@ deploy:
   file: "*.zip"
   on:
     tags: true
-    all_branches: true
     condition: $CPACK = ON
 
 #  vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
