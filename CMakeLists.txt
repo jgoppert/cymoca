@@ -148,7 +148,6 @@ endif()
 #-----------------------------------------------------------------------------
 # CPack
 #-----------------------------------------------------------------------------
-set(CPACK_PACKAGE_NAME cymoca)
 set(CPACK_PACKAGE_CONTACT james.goppert@gmail.com)
 set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})

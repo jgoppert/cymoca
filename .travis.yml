@@ -24,7 +24,7 @@ matrix:
   - env:
     - CXX_=g++-5
     - CC_=gcc-5
-    - DEPLOY=ON
+    - CPACK=ON
     - COVERAGE=OFF
     - BUILD_TYPE=Release
     addons:
@@ -37,7 +37,7 @@ matrix:
   - env:
     - CXX_=g++-5
     - CC_=gcc-5
-    - DEPLOY=OFF
+    - CPACK=OFF
     - COVERAGE=ON
     - BUILD_TYPE=Debug
     addons:
@@ -57,15 +57,13 @@ install:
 
 script:
   - ./scripts/format.sh 0
-  - mkdir -p build && pushd build
+  - mkdir -p build && cd build
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWITH_TEST=ON -DWITH_COVERAGE=${COVERAGE}
   - make check -j4
-  - cpack -G ZIP
-  - popd
 
 after_success:
-  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r . -b build -i src --gcov gcov-5; fi
-  - if [ "${DEPLOY}" = "ON" ]; then cpack -G ZIP; fi
+  - if [ "${CPACK}" = "ON" ]; then cpack -G ZIP; fi
+  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-5; fi
 
 deploy:
   provider: releases
@@ -77,7 +75,7 @@ deploy:
   on:
     tags: true
     branch: master
-    condition: $DEPLOY = ON
+    condition: $CPACK = ON
 
 # avoids building master branch and PR branch for each PR
 branches:
