@@ -1,6 +1,7 @@
 # cymoca
 
 [![Build Status](https://travis-ci.org/jgoppert/cymoca.svg?branch=master)](https://travis-ci.org/jgoppert/cymoca)
+[![Coverage Status](https://coveralls.io/repos/github/jgoppert/cymoca/badge.svg?branch=master)](https://coveralls.io/github/jgoppert/cymoca?branch=master)
 
 A Modelica compiler written in modern C++ with Python bindings.
 

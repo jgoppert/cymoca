@@ -10,7 +10,7 @@ include_directories(SYSTEM
 include_directories(
         ${PROJECT_SOURCE_DIR}/src)
 
-add_compile_options(-Wno-unused-parameter -pedantic -Werror -Weffc++ -Wall -Wextra)
+add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)
 
 add_subdirectory(ast)
 

@@ -1,58 +1,71 @@
 language: cpp
 cache: ccache
-env:
-  global:
-  - LINUX_DIST=trusty
-  - DEPS_DIR=${TRAVIS_BUILD_DIR}/deps
-  - CXX_FLAGS="-Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
-  - RUN_TESTS=true
-  - COVERAGE=false
+os: linux
+dist: trusty
+sudo: false
+
+addons:
+  apt:
+    packages: &pkg_common
+    - cmake3
+    - cmake3-data
+    - clang-format-6.0
+    - libboost-filesystem-dev
+    - libboost-program-options-dev
+    sources: &src_common
+    - llvm-toolchain-trusty-6.0
+    - ubuntu-toolchain-r-test
+
 matrix:
+  # don't use full compiler path
+  # (e.g. /usr/bin/g++-5), it will bypass ccache
+  fast_finish: true
   include:
-  - os: linux
-    dist: trusty
-    sudo: true
-    compiler: gcc
+  - env:
+    - CXX_=g++-5
+    - CC_=gcc-5
+    - DEPLOY=ON
+    - COVERAGE=OFF
+    - BUILD_TYPE=Release
     addons:
       apt:
         packages:
-        - clang-format-6.0
+        - *pkg_common
         - g++-5
-        - libboost-filesystem-dev
-        - libboost-program-options-dev
         sources:
-        - ubuntu-toolchain-r-test
-        - sourceline: 'deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-6.0 main'
-          key_url: 'http://llvm.org/apt/llvm-snapshot.gpg.key'
+        - *src_common
+  - env:
+    - CXX_=g++-5
+    - CC_=gcc-5
+    - DEPLOY=OFF
+    - COVERAGE=ON
+    - BUILD_TYPE=Debug
+    addons:
+      apt:
+        packages:
+        - *pkg_common
+        - g++-5
+        sources:
+        - *src_common
 
-before_install: 
+# antlr c++ runtimes doesn't build on clang yet
 
 install:
-- sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
-- echo ${PATH}
-- echo ${CXX}
-- "${CXX} --version"
-- "${CXX} -v"
-- sudo pip install codecov
-- |
-  if [[ ${TRAVIS_OS_NAME} == "linux" ]]; then
-    CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.1-Linux-x86_64.tar.gz"
-    mkdir -p ${DEPS_DIR}/cmake
-    travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${DEPS_DIR}/cmake
-    export PATH=${DEPS_DIR}/cmake/bin:${PATH}
-  fi
+  - if [ "${COVERAGE}" = "ON" ]; then pip install --user cpp-coveralls; fi
+  - CC=${CC_}
+  - CXX=${CXX_}
 
 script:
-- ./scripts/format.sh 0
-- mkdir -p build
-- cd build
-- cmake .. -DWITH_CASADI=OFF -DWITH_TEST=ON
-- make -j4
-- ctest
-- cpack -G ZIP
+  - ./scripts/format.sh 0
+  - mkdir -p build && pushd build
+  - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DWITH_TEST=ON -DWITH_COVERAGE=${COVERAGE}
+  - make check -j4
+  - cpack -G ZIP
+  - popd
 
 after_success:
-- echo "done"
+  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r . -b build -i src --gcov gcov-5; fi
+  - if [ "${DEPLOY}" = "ON" ]; then cpack -G ZIP; fi
 
 deploy:
   provider: releases
@@ -63,3 +76,12 @@ deploy:
   file: "*.zip"
   on:
     tags: true
+    branch: master
+    condition: $DEPLOY = ON
+
+# avoids building master branch and PR branch for each PR
+branches:
+  only:
+  - master
+
+#  vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
