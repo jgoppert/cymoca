@@ -7,8 +7,7 @@
 #include "List.h"
 #include "Node.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 class FunctionCall : public Expr {
 public:
@@ -34,7 +33,6 @@ protected:
   unique_ptr<Args> _args;
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

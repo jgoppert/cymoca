@@ -9,8 +9,7 @@
 
 #include <unordered_map>
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 template <class Base, class Term, class Op> class Unary : public Base {
 public:
@@ -45,7 +44,6 @@ protected:
 extern unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr;
 extern unordered_map<UnaryLogicOp, string, EnumClassHash> unaryLogicOpStr;
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

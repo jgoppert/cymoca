@@ -4,8 +4,7 @@
 
 #include "ComponentRef.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 ComponentRef::ComponentRef(const string &name)
     : Expr(typeid(*this)), _name(name) {}
@@ -18,7 +17,6 @@ unique_ptr<Node> ComponentRef::clone() const {
   return make_unique<ComponentRef>(name());
 }
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -4,8 +4,7 @@
 
 #include "Unary.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr = {
     {UnaryOp::NEG, "-"}};
@@ -13,7 +12,6 @@ unordered_map<UnaryOp, string, EnumClassHash> unaryOpStr = {
 unordered_map<UnaryLogicOp, string, EnumClassHash> unaryLogicOpStr = {
     {UnaryLogicOp::NOT, "not"}};
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

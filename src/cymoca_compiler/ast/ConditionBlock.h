@@ -6,8 +6,7 @@
 
 #include "Node.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 template <class T> class ConditionBlock : public T {
 public:
@@ -47,7 +46,6 @@ protected:
   unique_ptr<List<T>> _list;
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

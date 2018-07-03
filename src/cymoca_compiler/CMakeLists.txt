@@ -17,6 +17,7 @@ add_subdirectory(ast)
 add_library(cymoca_compiler STATIC
         ${PROJECT_BINARY_DIR}/version.cpp
         version.h
+        util.h
         Compiler.cpp
         Compiler.h
         listener/LispPrinter.h

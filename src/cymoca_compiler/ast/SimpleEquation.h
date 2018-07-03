@@ -6,8 +6,7 @@
 
 #include "Node.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 class SimpleEquation : public Equation {
 public:
@@ -27,7 +26,6 @@ protected:
   unique_ptr<Expr> _right;
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

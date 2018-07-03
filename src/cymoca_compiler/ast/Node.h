@@ -17,8 +17,7 @@
 
 using namespace std;
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 /*
  * To add a new new node type:
@@ -41,7 +40,7 @@ namespace ast {
  */
 class Node {
 public:
-  Node(const type_info &type) : _type(type), _parent(nullptr) {}
+  explicit Node(const type_info &type) : _type(type), _parent(nullptr) {}
   virtual ~Node() = default;
   // delete copy and deep copy with clone to avoid implicit copying
   Node(const Node &other) = delete;
@@ -99,7 +98,7 @@ protected:
  */
 class Expr : public Node {
 public:
-  Expr(const type_info &type) : Node(type) {}
+  explicit Expr(const type_info &type) : Node(type) {}
 };
 
 /**
@@ -107,7 +106,7 @@ public:
  */
 class LogicExpr : public Expr {
 public:
-  LogicExpr(const type_info &type) : Expr(type) {}
+  explicit LogicExpr(const type_info &type) : Expr(type) {}
 };
 
 /**
@@ -115,7 +114,7 @@ public:
  */
 class Equation : public Node {
 public:
-  Equation(const type_info &type) : Node(type) {}
+  explicit Equation(const type_info &type) : Node(type) {}
 };
 
 /**
@@ -123,7 +122,7 @@ public:
  */
 class Statement : public Node {
 public:
-  Statement(const type_info &type) : Node(type) {}
+  explicit Statement(const type_info &type) : Node(type) {}
 };
 
 /**
@@ -131,10 +130,9 @@ public:
  */
 class Element : public Node {
 public:
-  Element(const type_info &type) : Node(type) {}
+  explicit Element(const type_info &type) : Node(type) {}
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

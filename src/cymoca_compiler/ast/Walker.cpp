@@ -4,8 +4,7 @@
 
 #include "Walker.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 void Walker::walk(Node &node, Listener &listener) {
   enter(node, listener);
@@ -43,7 +42,6 @@ void Walker::exit(const Node &node, ConstListener &listener) {
   listener.exitEvery(node);
 }
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

@@ -4,8 +4,7 @@
 
 #include "Binary.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca:: ast {
 
 unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr = {
     {BinaryOp::ADD, "+"},   {BinaryOp::SUB, "-"},  {BinaryOp::MUL, "*"},
@@ -21,7 +20,6 @@ unordered_map<BinaryLogicOp, string, EnumClassHash> binaryLogicOpStr = {
     {BinaryLogicOp::OR, "or"},
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

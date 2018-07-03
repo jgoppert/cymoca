@@ -1,15 +1,15 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project(cymoca C CXX)
 
-if(NOT CMAKE_BUILD_TYPE)
+if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "Setting build type to 'DEBUG' as none was specified.")
     set(CMAKE_BUILD_TYPE "Debug" CACHE
-      STRING "Choose the type of build." FORCE)
+        STRING "Choose the type of build." FORCE)
     # Set the possible values of build type for cmake-gui
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
-        "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
+            "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif ()
 
 option(WITH_CASADI "enable casadi" OFF)
 option(WITH_TEST "enable testing" OFF)
@@ -19,7 +19,7 @@ option(WITH_COVERAGE "enable coverage" OFF)
 # Setup
 #-----------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
 set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
 
@@ -32,11 +32,11 @@ endif (WIN32)
 
 # copy compile commands to source directory for auto-completion with vim etc.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL
-    "export compile commands, useful for vim completion" FORCE)
+        "export compile commands, useful for vim completion" FORCE)
 add_custom_target(copy_compile_commands ALL
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${PROJECT_BINARY_DIR}/compile_commands.json ${PROJECT_SOURCE_DIR}
-    DEPENDS cymoca)
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${PROJECT_BINARY_DIR}/compile_commands.json ${PROJECT_SOURCE_DIR}
+        DEPENDS cymoca)
 
 # packages
 set(Boost_USE_STATIC_LIBS ON)
@@ -70,35 +70,35 @@ string(REGEX REPLACE ${version_regex} "\\3" VERSION_PATCH ${VERSION})
 string(REGEX REPLACE ${version_regex} "\\4" VERSION_SHA ${VERSION})
 set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 configure_file(${PROJECT_SOURCE_DIR}/cmake/version.cpp.in
-    ${PROJECT_BINARY_DIR}/version.cpp)
+        ${PROJECT_BINARY_DIR}/version.cpp)
 set(version_file "${PROJECT_BINARY_DIR}/version.cpp")
 
 #-----------------------------------------------------------------------------
 # Google Test
 #-----------------------------------------------------------------------------
 if (WITH_TEST)
-ExternalProject_Add(googletest
-        URL https://github.com/google/googletest/archive/release-1.8.0.zip
-        URL_MD5 adfafc8512ab65fd3cf7955ef0100ff5
-        TIMEOUT 10
-        LOG_CONFIGURE ON
-        LOG_BUILD ON
-        LOG_INSTALL ON
-        LOG_DOWNLOAD ON
-        LOG_UPDATE ON
-        PREFIX ${EP_PREFIX}
-        BUILD_COMMAND make -j4
-        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_PREFIX}
-        )
-add_library(gtest STATIC IMPORTED)
-add_dependencies(gtest googletest)
-set_property(TARGET gtest PROPERTY IMPORTED_LOCATION
-        ${EP_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
-add_library(gtest_main STATIC IMPORTED)
-add_dependencies(gtest_main googletest)
-set_property(TARGET gtest_main PROPERTY IMPORTED_LOCATION
-        ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
-endif()
+    ExternalProject_Add(googletest
+            URL https://github.com/google/googletest/archive/release-1.8.0.zip
+            URL_MD5 adfafc8512ab65fd3cf7955ef0100ff5
+            TIMEOUT 10
+            LOG_CONFIGURE ON
+            LOG_BUILD ON
+            LOG_INSTALL ON
+            LOG_DOWNLOAD ON
+            LOG_UPDATE ON
+            PREFIX ${EP_PREFIX}
+            BUILD_COMMAND make -j4
+            CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_PREFIX}
+            )
+    add_library(gtest STATIC IMPORTED)
+    add_dependencies(gtest googletest)
+    set_property(TARGET gtest PROPERTY IMPORTED_LOCATION
+            ${EP_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
+    add_library(gtest_main STATIC IMPORTED)
+    add_dependencies(gtest_main googletest)
+    set_property(TARGET gtest_main PROPERTY IMPORTED_LOCATION
+            ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
+endif ()
 
 #-----------------------------------------------------------------------------
 # Antlr C++ Runtime
@@ -108,17 +108,17 @@ ExternalProject_Add(antlr4cpp
         URL_MD5 2fc44eefafb2af020c918a635673f458
         TIMEOUT 10
         PREFIX ${EP_PREFIX}
-        LOG_CONFIGURE ON
-        LOG_BUILD ON
-        LOG_INSTALL ON
-        LOG_DOWNLOAD ON
-        LOG_UPDATE ON
+        LOG_CONFIGURE OFF
+        LOG_BUILD OFF
+        LOG_INSTALL OFF
+        LOG_DOWNLOAD OFF
+        LOG_UPDATE OFF
         BUILD_COMMAND make -j4
         CONFIGURE_COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug
         -DWITH_DEMO=OFF
         -DBUILD_SHARED_LIBS=OFF -BUILD_TESTS=OFF
         -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-        -DCMAKE_SOURCE_DIR=<SOURCE_DIR>/runtime/Cpp
+        #-DCMAKE_SOURCE_DIR=<SOURCE_DIR>/runtime/Cpp
         <SOURCE_DIR>/runtime/Cpp
         )
 add_library(antlr4-runtime STATIC IMPORTED)
@@ -143,7 +143,7 @@ add_subdirectory(apps/cymoca)
 if (WITH_TEST)
     enable_testing()
     add_subdirectory(test)
-endif()
+endif ()
 
 #-----------------------------------------------------------------------------
 # CPack

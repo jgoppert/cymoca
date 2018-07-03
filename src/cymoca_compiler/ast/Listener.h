@@ -18,8 +18,7 @@
 #include "declarations.h"
 #include <cassert>
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 #define VISITOR_MACRO(NAME)                                                    \
   virtual void enter(NAME &ctx){};                                             \
@@ -91,7 +90,6 @@ public:
   VISITOR_CONST_MACRO(WhenStatement)
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
