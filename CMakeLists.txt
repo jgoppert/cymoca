@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.9)
-
 project(cymoca C CXX)
 
 if (NOT CMAKE_BUILD_TYPE)
-    message(STATUS "Setting build type to 'DEBUG' as none was specified.")
-    set(CMAKE_BUILD_TYPE "Debug" CACHE
+    message(STATUS "Setting build type to 'Release' as none was specified.")
+    set(CMAKE_BUILD_TYPE "Release" CACHE
         STRING "Choose the type of build." FORCE)
     # Set the possible values of build type for cmake-gui
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
@@ -14,17 +13,18 @@ endif ()
 option(WITH_CASADI "enable casadi" OFF)
 option(WITH_TEST "enable testing" OFF)
 option(WITH_COVERAGE "enable coverage" OFF)
-option(WITH_STATIC "build for static linking" OFF)
+option(WITH_STATIC "build for static linking" ON)
 
 #-----------------------------------------------------------------------------
 # Setup
 #-----------------------------------------------------------------------------
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 17)
 
 if (WITH_STATIC)
-    # find only static libraries
+    # prefer static libraries
     if (WIN32)
         SET(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
     else (WIN32)

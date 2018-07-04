@@ -52,7 +52,9 @@ install:
   - if [ "${COVERAGE}" = "ON" ]; then pip install --user cpp-coveralls; fi
   - CC=${CC_}
   - CXX=${CXX_}
-  - ./scripts/install_deps.sh
+  - ./scripts/install_antlr.sh
+  - ./scripts/install_casadi.sh
+  - ./scripts/install_googletest.sh
 
 script:
   - ./scripts/format.sh 0
