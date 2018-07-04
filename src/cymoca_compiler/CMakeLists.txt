@@ -4,7 +4,7 @@
 
 include_directories(SYSTEM
         ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
+        ${Antlr4Runtime_INCLUDE_DIRS}
         ${EP_PREFIX}/include)
 
 include_directories(
@@ -26,7 +26,7 @@ add_library(cymoca_compiler STATIC
         )
 
 target_link_libraries(cymoca_compiler
-        antlr4-runtime
+        ${Antlr4Runtime_LIBRARIES}
         modelica_antlr
         cymoca_ast
         ${Boost_LIBRARIES}

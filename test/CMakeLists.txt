@@ -10,7 +10,7 @@ endif()
 
 include_directories(SYSTEM
         ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
+        ${Antlr4Runtime_INCLUDE_DIRS}
         ${EP_PREFIX}/include)
 
 include_directories(

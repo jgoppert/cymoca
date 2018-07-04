@@ -6,16 +6,16 @@ add_executable(cymoca
 target_link_libraries(cymoca
         cymoca_compiler
         modelica_antlr
-        antlr4-runtime
-        ${XercesC_LIBRARIES}
-        ${ICU_LIBRARIES})
+        ${Antlr4Runtime_LIBRARIES}
+        )
 
 target_compile_options(cymoca PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
 target_include_directories(cymoca SYSTEM PRIVATE
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
-        ${EP_PREFIX}/include)
+        ${EP_PREFIX}/include
+        ${Antlr4Runtime_INCLUDE_DIRS}
+        )
 
 install(TARGETS cymoca
         RUNTIME DESTINATION bin

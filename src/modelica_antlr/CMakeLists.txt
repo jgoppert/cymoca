@@ -34,12 +34,11 @@ add_custom_command(OUTPUT ${antlr_srcs} ${antlr_hdrs}
         -package modelica_antlr "${antlr_lexer}" "${antlr_parser}"
         WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
         DEPENDS ${antlr_parser} ${antlr_lexer})
-include_directories(${EP_PREFIX}/include/antlr4-runtime)
+include_directories(${Antlr4Runtime_INCLUDE_DIRS})
 add_library(modelica_antlr STATIC
         ${antlr_srcs}
         ${antlr_hdrs}
         )
-add_dependencies(modelica_antlr antlr4cpp)
-target_link_libraries(modelica_antlr antlr4-runtime)
+target_link_libraries(modelica_antlr ${Antlr4Runtime_LIBRARIES})
 
 # vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :

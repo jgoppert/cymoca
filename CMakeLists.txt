@@ -44,7 +44,9 @@ find_package(Boost COMPONENTS
         filesystem
         program_options
         REQUIRED)
+find_package(Antlr4Runtime REQUIRED)
 
+# set static linking
 set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 # includes
@@ -101,32 +103,6 @@ if (WITH_TEST)
 endif ()
 
 #-----------------------------------------------------------------------------
-# Antlr C++ Runtime
-#-----------------------------------------------------------------------------
-ExternalProject_Add(antlr4cpp
-        URL https://github.com/antlr/antlr4/archive/4.7.1.zip
-        URL_MD5 2fc44eefafb2af020c918a635673f458
-        TIMEOUT 10
-        PREFIX ${EP_PREFIX}
-        LOG_CONFIGURE OFF
-        LOG_BUILD OFF
-        LOG_INSTALL OFF
-        LOG_DOWNLOAD OFF
-        LOG_UPDATE OFF
-        BUILD_COMMAND make -j4
-        CONFIGURE_COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug
-        -DWITH_DEMO=OFF
-        -DBUILD_SHARED_LIBS=OFF -BUILD_TESTS=OFF
-        -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-        #-DCMAKE_SOURCE_DIR=<SOURCE_DIR>/runtime/Cpp
-        <SOURCE_DIR>/runtime/Cpp
-        )
-add_library(antlr4-runtime STATIC IMPORTED)
-set_property(TARGET antlr4-runtime PROPERTY IMPORTED_LOCATION
-        ${EP_PREFIX}/lib/libantlr4-runtime${CMAKE_STATIC_LIBRARY_SUFFIX})
-add_dependencies(antlr4-runtime antlr4cpp)
-
-#-----------------------------------------------------------------------------
 # Libraries
 #-----------------------------------------------------------------------------
 add_subdirectory(src/modelica_antlr)
@@ -150,9 +126,6 @@ endif ()
 #-----------------------------------------------------------------------------
 set(CPACK_PACKAGE_CONTACT james.goppert@gmail.com)
 set(CPACK_PACKAGE_VERSION ${VERSION})
-set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
 include(CPack)
 
 # vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :
