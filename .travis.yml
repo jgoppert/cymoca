@@ -35,8 +35,8 @@ matrix:
         sources:
         - *src_common
   - env:
-    - CXX_=g++-8
-    - CC_=gcc-8
+    - CXX_=g++-7
+    - CC_=gcc-7
     - CPACK=OFF
     - COVERAGE=ON
     - BUILD_TYPE=Debug
@@ -44,7 +44,7 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-8
+        - g++-7
         sources:
         - *src_common
   - env:
@@ -77,7 +77,7 @@ script:
 
 after_success:
   - if [ "${CPACK}" = "ON" ]; then cpack -G ZIP; fi
-  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-8; fi
+  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-7; fi
 
 deploy:
   provider: releases
