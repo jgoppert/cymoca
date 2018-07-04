@@ -79,7 +79,6 @@ following dependencies are met:
 ```bash
 git clone https://github.com/jgoppert/cymoca
 cd cymoca
-git submodules update --init --recursive
 mkdir -p build
 cd build && cmake -DWITH_TEST=ON ..
 make -j4
