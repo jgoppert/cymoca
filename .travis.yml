@@ -59,7 +59,7 @@ matrix:
         - *pkg_common
         - clang++-6.0
         - clang-6.0
-        - libc++-dev
+        - g++-8 # needed for headers
         sources:
         - *src_common
 
