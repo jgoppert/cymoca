@@ -64,13 +64,17 @@ following dependencies are met:
      * Ubuntu 18.04: https://github.com/jgoppert/antlr4/releases/download/4.7.1-cpack/LIBANTLR4-4.7.1-Linux.deb
      * Mac: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-macos.zip
      * Windows: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-vs2015.zip
-     * Other: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-source.zip
-   * casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
+     * Source: see scripts/install_antlr.sh
+   * Casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
      * Ubuntu 18.04: https://github.com/jgoppert/casadi/releases/download/3.4.4-jmg/casadi-3.4.4-Linux.deb
      * Other: build using cmake: https://github.com/casadi/casadi/wiki/InstallationInstructions
-   * libboost-program-options-dev
-   * libboost-filesystem-dev
-   * scripts/install_deps.sh shows how to build from source and is used for CI.
+     * Source: see scripts/install_casadi.sh
+   * Gtest, optional, used for testing
+     * Source: see scripts/install_gtest.sh
+   * Boost
+     * libboost-program-options-dev
+     * libboost-filesystem-dev
+     * libboost-system-dev
 
 * A quick example of building with cmake:
 ```bash
