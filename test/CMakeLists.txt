@@ -2,6 +2,10 @@
 # Test
 #-----------------------------------------------------------------------------
 
+add_subdirectory(googletest/googletest)
+
+find_package(Threads REQUIRED)
+
 # instrument code for coverage
 if (WITH_COVERAGE)
     add_compile_options(--coverage)
@@ -10,8 +14,9 @@ endif()
 
 include_directories(SYSTEM
         ${PROJECT_BINARY_DIR}
+        ${Boost_INCLUDE_DIRS}
         ${Antlr4Runtime_INCLUDE_DIRS}
-        ${EP_PREFIX}/include)
+        )
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/src)
@@ -20,7 +25,8 @@ add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-paramet
 
 # test parse
 add_executable(test_parse test_parse.cpp)
-target_link_libraries(test_parse cymoca_compiler gtest_main gtest)
+target_link_libraries(test_parse
+    ${Boost_LIBRARIES} cymoca_compiler gtest_main gtest)
 add_test(test_parse test_parse)
 
 # test ast
@@ -40,6 +46,7 @@ if (WITH_CASADI)
             cymoca_compiler
             gtest_main
             gtest
+            ${Boost_LIBRARIES}
             )
     add_test(test_casadi test_casadi)
     list(APPEND test_deps test_casadi)

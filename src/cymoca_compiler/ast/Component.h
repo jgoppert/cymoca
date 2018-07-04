@@ -7,6 +7,7 @@
 #include "Node.h"
 
 #include <unordered_map>
+#include <string>
 
 namespace cymoca::ast {
 

@@ -8,6 +8,7 @@
 #include "cymoca_compiler/util.h"
 
 #include <unordered_map>
+#include <string>
 
 namespace cymoca::ast {
 

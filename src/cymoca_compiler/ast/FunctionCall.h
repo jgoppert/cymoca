@@ -7,6 +7,8 @@
 #include "List.h"
 #include "Node.h"
 
+#include <string>
+
 namespace cymoca::ast {
 
 class FunctionCall : public Expr {

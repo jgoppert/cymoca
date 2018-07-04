@@ -6,6 +6,7 @@ add_executable(cymoca
 target_link_libraries(cymoca
         cymoca_compiler
         modelica_antlr
+        ${Boost_LIBRARIES}
         ${Antlr4Runtime_LIBRARIES}
         )
 
@@ -13,7 +14,7 @@ target_compile_options(cymoca PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
 target_include_directories(cymoca SYSTEM PRIVATE
         ${PROJECT_SOURCE_DIR}/src
         ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include
+        ${Boost_INCLUDE_DIRS}
         ${Antlr4Runtime_INCLUDE_DIRS}
         )
 

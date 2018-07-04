@@ -3,6 +3,7 @@
 //
 
 #include "Binary.h"
+#include <string>
 
 namespace cymoca::ast {
 

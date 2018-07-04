@@ -14,21 +14,34 @@ endif ()
 option(WITH_CASADI "enable casadi" OFF)
 option(WITH_TEST "enable testing" OFF)
 option(WITH_COVERAGE "enable coverage" OFF)
+option(WITH_STATIC "build for static linking" OFF)
 
 #-----------------------------------------------------------------------------
 # Setup
 #-----------------------------------------------------------------------------
+
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 17)
-set(EP_PREFIX ${CMAKE_BINARY_DIR}/deps)
-set_property(DIRECTORY PROPERTY EP_PREFIX ${EP_PREFIX})
 
-# find only static libraries
-if (WIN32)
-    SET(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
-else (WIN32)
-    SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
-endif (WIN32)
+if (WITH_STATIC)
+    # find only static libraries
+    if (WIN32)
+        SET(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+    else (WIN32)
+        SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+    endif (WIN32)
+    set(Boost_USE_STATIC_LIBS ON)
+
+    # set static linking
+    if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GCC")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+    endif()
+endif()
+
+# handle clang libc++
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+endif()
 
 # copy compile commands to source directory for auto-completion with vim etc.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL
@@ -39,23 +52,11 @@ add_custom_target(copy_compile_commands ALL
         DEPENDS cymoca)
 
 # packages
-set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost COMPONENTS
-        filesystem
-        program_options
-        REQUIRED)
+    filesystem
+    program_options
+    REQUIRED)
 find_package(Antlr4Runtime REQUIRED)
-
-# set static linking
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
-
-# includes
-include(ExternalProject)
-
-# googletest
-find_package(Threads REQUIRED)
-
-link_directories(${EP_PREFIX}/lib)
 
 #-----------------------------------------------------------------------------
 # Version based on GIT tags
@@ -74,33 +75,6 @@ set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 configure_file(${PROJECT_SOURCE_DIR}/cmake/version.cpp.in
         ${PROJECT_BINARY_DIR}/version.cpp)
 set(version_file "${PROJECT_BINARY_DIR}/version.cpp")
-
-#-----------------------------------------------------------------------------
-# Google Test
-#-----------------------------------------------------------------------------
-if (WITH_TEST)
-    ExternalProject_Add(googletest
-            URL https://github.com/google/googletest/archive/release-1.8.0.zip
-            URL_MD5 adfafc8512ab65fd3cf7955ef0100ff5
-            TIMEOUT 10
-            LOG_CONFIGURE ON
-            LOG_BUILD ON
-            LOG_INSTALL ON
-            LOG_DOWNLOAD ON
-            LOG_UPDATE ON
-            PREFIX ${EP_PREFIX}
-            BUILD_COMMAND make -j4
-            CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_PREFIX}
-            )
-    add_library(gtest STATIC IMPORTED)
-    add_dependencies(gtest googletest)
-    set_property(TARGET gtest PROPERTY IMPORTED_LOCATION
-            ${EP_PREFIX}/lib/libgtest${CMAKE_STATIC_LIBRARY_SUFFIX})
-    add_library(gtest_main STATIC IMPORTED)
-    add_dependencies(gtest_main googletest)
-    set_property(TARGET gtest_main PROPERTY IMPORTED_LOCATION
-            ${EP_PREFIX}/lib/libgtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
-endif ()
 
 #-----------------------------------------------------------------------------
 # Libraries

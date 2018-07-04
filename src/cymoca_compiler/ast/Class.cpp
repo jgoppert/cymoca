@@ -7,6 +7,8 @@
 #include "Dict.h"
 #include "List.h"
 
+#include <string>
+
 namespace cymoca::ast {
 
 Class::Class(unique_ptr<Dict<Component>> components,

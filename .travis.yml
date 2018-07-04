@@ -47,20 +47,6 @@ matrix:
         - g++-7
         sources:
         - *src_common
-  - env:
-    - CXX_=clang++-6.0
-    - CC_=clang-6.0
-    - CPACK=OFF
-    - COVERAGE=OFF
-    - BUILD_TYPE=Release
-    addons:
-      apt:
-        packages:
-        - *pkg_common
-        - clang++-6.0
-        - libc++-dev
-        sources:
-        - *src_common
 
 install:
   - if [ "${COVERAGE}" = "ON" ]; then pip install --user cpp-coveralls; fi

@@ -3,6 +3,7 @@
 set -e 
 
 # casadi
+rm -rf /tmp/casadi
 mkdir -p /tmp/casadi
 pushd /tmp/casadi
 echo downloading casadi
@@ -22,6 +23,7 @@ popd
 popd
 
 # antlr4
+rm -rf /tmp/antlr4
 mkdir -p /tmp/antlr4
 pushd /tmp/antlr4
 echo downloading antlr4

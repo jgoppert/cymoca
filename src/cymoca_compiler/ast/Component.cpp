@@ -5,6 +5,8 @@
 #include "Component.h"
 #include "ComponentRef.h"
 
+#include <string>
+
 namespace cymoca::ast {
 
 Component::Component(const string &name, const string &type,

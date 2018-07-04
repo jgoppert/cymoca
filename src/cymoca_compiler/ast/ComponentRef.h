@@ -6,6 +6,8 @@
 
 #include "Node.h"
 
+#include <string>
+
 namespace cymoca::ast {
 
 class ComponentRef : public Expr {
