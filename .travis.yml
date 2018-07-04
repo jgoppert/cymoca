@@ -18,12 +18,12 @@ addons:
 
 matrix:
   # don't use full compiler path
-  # (e.g. /usr/bin/g++-5), it will bypass ccache
+  # (e.g. /usr/bin/g++-7), it will bypass ccache
   fast_finish: true
   include:
   - env:
-    - CXX_=g++-5
-    - CC_=gcc-5
+    - CXX_=g++-8
+    - CC_=gcc-8
     - CPACK=ON
     - COVERAGE=OFF
     - BUILD_TYPE=Release
@@ -31,12 +31,12 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-5
+        - g++-8
         sources:
         - *src_common
   - env:
-    - CXX_=g++-5
-    - CC_=gcc-5
+    - CXX_=g++-8
+    - CC_=gcc-8
     - CPACK=OFF
     - COVERAGE=ON
     - BUILD_TYPE=Debug
@@ -44,11 +44,23 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-5
+        - g++-8
         sources:
         - *src_common
-
-# TODO: add clang
+  - env:
+    - CXX_=clang++-6.0
+    - CC_=clang-6.0
+    - CPACK=OFF
+    - COVERAGE=OFF
+    - BUILD_TYPE=Release
+    addons:
+      apt:
+        packages:
+        - *pkg_common
+        - clang++-6.0
+        - clang-6.0
+        sources:
+        - *src_common
 
 install:
   - if [ "${COVERAGE}" = "ON" ]; then pip install --user cpp-coveralls; fi
