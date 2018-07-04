@@ -2,7 +2,7 @@ language: cpp
 cache: ccache
 os: linux
 dist: trusty
-sudo: false
+sudo: true
 
 addons:
   apt:
@@ -48,12 +48,13 @@ matrix:
         sources:
         - *src_common
 
-# antlr c++ runtimes doesn't build on clang yet
+# TODO: add clang
 
 install:
   - if [ "${COVERAGE}" = "ON" ]; then pip install --user cpp-coveralls; fi
   - CC=${CC_}
   - CXX=${CXX_}
+  - ./scripts/install_deps.sh
 
 script:
   - ./scripts/format.sh 0

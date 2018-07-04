@@ -66,11 +66,11 @@ following dependencies are met:
      * Windows: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-vs2015.zip
      * Other: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-source.zip
    * gtest, optional, (automatically downloaded and built with cmake) enabled with -DWITH_TEST=ON
-   * libboost-filesystem-dev
    * libboost-program-options-dev
    * casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
      * Ubuntu 18.04: https://github.com/jgoppert/casadi/releases/download/3.4.4-jmg/casadi-3.4.4-Linux.deb
      * Other: build using cmake: https://github.com/casadi/casadi/wiki/InstallationInstructions
+   * scripts/install_deps.sh shows how to build from source and is used for CI.
 
 * A quick example of building with cmake:
 ```bash
