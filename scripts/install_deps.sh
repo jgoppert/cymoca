@@ -6,8 +6,8 @@ set -e
 mkdir -p /tmp/casadi
 pushd /tmp/casadi
 echo downloading casadi
-wget https://github.com/jgoppert/casadi/archive/3.4.4-jmg.tar.gz > download.log
-tar xzvf 3.4.4-jmg.tar.gz > extract.log
+wget -q https://github.com/jgoppert/casadi/archive/3.4.4-jmg.tar.gz
+tar xzf 3.4.4-jmg.tar.gz
 pushd casadi-3.4.4-jmg
 mkdir -p build
 pushd build
@@ -25,8 +25,8 @@ popd
 mkdir -p /tmp/antlr4
 pushd /tmp/antlr4
 echo downloading antlr4
-wget https://github.com/jgoppert/antlr4/archive/4.7.1-cpack.tar.gz > download.log
-tar xzvf 4.7.1-cpack.tar.gz > extract.log
+wget -q https://github.com/jgoppert/antlr4/archive/4.7.1-cpack.tar.gz
+tar xzf 4.7.1-cpack.tar.gz
 pushd antlr4-4.7.1-cpack/runtime/Cpp
 mkdir -p build
 pushd build
