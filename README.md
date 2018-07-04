@@ -58,7 +58,8 @@ following dependencies are met:
 
 ### Build from Source
 
-* You can build from source using cmake.
+* You can build cymoca from source using cmake. You will need the following dependencies:
+
 * Dependencies
    * Antlr4 C++ runtime:
      * Ubuntu 18.04: [deb](https://github.com/jgoppert/antlr4/releases/download/4.7.1-cpack/LIBANTLR4-4.7.1-Linux.deb)
