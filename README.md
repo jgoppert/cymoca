@@ -61,16 +61,15 @@ following dependencies are met:
 * You can build from source using cmake.
 * Dependencies
    * Antlr4 C++ runtime:
-     * Ubuntu 18.04: https://github.com/jgoppert/antlr4/releases/download/4.7.1-cpack/LIBANTLR4-4.7.1-Linux.deb
-     * Mac: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-macos.zip
-     * Windows: http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-vs2015.zip
-     * Source: see [script](scripts/install_antlr.sh)
+     * Ubuntu 18.04: [deb](https://github.com/jgoppert/antlr4/releases/download/4.7.1-cpack/LIBANTLR4-4.7.1-Linux.deb)
+     * Mac [Zip](http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-macos.zip)
+     * Windows [Zip](http://www.antlr.org/download/antlr4-cpp-runtime-4.7.1-vs2015.zip)
+     * Build from Source: see [script](scripts/install_antlr.sh)
    * Casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON
-     * Ubuntu 18.04: https://github.com/jgoppert/casadi/releases/download/3.4.4-jmg/casadi-3.4.4-Linux.deb
-     * Other: build using cmake: https://github.com/casadi/casadi/wiki/InstallationInstructions
-     * Source: see [script](scripts/install_casadi.sh)
+     * Ubuntu 18.04: [deb](https://github.com/jgoppert/casadi/releases/download/3.4.4-jmg/casadi-3.4.4-Linux.deb)
+     * Build from Source: see [script](scripts/install_casadi.sh)
    * Gtest, optional, used for testing
-     * Source: see [script](scripts/install_googletest.sh)
+     * Build from Source: see [script](scripts/install_googletest.sh)
    * Boost
      * libboost-program-options-dev
      * libboost-filesystem-dev
