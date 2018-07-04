@@ -1,6 +1,16 @@
 #-----------------------------------------------------------------------------
 # Test
 #-----------------------------------------------------------------------------
+set(GTEST_ROOT "/usr")
+find_package(Threads REQUIRED)
+find_package(GTest REQUIRED)
+
+set(test_libs
+    cymoca_compiler
+    ${Boost_LIBRARIES}
+    ${GTEST_BOTH_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+    )
 
 # instrument code for coverage
 if (WITH_COVERAGE)
@@ -10,8 +20,9 @@ endif()
 
 include_directories(SYSTEM
         ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
-        ${EP_PREFIX}/include)
+        ${Boost_INCLUDE_DIRS}
+        ${Antlr4Runtime_INCLUDE_DIRS}
+        )
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/src)
@@ -20,12 +31,12 @@ add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-paramet
 
 # test parse
 add_executable(test_parse test_parse.cpp)
-target_link_libraries(test_parse cymoca_compiler gtest_main gtest)
+target_link_libraries(test_parse ${test_libs})
 add_test(test_parse test_parse)
 
 # test ast
 add_executable(test_ast test_ast.cpp)
-target_link_libraries(test_ast cymoca_compiler gtest_main gtest)
+target_link_libraries(test_ast ${test_libs})
 add_test(test_ast test_ast)
 
 # keep track of test targets so ctest builds what is required before running
@@ -35,12 +46,7 @@ set(test_deps cymoca cymoca_compiler test_parse test_ast)
 if (WITH_CASADI)
     add_executable(test_casadi
             test_casadi.cpp)
-    target_link_libraries(test_casadi
-            casadi
-            cymoca_compiler
-            gtest_main
-            gtest
-            )
+    target_link_libraries(test_casadi casadi ${test_libs})
     add_test(test_casadi test_casadi)
     list(APPEND test_deps test_casadi)
 endif()

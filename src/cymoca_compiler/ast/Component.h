@@ -6,10 +6,10 @@
 
 #include "Node.h"
 
+#include <string>
 #include <unordered_map>
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 enum class Prefix { PARAMETER, CONSTANT, VARIABLE };
 
@@ -34,5 +34,4 @@ protected:
 
 extern unordered_map<Prefix, string, EnumClassHash> prefixStr;
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast

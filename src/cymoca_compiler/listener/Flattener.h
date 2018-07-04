@@ -12,8 +12,7 @@
 using namespace std;
 using namespace cymoca::ast;
 
-namespace cymoca {
-namespace listener {
+namespace cymoca::listener {
 
 /**
  * A listener to flatten the class hierarchy.
@@ -250,7 +249,6 @@ protected:
   stack<const Class *> _stack{};
 };
 
-} // namespace listener
-} // namespace cymoca
+} // namespace cymoca::listener
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

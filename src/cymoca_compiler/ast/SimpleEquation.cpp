@@ -4,8 +4,7 @@
 
 #include "SimpleEquation.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 SimpleEquation::SimpleEquation(unique_ptr<Expr> left, unique_ptr<Expr> right)
     : Equation(typeid(*this)), _left(move(left)), _right(move(right)) {
@@ -35,7 +34,6 @@ unique_ptr<Node> SimpleEquation::clone() const {
                                      _right->cloneAs<Expr>());
 }
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

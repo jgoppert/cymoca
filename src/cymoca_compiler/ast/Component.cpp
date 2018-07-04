@@ -5,8 +5,9 @@
 #include "Component.h"
 #include "ComponentRef.h"
 
-namespace cymoca {
-namespace ast {
+#include <string>
+
+namespace cymoca::ast {
 
 Component::Component(const string &name, const string &type,
                      const Prefix &prefix)
@@ -36,7 +37,6 @@ unordered_map<Prefix, string, EnumClassHash> prefixStr = {
     {Prefix::VARIABLE, ""},
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

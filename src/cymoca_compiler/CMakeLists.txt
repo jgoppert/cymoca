@@ -4,8 +4,8 @@
 
 include_directories(SYSTEM
         ${PROJECT_BINARY_DIR}
-        ${EP_PREFIX}/include/antlr4-runtime
-        ${EP_PREFIX}/include)
+        ${Antlr4Runtime_INCLUDE_DIRS}
+        )
 
 include_directories(
         ${PROJECT_SOURCE_DIR}/src)
@@ -17,6 +17,7 @@ add_subdirectory(ast)
 add_library(cymoca_compiler STATIC
         ${PROJECT_BINARY_DIR}/version.cpp
         version.h
+        util.h
         Compiler.cpp
         Compiler.h
         listener/LispPrinter.h
@@ -25,10 +26,9 @@ add_library(cymoca_compiler STATIC
         )
 
 target_link_libraries(cymoca_compiler
-        antlr4-runtime
+        ${Antlr4Runtime_LIBRARIES}
         modelica_antlr
         cymoca_ast
-        ${Boost_LIBRARIES}
         ${CMAKE_THREAD_LIBS_INIT})
 
 

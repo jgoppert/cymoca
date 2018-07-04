@@ -7,8 +7,7 @@
 #include "Listener.h"
 #include "Node.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 class Walker {
 public:
@@ -41,7 +40,6 @@ public:
   virtual void exit(const Node &node, ConstListener &listener);
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

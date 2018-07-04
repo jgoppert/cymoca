@@ -4,8 +4,7 @@
 
 #include "FunctionCall.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 FunctionCall::FunctionCall(const string &name, unique_ptr<Args> args)
     : Expr(typeid(*this)), _name(name), _args(move(args)) {
@@ -31,7 +30,6 @@ unique_ptr<Node> FunctionCall::clone() const {
   return make_unique<FunctionCall>(name(), _args->cloneAsList());
 }
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

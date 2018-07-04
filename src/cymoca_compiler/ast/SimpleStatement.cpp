@@ -5,8 +5,7 @@
 #include "SimpleStatement.h"
 #include "ComponentRef.h"
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 SimpleStatement::SimpleStatement(unique_ptr<ComponentRef> ref,
                                  unique_ptr<Expr> expr)
@@ -37,7 +36,6 @@ unique_ptr<Node> SimpleStatement::clone() const {
                                       _expr->cloneAs<Expr>());
 }
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :

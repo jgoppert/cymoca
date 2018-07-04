@@ -2,7 +2,7 @@ language: cpp
 cache: ccache
 os: linux
 dist: trusty
-sudo: false
+sudo: true
 
 addons:
   apt:
@@ -18,12 +18,12 @@ addons:
 
 matrix:
   # don't use full compiler path
-  # (e.g. /usr/bin/g++-5), it will bypass ccache
+  # (e.g. /usr/bin/g++-7), it will bypass ccache
   fast_finish: true
   include:
   - env:
-    - CXX_=g++-5
-    - CC_=gcc-5
+    - CXX_=g++-8
+    - CC_=gcc-8
     - CPACK=ON
     - COVERAGE=OFF
     - BUILD_TYPE=Release
@@ -31,12 +31,12 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-5
+        - g++-8
         sources:
         - *src_common
   - env:
-    - CXX_=g++-5
-    - CC_=gcc-5
+    - CXX_=g++-7
+    - CC_=gcc-7
     - CPACK=OFF
     - COVERAGE=ON
     - BUILD_TYPE=Debug
@@ -44,16 +44,17 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-5
+        - g++-7
         sources:
         - *src_common
-
-# antlr c++ runtimes doesn't build on clang yet
 
 install:
   - if [ "${COVERAGE}" = "ON" ]; then pip install --user cpp-coveralls; fi
   - CC=${CC_}
   - CXX=${CXX_}
+  - ./scripts/install_antlr.sh
+  - ./scripts/install_casadi.sh
+  - ./scripts/install_googletest.sh
 
 script:
   - ./scripts/format.sh 0
@@ -63,7 +64,7 @@ script:
 
 after_success:
   - if [ "${CPACK}" = "ON" ]; then cpack -G ZIP; fi
-  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-5; fi
+  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-7; fi
 
 deploy:
   provider: releases

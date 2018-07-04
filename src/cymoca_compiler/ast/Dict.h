@@ -9,8 +9,7 @@
 
 #include <unordered_map>
 
-namespace cymoca {
-namespace ast {
+namespace cymoca::ast {
 
 template <class T> class Dict : public Node {
 public:
@@ -70,7 +69,6 @@ protected:
   unordered_map<string, unique_ptr<T>> _map;
 };
 
-} // namespace ast
-} // namespace cymoca
+} // namespace cymoca::ast
 
 // vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
