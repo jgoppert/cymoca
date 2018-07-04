@@ -76,7 +76,7 @@ script:
 
 after_success:
   - if [ "${CPACK}" = "ON" ]; then cpack -G ZIP; fi
-  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-5; fi
+  - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-8; fi
 
 deploy:
   provider: releases
