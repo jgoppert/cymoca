@@ -4,7 +4,7 @@
 
 #include "Binary.h"
 
-namespace cymoca:: ast {
+namespace cymoca::ast {
 
 unordered_map<BinaryOp, string, EnumClassHash> binaryOpStr = {
     {BinaryOp::ADD, "+"},   {BinaryOp::SUB, "-"},  {BinaryOp::MUL, "*"},
