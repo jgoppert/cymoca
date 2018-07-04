@@ -70,7 +70,7 @@ following dependencies are met:
      * Other: build using cmake: https://github.com/casadi/casadi/wiki/InstallationInstructions
      * Source: see [script](scripts/install_casadi.sh)
    * Gtest, optional, used for testing
-     * Source: see [script](scripts/install_gtest.sh)
+     * Source: see [script](scripts/install_googletest.sh)
    * Boost
      * libboost-program-options-dev
      * libboost-filesystem-dev
