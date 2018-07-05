@@ -22,8 +22,8 @@ matrix:
   fast_finish: true
   include:
   - env:
-    - CXX_=g++-8
-    - CC_=gcc-8
+    - CXX_=g++-7
+    - CC_=gcc-7
     - CPACK=ON
     - COVERAGE=OFF
     - BUILD_TYPE=Release
@@ -31,7 +31,7 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-8
+        - g++-7
         sources:
         - *src_common
   - env:
