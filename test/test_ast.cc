@@ -46,4 +46,5 @@ TEST(Ast, If) {
 
   AddOne add_one;
   walker.walk(*e2, add_one);
+  walker.walk(*e2, printer);
 }
