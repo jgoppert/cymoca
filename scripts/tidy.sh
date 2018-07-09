@@ -8,5 +8,5 @@ then
 fi
 apply=$1
 
-files=`find . -regex "./\(src\|test\).*\.\(cpp\|c\)"`
+files=`find . -regex "./\(src\|test\).*\.\(cpp\|c\|h\|hpp\)"`
 clang-tidy-6.0 $files

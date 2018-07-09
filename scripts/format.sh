@@ -12,14 +12,19 @@ apply=$1
 
 files=`find . -regex "./\(src\|test\).*\.\(cpp\|h\|c\|hpp\)"`
 
-if [ $apply == 1 ]
-then
-	clang-format-6.0 -i $files
-else
-	clang-format-6.0 -output-replacements-xml $files | grep -c "<replacement " >/dev/null
-	if [ $? -ne 1 ]; then 
-    	echo "Commit did not match clang-format, please run '$0 1'"
-		git clang-format-6.0 --diff HEAD^ $files
-    	exit 1
+clang-format-6.0 -output-replacements-xml $files | grep -c "<replacement " >/dev/null
+if [ $? -ne 1 ]; then 
+    git clang-format-6.0 --diff HEAD^ $files
+	if [ $apply == 1 ]
+	then
+		clang-format-6.0 -i $files
+		echo "formatting complete"
+		exit 0
+	else
+		echo "formatting required"
+		exit 1
 	fi
+else
+	echo "no files need to be formatted"
 fi
+exit 0

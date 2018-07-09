@@ -4,13 +4,16 @@
 set(GTEST_ROOT "/usr")
 find_package(Threads REQUIRED)
 find_package(GTest REQUIRED)
+set(TEST_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(test_libs
     cymoca_compiler
-    ${Boost_LIBRARIES}
+    cymoca_ast
     ${GTEST_BOTH_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
     )
+
+configure_file(test_config.h.in test_config.h)
 
 # instrument code for coverage
 if (WITH_COVERAGE)
@@ -19,23 +22,23 @@ if (WITH_COVERAGE)
 endif()
 
 include_directories(SYSTEM
-        ${PROJECT_BINARY_DIR}
-        ${Boost_INCLUDE_DIRS}
-        ${Antlr4Runtime_INCLUDE_DIRS}
-        )
+    ${CYMOCA_BINARY_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${Antlr4Runtime_INCLUDE_DIRS}
+    )
 
 include_directories(
-        ${PROJECT_SOURCE_DIR}/src)
+    ${CYMOCA_SOURCE_DIR}/src)
 
 add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)
 
 # test parse
-add_executable(test_parse test_parse.cpp)
-target_link_libraries(test_parse ${test_libs})
+add_executable(test_parse test_parse.cc)
+target_link_libraries(test_parse ${test_libs} stdc++fs)
 add_test(test_parse test_parse)
 
 # test ast
-add_executable(test_ast test_ast.cpp)
+add_executable(test_ast test_ast.cc)
 target_link_libraries(test_ast ${test_libs})
 add_test(test_ast test_ast)
 
@@ -44,15 +47,15 @@ set(test_deps cymoca cymoca_compiler test_parse test_ast)
 
 # test casadi
 if (WITH_CASADI)
-    add_executable(test_casadi
-            test_casadi.cpp)
-    target_link_libraries(test_casadi casadi ${test_libs})
-    add_test(test_casadi test_casadi)
-    list(APPEND test_deps test_casadi)
+    #add_executable(test_casadi
+    #        test_casadi.cc)
+    #target_link_libraries(test_casadi casadi ${test_libs})
+    #add_test(test_casadi test_casadi)
+    #list(APPEND test_deps test_casadi)
 endif()
 
 # cli
-add_test(cli_help ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca -h)
+add_test(cli_help ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca)
 add_test(cli_compile ${CMAKE_BINARY_DIR}/apps/cymoca/cymoca ${CMAKE_CURRENT_SOURCE_DIR}/models/Simple.mo)
 
 # ctest
@@ -65,7 +68,7 @@ set(check_deps run_tests)
 if (WITH_COVERAGE)
     add_custom_target(coverage_html
         COMMAND lcov --capture --directory . --output-file coverage.info
-        COMMAND lcov --remove coverage.info '/usr/*' 'build/*' 'test/*' -o coverage_filtered.info
+        COMMAND lcov --remove coverage.info '/usr/*' '*/build/*' '*/test/*' -o coverage_filtered.info
         COMMAND lcov --summary coverage_filtered.info
         COMMAND genhtml coverage_filtered.info --output-directory out
         COMMAND x-www-browser out/index.html
@@ -77,5 +80,3 @@ endif()
 # check for CI
 add_custom_target(check
     DEPENDS ${check_deps})
-
-# vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :

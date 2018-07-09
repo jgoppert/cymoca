@@ -2,6 +2,9 @@ build
 cmake-build-*
 .idea/workspace.xml
 Testing/
+doc/html
+doc/latex
 compile_commands.json
+*.txt.user
 *.orig
 *.swp

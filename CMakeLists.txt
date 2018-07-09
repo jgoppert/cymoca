@@ -14,13 +14,23 @@ option(WITH_CASADI "enable casadi" OFF)
 option(WITH_TEST "enable testing" OFF)
 option(WITH_COVERAGE "enable coverage" OFF)
 option(WITH_STATIC "build for static linking" ON)
+set(options WITH_CASADI WITH_TEST WITH_COVERAGE WITH_STATIC)
+
+message(STATUS "options:")
+foreach(option ${options})
+message(STATUS "\t${option}: ${${option}}")
+endforeach()
 
 #-----------------------------------------------------------------------------
 # Setup
 #-----------------------------------------------------------------------------
 
+# support multi-build like catkin by avoiding CMAKE_PROJECT
+set(CYMOCA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(CYMOCA_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CYMOCA_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 17)
 
 if (WITH_STATIC)
@@ -30,7 +40,6 @@ if (WITH_STATIC)
     else (WIN32)
         SET(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
     endif (WIN32)
-    set(Boost_USE_STATIC_LIBS ON)
 
     # set static linking
     if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GCC")
@@ -51,11 +60,13 @@ add_custom_target(copy_compile_commands ALL
         ${PROJECT_BINARY_DIR}/compile_commands.json ${PROJECT_SOURCE_DIR}
         DEPENDS cymoca)
 
+# format
+add_custom_target(format
+        COMMAND ./scripts/format.sh 1
+        WORKING_DIRECTORY ${CYMOCA_SOURCE_DIR}
+        )
+
 # packages
-find_package(Boost COMPONENTS
-    filesystem
-    program_options
-    REQUIRED)
 find_package(Antlr4Runtime REQUIRED)
 
 #-----------------------------------------------------------------------------
@@ -72,15 +83,16 @@ string(REGEX REPLACE ${version_regex} "\\2" VERSION_MINOR ${VERSION})
 string(REGEX REPLACE ${version_regex} "\\3" VERSION_PATCH ${VERSION})
 string(REGEX REPLACE ${version_regex} "\\4" VERSION_SHA ${VERSION})
 set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-configure_file(${PROJECT_SOURCE_DIR}/cmake/version.cpp.in
-        ${PROJECT_BINARY_DIR}/version.cpp)
-set(version_file "${PROJECT_BINARY_DIR}/version.cpp")
+configure_file(${CYMOCA_SOURCE_DIR}/cmake/version.cc.in
+    ${CYMOCA_BINARY_DIR}/version.cc)
+set(version_file "${CYMOCA_BINARY_DIR}/version.cc")
 
 #-----------------------------------------------------------------------------
 # Libraries
 #-----------------------------------------------------------------------------
+
 add_subdirectory(src/modelica_antlr)
-add_subdirectory(src/cymoca_compiler)
+add_subdirectory(src/cymoca)
 
 #-----------------------------------------------------------------------------
 # Applications
@@ -101,5 +113,3 @@ endif ()
 set(CPACK_PACKAGE_CONTACT james.goppert@gmail.com)
 set(CPACK_PACKAGE_VERSION ${VERSION})
 include(CPack)
-
-# vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :

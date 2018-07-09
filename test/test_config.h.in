@@ -1,0 +1,7 @@
+#pragma once
+
+#include <string>
+
+namespace cymoca::test {
+extern const std::string path = "@TEST_PATH@";
+}

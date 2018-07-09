@@ -11,7 +11,7 @@ pushd antlr4-4.7.1-cpack/runtime/Cpp
 mkdir -p build
 pushd build
 echo building antlr4
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j4
 echo packaging antlr4
 cpack -G DEB
