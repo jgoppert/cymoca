@@ -39,6 +39,5 @@ add_library(modelica_antlr STATIC
         ${antlr_srcs}
         ${antlr_hdrs}
         )
+target_compile_options(modelica_antlr PRIVATE -Wno-attributes)
 target_link_libraries(modelica_antlr ${Antlr4Runtime_LIBRARIES})
-
-# vim: set et fenc=utf-8 ff=unix ft=cmake sts=0 sw=4 ts=4 :

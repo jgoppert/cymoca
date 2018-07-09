@@ -10,11 +10,11 @@ A Modelica compiler written in modern C++ with Python bindings.
 * Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md).
 	* <img src="doc/ast.png" alt="drawing" width="500px"/>
 * Listener based generators decoupled from the AST, easy to compile Modelica to new targets.
-  * Lisp string printing [LispListener](src/cymoca_compiler/listener/LispPrinter.h).
+  * Lisp string printing [LispListener](src/cymoca/ast/listener/listener.h).
   * Generator for [Casadi](https://github.com/casadi/casadi/wiki) in development, [Demo](test/test_casadi.cpp).
 * Listener based compiler
-  * [Compiler](src/cymoca_compiler/Compiler.cpp)
-  * [Tree Rewriting](src/cymoca_compiler/listener/WhenExpander.h)
+  * [Compiler](src/cymoca/Compiler.cpp)
+  * [Tree Rewriting](src/cymoca/ast/listener/when_expander.h)
 * C++17 used throughout, minimal copying, low memory footprint, and fast.
 * Python bindings planned.
 * Data format for simulations [HDF5](https://www.hdfgroup.org/)
@@ -71,10 +71,6 @@ following dependencies are met:
      * Build from Source: see [script](scripts/install_casadi.sh)
    * Gtest, optional, used for testing
      * Build from Source: see [script](scripts/install_googletest.sh)
-   * Boost
-     * libboost-program-options-dev
-     * libboost-filesystem-dev
-     * libboost-system-dev
 
 * A quick example of building with cmake:
 ```bash
@@ -91,7 +87,12 @@ cymoca my_model.mo
 
 ## Contributing
 
-* Coding standard: [LLVM](https://llvm.org/docs/CodingStandards.html)
+* Coding standard: [Google](https://google.github.io/styleguide/cppguide.html)
+	* Changes:
+		 * Use m_name instead of name_ for class members to make leading autocomplete nicer to work with.
+		 * Prefer getName() to name() for getter so that all attributes are also easy to acces with get<TAB>
+		 * Prefer setName() to set_name() for setter
+
 * If you want to get started, feel free to make a PR. The easiest place to start is with a new generator derived from Listener/ConstListener.
 
 ## License

@@ -10,8 +10,6 @@ addons:
     - cmake3
     - cmake3-data
     - clang-format-6.0
-    - libboost-filesystem-dev
-    - libboost-program-options-dev
     sources: &src_common
     - llvm-toolchain-trusty-6.0
     - ubuntu-toolchain-r-test
@@ -76,5 +74,3 @@ deploy:
   on:
     tags: true
     condition: $CPACK = ON
-
-#  vim: set et fenc=utf-8 ff=unix sts=0 sw=2 ts=2 :
