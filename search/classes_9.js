@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['walker',['Walker',['../classcymoca_1_1ast_1_1_walker.html',1,'cymoca::ast']]],
-  ['when',['When',['../classcymoca_1_1ast_1_1equation_1_1_when.html',1,'cymoca::ast::equation']]],
-  ['when',['When',['../classcymoca_1_1ast_1_1statement_1_1_when.html',1,'cymoca::ast::statement']]]
+  ['not',['Not',['../classcymoca_1_1ast_1_1condition_1_1_not.html',1,'cymoca::ast::condition']]],
+  ['number',['Number',['../classcymoca_1_1ast_1_1expression_1_1_number.html',1,'cymoca::ast::expression']]]
 ];

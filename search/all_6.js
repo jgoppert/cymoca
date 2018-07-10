@@ -8,5 +8,7 @@ var searchData=
   ['getprefix',['getPrefix',['../classcymoca_1_1ast_1_1element_1_1_component.html#aac7bb62962318da30f44991384c4b93c',1,'cymoca::ast::element::Component']]],
   ['gettokenstream',['getTokenStream',['../classcymoca_1_1_compiler.html#a16c0a5dd90a678274a110e2091699f3a',1,'cymoca::Compiler']]],
   ['gettype',['getType',['../classcymoca_1_1ast_1_1element_1_1_component.html#aeda77ca4f2bda14eea46790b5ad1f7b0',1,'cymoca::ast::element::Component']]],
-  ['getvalue',['getValue',['../classcymoca_1_1ast_1_1condition_1_1_boolean.html#a8e58b4570b9d9c0bd27fefb9a6c95578',1,'cymoca::ast::condition::Boolean::getValue()'],['../classcymoca_1_1ast_1_1expression_1_1_number.html#afb97528ff3f18e2cdb253c02c8afd568',1,'cymoca::ast::expression::Number::getValue()']]]
+  ['getvalue',['getValue',['../classcymoca_1_1ast_1_1condition_1_1_boolean.html#a8e58b4570b9d9c0bd27fefb9a6c95578',1,'cymoca::ast::condition::Boolean::getValue()'],['../classcymoca_1_1ast_1_1expression_1_1_number.html#afb97528ff3f18e2cdb253c02c8afd568',1,'cymoca::ast::expression::Number::getValue()']]],
+  ['greaterthan',['GreaterThan',['../classcymoca_1_1ast_1_1condition_1_1_greater_than.html',1,'cymoca::ast::condition']]],
+  ['greaterthanorequal',['GreaterThanOrEqual',['../classcymoca_1_1ast_1_1condition_1_1_greater_than_or_equal.html',1,'cymoca::ast::condition']]]
 ];

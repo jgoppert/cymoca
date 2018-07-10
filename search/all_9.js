@@ -17,5 +17,6 @@ var searchData=
   ['m_5fverbose',['m_verbose',['../classcymoca_1_1_compiler.html#a6330c173e47e241518a295746127f58a',1,'cymoca::Compiler']]],
   ['map',['map',['../classcymoca_1_1ast_1_1model_1_1_element_dict.html#a9dc9692a71a4f45240105d60ab2664fc',1,'cymoca::ast::model::ElementDict']]],
   ['model_2eh',['model.h',['../model_8h.html',1,'']]],
-  ['moveast',['moveAst',['../classcymoca_1_1_compiler.html#a7b101308df13ce1124e59af8c15c65e5',1,'cymoca::Compiler']]]
+  ['moveast',['moveAst',['../classcymoca_1_1_compiler.html#a7b101308df13ce1124e59af8c15c65e5',1,'cymoca::Compiler']]],
+  ['multiply',['Multiply',['../classcymoca_1_1ast_1_1expression_1_1_multiply.html',1,'cymoca::ast::expression']]]
 ];

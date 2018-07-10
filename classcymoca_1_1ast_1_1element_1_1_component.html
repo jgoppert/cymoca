@@ -113,8 +113,12 @@ Collaboration diagram for cymoca::ast::element::Component:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a35d02f31347372f0e29e74a91a067cd8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="node_8h.html#aa99369018dd9f09fba5ec06b11e948e2">NODE_MACRO</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_component.html#a35d02f31347372f0e29e74a91a067cd8">Component</a> (std::string name, std::string type, <a class="el" href="namespacecymoca_1_1ast_1_1element.html#a460693ee6290094ea8fef641107e386f">Prefix</a> prefix)</td></tr>
-<tr class="separator:a35d02f31347372f0e29e74a91a067cd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49d129925108ddaa501bda6e0093e02c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_component.html#a49d129925108ddaa501bda6e0093e02c">enter</a> (<a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html">listener::Base</a> &amp;listener) override</td></tr>
+<tr class="separator:a49d129925108ddaa501bda6e0093e02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa86944ea54efb35efd0ba181039f9e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_component.html#aa86944ea54efb35efd0ba181039f9e10">exit</a> (<a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html">listener::Base</a> &amp;listener) override</td></tr>
+<tr class="separator:aa86944ea54efb35efd0ba181039f9e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ac5c5b6d2c0405f2771e7a3b4af05a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_component.html#a69ac5c5b6d2c0405f2771e7a3b4af05a">Component</a> (std::string name, std::string type, <a class="el" href="namespacecymoca_1_1ast_1_1element.html#a460693ee6290094ea8fef641107e386f">Prefix</a> prefix)</td></tr>
+<tr class="separator:a69ac5c5b6d2c0405f2771e7a3b4af05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50e8d7080a50cd6fee933ac30b2f72f3"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_component.html#a50e8d7080a50cd6fee933ac30b2f72f3">getName</a> () const </td></tr>
 <tr class="separator:a50e8d7080a50cd6fee933ac30b2f72f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeda77ca4f2bda14eea46790b5ad1f7b0"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_reference.html">expression::Reference</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_component.html#aeda77ca4f2bda14eea46790b5ad1f7b0">getType</a> () const </td></tr>
@@ -128,10 +132,6 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_classcymoca_1_1ast_1_1_i_node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcymoca_1_1ast_1_1_i_node')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcymoca_1_1ast_1_1_i_node.html">cymoca::ast::INode</a></td></tr>
 <tr class="memitem:a63f5d7656fd8e61fb1d7baca756f6d33 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a63f5d7656fd8e61fb1d7baca756f6d33">~INode</a> ()</td></tr>
 <tr class="separator:a63f5d7656fd8e61fb1d7baca756f6d33 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa949c5657475af7b8d540c263756537b inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_i_node.html#aa949c5657475af7b8d540c263756537b">enter</a> (<a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html">listener::Base</a> &amp;listener)=0</td></tr>
-<tr class="separator:aa949c5657475af7b8d540c263756537b inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada506b731700f862be9a83c8bd61d404 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_i_node.html#ada506b731700f862be9a83c8bd61d404">exit</a> (<a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html">listener::Base</a> &amp;listener)=0</td></tr>
-<tr class="separator:ada506b731700f862be9a83c8bd61d404 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cbf2ee1a0a64ad398352269415189c2 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a9cbf2ee1a0a64ad398352269415189c2 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memTemplItemLeft" align="right" valign="top">std::unique_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a9cbf2ee1a0a64ad398352269415189c2">cloneAs</a> ()</td></tr>
 <tr class="separator:a9cbf2ee1a0a64ad398352269415189c2 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,7 +150,7 @@ Protected Attributes</h2></td></tr>
 <div class="textblock">
 <p>Definition at line <a class="el" href="element_8h_source.html#l00012">12</a> of file <a class="el" href="element_8h_source.html">element.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a35d02f31347372f0e29e74a91a067cd8"></a>
+<a class="anchor" id="a69ac5c5b6d2c0405f2771e7a3b4af05a"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -158,7 +158,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="node_8h.html#aa99369018dd9f09fba5ec06b11e948e2">NODE_MACRO</a> cymoca::ast::element::Component::Component </td>
+          <td class="memname">cymoca::ast::element::Component::Component </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -218,6 +218,64 @@ Protected Attributes</h2></td></tr>
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a7702d6eff6aeafaf2b5aa08e0041e28b">cymoca::ast::INode</a>.</p>
 
 <p>Definition at line <a class="el" href="element_8h_source.html#l00028">28</a> of file <a class="el" href="element_8h_source.html">element.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a49d129925108ddaa501bda6e0093e02c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cymoca::ast::element::Component::enter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html">listener::Base</a> &amp;&#160;</td>
+          <td class="paramname"><em>listener</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A double dispatch entrace hook for listeners. </p>
+
+<p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#aa949c5657475af7b8d540c263756537b">cymoca::ast::INode</a>.</p>
+
+<p>Definition at line <a class="el" href="element_8h_source.html#l00019">19</a> of file <a class="el" href="element_8h_source.html">element.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa86944ea54efb35efd0ba181039f9e10"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cymoca::ast::element::Component::exit </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html">listener::Base</a> &amp;&#160;</td>
+          <td class="paramname"><em>listener</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>A double dispatch exit hook for listeners. </p>
+
+<p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#ada506b731700f862be9a83c8bd61d404">cymoca::ast::INode</a>.</p>
+
+<p>Definition at line <a class="el" href="element_8h_source.html#l00019">19</a> of file <a class="el" href="element_8h_source.html">element.h</a>.</p>
 
 </div>
 </div>
