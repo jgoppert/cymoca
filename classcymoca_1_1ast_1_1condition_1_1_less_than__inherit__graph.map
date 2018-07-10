@@ -1,3 +1,4 @@
 <map id="cymoca::ast::condition::LessThan" name="cymoca::ast::condition::LessThan">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="cymoca::ast::TBinary\l\&lt; expression::Base, expression\l::Base, Base \&gt;" alt="" coords="5,80,211,136"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; expression::Base, expression\l::Base, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="5,347,211,498"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="124,133,271,269"/>
 </map>

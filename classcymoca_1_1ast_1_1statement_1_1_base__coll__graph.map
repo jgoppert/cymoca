@@ -1,3 +1,3 @@
 <map id="cymoca::ast::statement::Base" name="cymoca::ast::statement::Base">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="cymoca::ast::INode" alt="" coords="15,5,152,32"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="15,6,152,157"/>
 </map>

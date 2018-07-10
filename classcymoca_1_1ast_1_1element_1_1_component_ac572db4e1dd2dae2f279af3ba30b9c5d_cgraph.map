@@ -1,0 +1,6 @@
+<map id="cymoca::ast::element::Component::clone" name="cymoca::ast::element::Component::clone">
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1element_1_1_component.html#a50e8d7080a50cd6fee933ac30b2f72f3" title="cymoca::ast::element\l::Component::getName" alt="" coords="206,5,365,46"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1element_1_1_component.html#aeda77ca4f2bda14eea46790b5ad1f7b0" title="cymoca::ast::element\l::Component::getType" alt="" coords="209,70,361,111"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1expression_1_1_reference.html#af265b90011753d0566694f7b7d3b55c5" title="cymoca::ast::expression\l::Reference::getName" alt="" coords="203,135,368,177"/>
+<area shape="rect" id="node5" href="$classcymoca_1_1ast_1_1element_1_1_component.html#aac7bb62962318da30f44991384c4b93c" title="cymoca::ast::element\l::Component::getPrefix" alt="" coords="207,201,364,242"/>
+</map>

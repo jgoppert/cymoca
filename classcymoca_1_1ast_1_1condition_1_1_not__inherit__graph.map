@@ -1,3 +1,4 @@
 <map id="cymoca::ast::condition::Not" name="cymoca::ast::condition::Not">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_unary.html" title="cymoca::ast::TUnary\l\&lt; Base, Base \&gt;" alt="" coords="23,81,168,122"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_unary.html" title="{cymoca::ast::TUnary\l\&lt; Base, Base \&gt;\n|# right\l|+ TUnary()\l+ getChildren()\l+ cloneUnary()\l}" alt="" coords="23,321,168,442"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_unary.html" title="{cymoca::ast::TUnary\l\&lt; Right, Base \&gt;\n|# right\l|+ TUnary()\l+ getChildren()\l+ cloneUnary()\l}" alt="" coords="113,134,257,255"/>
 </map>

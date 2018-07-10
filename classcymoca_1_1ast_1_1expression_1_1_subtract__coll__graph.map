@@ -1,3 +1,4 @@
 <map id="cymoca::ast::expression::Subtract" name="cymoca::ast::expression::Subtract">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="cymoca::ast::TBinary\l\&lt; Base, Base, Base \&gt;" alt="" coords="11,81,163,122"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Base, Base, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="11,333,163,469"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="103,133,249,269"/>
 </map>

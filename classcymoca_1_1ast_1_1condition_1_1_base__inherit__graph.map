@@ -1,4 +1,4 @@
 <map id="cymoca::ast::condition::Base" name="cymoca::ast::condition::Base">
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1condition_1_1_boolean.html" title="cymoca::ast::condition\l::Boolean" alt="" coords="4,171,157,213"/>
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="cymoca::ast::INode" alt="" coords="13,5,149,32"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1condition_1_1_boolean.html" title="{cymoca::ast::condition\l::Boolean\n|# m_value\l|+ enter()\l+ exit()\l+ Boolean()\l+ getValue()\l+ setValue()\l+ getChildren()\l+ clone()\l}" alt="" coords="4,347,157,527"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="13,6,149,157"/>
 </map>

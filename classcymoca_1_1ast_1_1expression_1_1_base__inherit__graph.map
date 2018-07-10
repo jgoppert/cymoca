@@ -1,5 +1,5 @@
 <map id="cymoca::ast::expression::Base" name="cymoca::ast::expression::Base">
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1expression_1_1_number.html" title="cymoca::ast::expression\l::Number" alt="" coords="5,171,169,213"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1expression_1_1_reference.html" title="cymoca::ast::expression\l::Reference" alt="" coords="195,171,359,213"/>
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="cymoca::ast::INode" alt="" coords="114,5,251,32"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1expression_1_1_number.html" title="{cymoca::ast::expression\l::Number\n|# _value\l|+ enter()\l+ exit()\l+ Number()\l+ getValue()\l+ setValue()\l+ getChildren()\l+ clone()\l}" alt="" coords="5,354,169,534"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1expression_1_1_reference.html" title="{cymoca::ast::expression\l::Reference\n|# m_name\l|+ enter()\l+ exit()\l+ ~Reference()\l+ Reference()\l+ getName()\l+ setName()\l+ getChildren()\l+ clone()\l}" alt="" coords="195,347,359,541"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="114,6,251,157"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="cymoca::ast::model::ElementDict" name="cymoca::ast::model::ElementDict">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1model_1_1_base.html" title="cymoca::ast::model\l::Base" alt="" coords="5,81,141,122"/>
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_i_node.html" title="cymoca::ast::INode" alt="" coords="5,5,141,32"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1model_1_1_base.html" title="{cymoca::ast::model\l::Base\n||}" alt="" coords="5,206,141,298"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="5,6,141,157"/>
 </map>

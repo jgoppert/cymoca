@@ -1,4 +1,4 @@
 <map id="cymoca::ast::expression::Number" name="cymoca::ast::expression::Number">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1expression_1_1_base.html" title="cymoca::ast::expression\l::Base" alt="" coords="4,81,168,122"/>
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_i_node.html" title="cymoca::ast::INode" alt="" coords="18,5,155,32"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1expression_1_1_base.html" title="{cymoca::ast::expression\l::Base\n||}" alt="" coords="4,206,168,298"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="18,6,155,157"/>
 </map>
