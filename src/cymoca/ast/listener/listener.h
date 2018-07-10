@@ -1,7 +1,59 @@
 #ifndef CYMOCA_AST_LISTENER_LISTENER_H_
 #define CYMOCA_AST_LISTENER_LISTENER_H_
 
-#include "../declarations.h"
+/**
+ * Forward declare any class that can be listened to
+ */
+
+namespace cymoca::ast {
+
+class INode;
+
+namespace model {
+class Class;
+class ElementDict;
+}  // namespace model
+
+namespace expression {
+class Add;
+class Divide;
+class Multiply;
+class Number;
+class Reference;
+class Subtract;
+}  // namespace expression
+
+namespace condition {
+class And;
+class Boolean;
+class Equal;
+class GreaterThan;
+class GreaterThanOrEqual;
+class LessThan;
+class LessThanOrEqual;
+class Not;
+class Or;
+}  // namespace condition
+
+namespace equation {
+class Block;
+class If;
+class List;
+class Simple;
+class When;
+}  // namespace equation
+
+namespace statement {
+class Block;
+class If;
+class When;
+}  // namespace statement
+
+namespace element {
+class Component;
+}  // namespace element
+
+}  // namespace cymoca::ast
 
 namespace cymoca::ast::listener {
 

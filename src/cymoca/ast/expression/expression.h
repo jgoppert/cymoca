@@ -2,15 +2,9 @@
 #define CYMOCA_AST_EXPRESSION_EXPRESSION_H_
 
 #include <string>
-#include "../declarations.h"
 #include "../node.h"
 
 namespace cymoca::ast::expression {
-
-/**
- * The base expression class.
- */
-class Base : public INode {};
 
 /**
  * A reference to a component.

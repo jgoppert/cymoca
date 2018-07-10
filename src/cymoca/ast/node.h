@@ -5,14 +5,18 @@
 #include <memory>
 #include <vector>
 
-#include "declarations.h"
 #include "listener/listener.h"
 
-namespace cymoca::ast {
-
+/**
+ * A macro for nodes to use to attach listener
+ *
+ * Nodes must also forward declare themselves in listener/listener.h
+ */
 #define NODE_MACRO                                                         \
   void enter(listener::Base &listener) override { listener.enter(*this); } \
   void exit(listener::Base &listener) override { listener.exit(*this); }
+
+namespace cymoca::ast {
 
 /**
  * The abstract sytnax tree node interface. All nodes
@@ -127,6 +131,51 @@ class TList : public Base {
     return std::move(res);
   }
 };
+
+/**
+ * NODE TYPES
+ *
+ * Putting the base classes here allows
+ * eliminating most cross dependencies that
+ * only rely on the base type.
+ */
+
+namespace condition {
+/**
+ * The base class from which all logical
+ * conditions must derive.
+ */
+class Base : public INode {};
+}  // namespace condition
+
+namespace element {
+class Base : public INode {};
+}  // namespace element
+
+namespace equation {
+class Base : public INode {};
+}  // namespace equation
+
+namespace expression {
+/**
+ * The base expression class.
+ */
+class Base : public INode {};
+}  // namespace expression
+
+namespace model {
+/**
+ * A high level node that doesn't fit into any other category
+ */
+class Base : public INode {};
+}  // namespace model
+
+namespace cymoca::ast::statement {
+/**
+ * Base statment type.
+ */
+class Base : public INode {};
+}  // namespace cymoca::ast::statement
 
 }  // namespace cymoca::ast
 #endif

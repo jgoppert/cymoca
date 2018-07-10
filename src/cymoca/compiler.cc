@@ -68,7 +68,7 @@ void Compiler::exitClass_definition(ModelicaParser::Class_definitionContext * ct
       );
   setAst(ctx, std::move(cls));
   std::cout << "exit class def" << std::endl;
-  m_root = getAst<ast::model::Class>(ctx).get();
+  m_root = getAst<ast::model::Class>(ctx);
 }
 
 }  // namespace cymoca

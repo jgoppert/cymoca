@@ -1,16 +1,9 @@
 #ifndef CYMOCA_AST_CONDITION_CONDITION_H_
 #define CYMOCA_AST_CONDITION_CONDITION_H_
 
-#include "../expression/expression.h"
 #include "../node.h"
 
 namespace cymoca::ast::condition {
-
-/**
- * The base class from which all logical
- * conditions must derive.
- */
-class Base : public INode {};
 
 #define RELATION_MACRO(NAME)                                              \
   class NAME : public TBinary<expression::Base, expression::Base, Base> { \

@@ -30,7 +30,7 @@ class Compiler : public ModelicaBaseListener {
   Compiler(const Compiler &) = delete;
   Compiler &operator=(const Compiler &) = delete;
   using AstMap = std::unordered_map<antlr4::ParserRuleContext *,
-                             std::unique_ptr<ast::INode>>;
+                                    std::unique_ptr<ast::INode>>;
 
  protected:
   std::unique_ptr<ModelicaParser> m_parser;
@@ -42,12 +42,12 @@ class Compiler : public ModelicaBaseListener {
   AstMap m_ast;
 
   template <typename T>
-  std::unique_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
+  T *getAst(antlr4::ParserRuleContext *ctx) {
     auto iter = m_ast.find(ctx);
     assert(iter != m_ast.end());
-    std::unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
-    assert(val != nullptr);
-    return val;
+    auto p = dynamic_cast<T *>(iter->second.get());
+    assert(p);
+    return p;
   }
 
   void setAst(antlr4::ParserRuleContext *ctx,
