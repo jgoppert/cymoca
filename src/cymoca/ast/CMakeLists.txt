@@ -2,7 +2,6 @@ add_library(cymoca_ast STATIC
         ast.cc
         ast.h
         condition/condition.h
-        declarations.h
         element/element.h
         equation/equation.h
         expression/expression.h

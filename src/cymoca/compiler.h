@@ -26,29 +26,28 @@ class Compiler : public ModelicaBaseListener {
   explicit Compiler(std::ifstream &text);
   ModelicaParser &getParser() { return *m_parser; }
   antlr4::CommonTokenStream &getTokenStream() { return m_token_stream; }
-  ast::Class *root() { return m_root; }
+  ast::model::Class *root() { return m_root; }
   Compiler(const Compiler &) = delete;
   Compiler &operator=(const Compiler &) = delete;
-  typedef std::unordered_map<antlr4::ParserRuleContext *,
-                             std::unique_ptr<ast::INode>>
-      AstMap;
+  using AstMap = std::unordered_map<antlr4::ParserRuleContext *,
+                                    std::unique_ptr<ast::INode>>;
 
  protected:
   std::unique_ptr<ModelicaParser> m_parser;
   antlr4::ANTLRInputStream m_input;
   ModelicaLexer m_lexer;
   antlr4::CommonTokenStream m_token_stream;
-  ast::Class *m_root{nullptr};
+  ast::model::Class *m_root{nullptr};
   bool m_verbose;
   AstMap m_ast;
 
   template <typename T>
-  std::unique_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
+  T *getAst(antlr4::ParserRuleContext *ctx) {
     auto iter = m_ast.find(ctx);
     assert(iter != m_ast.end());
-    std::unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
-    assert(val != nullptr);
-    return val;
+    auto p = dynamic_cast<T *>(iter->second.get());
+    assert(p);
+    return p;
   }
 
   void setAst(antlr4::ParserRuleContext *ctx,
@@ -76,11 +75,15 @@ class Compiler : public ModelicaBaseListener {
    * Listener Functions
    */
  public:
-  void visitTerminal(antlr4::tree::TerminalNode *) override;
-  void visitErrorNode(antlr4::tree::ErrorNode *) override;
-  void enterEveryRule(antlr4::ParserRuleContext *) override;
-  void exitEveryRule(antlr4::ParserRuleContext *) override;
-  void exitExpr_number(ModelicaParser::Expr_numberContext *) override;
+  void visitTerminal(antlr4::tree::TerminalNode * /*node*/) override;
+  void visitErrorNode(antlr4::tree::ErrorNode * /*node*/) override;
+  void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override;
+  void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override;
+  void exitExpr_number(ModelicaParser::Expr_numberContext * /*ctx*/) override;
+  void exitClass_definition(
+      ModelicaParser::Class_definitionContext * /*ctx*/) override;
+  // void exitExpr_simple(ModelicaParser::Expr_simpleContext * /*ctx*/)
+  // override;
 };
 
 }  // namespace cymoca

@@ -5,14 +5,18 @@
 #include <memory>
 #include <vector>
 
-#include "declarations.h"
 #include "listener/listener.h"
 
-namespace cymoca::ast {
-
+/**
+ * A macro for nodes to use to attach listener
+ *
+ * Nodes must also forward declare themselves in listener/listener.h
+ */
 #define NODE_MACRO                                                         \
   void enter(listener::Base &listener) override { listener.enter(*this); } \
   void exit(listener::Base &listener) override { listener.exit(*this); }
+
+namespace cymoca::ast {
 
 /**
  * The abstract sytnax tree node interface. All nodes
@@ -56,13 +60,13 @@ class INode {
  * A template for binary nodes.
  */
 template <class Left, class Right, class Base>
-class Binary : public Base, virtual public INode {
+class TBinary : public Base {
  protected:
-  std::unique_ptr<Left> left;
-  std::unique_ptr<Right> right;
+  std::unique_ptr<Left> left{};
+  std::unique_ptr<Right> right{};
 
  public:
-  Binary(std::unique_ptr<Left> left, std::unique_ptr<Right> right)
+  TBinary(std::unique_ptr<Left> left, std::unique_ptr<Right> right)
       : left(move(left)), right(move(right)) {}
   std::vector<INode *> getChildren() override {
     return {left.get(), right.get()};
@@ -79,12 +83,12 @@ class Binary : public Base, virtual public INode {
  * A template for unary nodes.
  */
 template <class Right, class Base>
-class Unary : public Base, virtual public INode {
+class TUnary : public Base {
  protected:
-  std::unique_ptr<Right> right;
+  std::unique_ptr<Right> right{};
 
  public:
-  explicit Unary(std::unique_ptr<Right> right) : right(move(right)) {}
+  explicit TUnary(std::unique_ptr<Right> right) : right(move(right)) {}
   std::vector<INode *> getChildren() override { return {right.get()}; }
   template <class T>
   std::unique_ptr<INode> cloneUnary() const {
@@ -97,16 +101,17 @@ class Unary : public Base, virtual public INode {
  * A templte for lists of nodes.
  */
 template <class Item, class Base>
-class List : public Base, virtual public INode {
+class TList : public Base {
  protected:
   std::vector<std::unique_ptr<Item>> list{};
 
  public:
-  List() = default;
+  TList() = default;
   template <class Arg1, class... Args>
-  explicit List(Arg1 arg1, Args... args) {
+  explicit TList(Arg1 arg1, Args... args) {
     list.push_back(move(arg1));
-    auto dummy = {(list.push_back(move(args)), 0)...};
+    // trick to get variadic template to pushback
+    int dummy[1 + sizeof...(Args)] = {0, (list.push_back(move(args)), 0)...};
     (void)dummy;
   }
   std::vector<INode *> getChildren() override {
@@ -126,6 +131,51 @@ class List : public Base, virtual public INode {
     return std::move(res);
   }
 };
+
+/**
+ * NODE TYPES
+ *
+ * Putting the base classes here allows
+ * eliminating most cross dependencies that
+ * only rely on the base type.
+ */
+
+namespace condition {
+/**
+ * The base class from which all logical
+ * conditions must derive.
+ */
+class Base : public INode {};
+}  // namespace condition
+
+namespace element {
+class Base : public INode {};
+}  // namespace element
+
+namespace equation {
+class Base : public INode {};
+}  // namespace equation
+
+namespace expression {
+/**
+ * The base expression class.
+ */
+class Base : public INode {};
+}  // namespace expression
+
+namespace model {
+/**
+ * A high level node that doesn't fit into any other category
+ */
+class Base : public INode {};
+}  // namespace model
+
+namespace cymoca::ast::statement {
+/**
+ * Base statment type.
+ */
+class Base : public INode {};
+}  // namespace cymoca::ast::statement
 
 }  // namespace cymoca::ast
 #endif

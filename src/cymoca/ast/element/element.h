@@ -9,8 +9,6 @@ namespace cymoca::ast::element {
 
 enum class Prefix { VARIABLE, CONSTANT, PARAMETER, DISCRETE };
 
-class Base : virtual public INode {};
-
 class Component : public Base {
  protected:
   std::string m_name;

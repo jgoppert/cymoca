@@ -9,9 +9,11 @@ namespace cymoca::ast {
 class Walker {
  public:
   void walk(INode &tree, listener::Base &listener) {
+    assert(&tree);
     listener.enterEvery(tree);
     tree.enter(listener);
     for (auto &c : tree.getChildren()) {
+      assert(c);
       walk(*c, listener);
     }
     tree.exit(listener);

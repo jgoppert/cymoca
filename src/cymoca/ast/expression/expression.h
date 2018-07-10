@@ -7,11 +7,6 @@
 namespace cymoca::ast::expression {
 
 /**
- * The base expression class.
- */
-class Base : virtual public INode {};
-
-/**
  * A reference to a component.
  */
 class Reference : public Base {
@@ -31,10 +26,10 @@ class Reference : public Base {
 };
 
 #define BINARY_EXPR_MACRO(NAME)                     \
-  class NAME : public Binary<Base, Base, Base> {    \
+  class NAME : public TBinary<Base, Base, Base> {   \
    public:                                          \
     NODE_MACRO                                      \
-    using Binary::Binary;                           \
+    using TBinary::TBinary;                         \
     std::unique_ptr<INode> clone() const override { \
       return cloneBinary<NAME>();                   \
     }                                               \

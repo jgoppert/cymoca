@@ -2,12 +2,13 @@
 #include <experimental/filesystem>
 #include "cymoca/compiler.h"
 #include "cymoca/version.h"
+#include "cymoca/ast/listener/lisp.h"
 
 namespace fs = std::experimental::filesystem;
 
 void usage() {
   std::cout << "Cymoca Modelica Compiler " << VERSION << std::endl;
-  std::cout << "usage: cymoca [options] model.mo" << std::endl;
+  std::cout << "usage: cymoca model.mo" << std::endl;
 }
 
 //------------------------------------------------------------------------
@@ -44,10 +45,13 @@ int main(int argc, const char *argv[]) {
     //std::cout << c.toPrettyStringTree() << std::endl;
 
     //std::cout << bar << "\nLisp\n" << bar<< std::endl;
-    //cymoca::listener::LispPrinter lispPrinter;
-    //cymoca::ast::Walker walker;
-    //walker.walk(*c.root(), lispPrinter);
-    //std::cout << lispPrinter.get() << std::endl;
+    cymoca::ast::listener::Lisp printer;
+    cymoca::ast::Walker walker;
+    if (!c.root()) {
+      throw std::runtime_error("failed to compile model");
+    }
+    walker.walk(*c.root(), printer);
+    std::cout << printer.get() << std::endl;
 
   }
   catch (std::exception &e) {

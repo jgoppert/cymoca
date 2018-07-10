@@ -8,7 +8,7 @@ A Modelica compiler written in modern C++ with Python bindings.
 ## Features
 
 * Parsing using [ANTLR4 C++ Runtime](https://github.com/antlr/antlr4/blob/master/doc/cpp-target.md).
-	* <img src="doc/ast.png" alt="drawing" width="500px"/>
+  * <img src="doc/ast.png" alt="drawing" width="500px"/>
 * Listener based generators decoupled from the AST, easy to compile Modelica to new targets.
   * Lisp string printing [LispListener](src/cymoca/ast/listener/lisp.h).
 * Listener based compiler
@@ -87,10 +87,14 @@ cymoca my_model.mo
 ## Contributing
 
 * Coding standard: [Google](https://google.github.io/styleguide/cppguide.html)
-	* Changes:
-		 * Use m_name instead of name_ for class members to make leading autocomplete nicer to work with.
-		 * Prefer getName() to name() for getter so that all attributes are also easy to acces with get<TAB>
-		 * Prefer setName() to set_name() for setter
+  * Changes:
+     * Use m_name instead of name_ for class members to make leading autocomplete nicer to work with.
+     * Prefer getName() to name() for getter so that all attributes are also easy to acces with get<TAB>
+     * Prefer setName() to set_name() for setter
+
+* Supported Development Environments
+  * QtCreator >= 4.5
+  * Vim
 
 * If you want to get started, feel free to make a PR. The easiest place to start is with a new generator derived from Listener/ConstListener.
 

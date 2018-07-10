@@ -1,21 +1,17 @@
 #ifndef CYMOCA_AST_MODEL_MODEL_H_
 #define CYMOCA_AST_MODEL_MODEL_H_
 
-#include "../condition/condition.h"
-#include "../element/element.h"
-#include "../equation/equation.h"
-#include "../expression/expression.h"
 #include "../node.h"
 
 #include <unordered_map>
 
-namespace cymoca::ast {
+namespace cymoca::ast::model {
 
 /**
  * A dictionary of elements with names as keys and
  * allocated element instances as values.
  */
-class ElementDict : virtual public INode {
+class ElementDict : public Base {
  public:
   NODE_MACRO
   template <class... Args>
@@ -44,13 +40,24 @@ class ElementDict : virtual public INode {
 /**
  * The top level class structure
  */
-class Class : virtual public INode {
+class Class : public Base {
+ protected:
+  std::unique_ptr<ElementDict> m_elements{};
+  std::unique_ptr<equation::List> m_equations{};
+
  public:
   NODE_MACRO
-  std::unique_ptr<ElementDict> elements;
-  std::vector<std::unique_ptr<equation::Base>> equations{};
-  std::vector<INode *> getChildren() override { return {elements.get()}; }
+  Class(std::unique_ptr<ElementDict> elements,
+        std::unique_ptr<equation::List> equations)
+      : m_elements(std::move(elements)), m_equations(std::move(equations)) {}
+  std::vector<INode *> getChildren() override {
+    return {m_elements.get(), m_equations.get()};
+  }
+  std::unique_ptr<INode> clone() const override {
+    return std::make_unique<Class>(m_elements->cloneAs<ElementDict>(),
+                                   m_equations->cloneAs<equation::List>());
+  }
 };
 
-}  // namespace cymoca::ast
+}  // namespace cymoca::ast::model
 #endif
