@@ -170,12 +170,12 @@ namespace model {
 class Base : public INode {};
 }  // namespace model
 
-namespace cymoca::ast::statement {
+namespace statement {
 /**
  * Base statment type.
  */
 class Base : public INode {};
-}  // namespace cymoca::ast::statement
+}  // namespace statement
 
 }  // namespace cymoca::ast
 #endif
