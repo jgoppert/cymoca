@@ -95,7 +95,7 @@ cymoca my_model.mo
   * QtCreator >= 4.5
   * Vim
 
-* If you want to get started, feel free to make a PR. The easiest place to start is with a new generator derived from:
+* If you want to get started, feel free to make a PR. The easiest place to start is with a new generator:
   * Lisp example [LispListener](src/cymoca/ast/listener/lisp.h).
   * [cymoca::ast::listener::Base](src/cymoca/ast/listener/listener.h)
 
