@@ -69,6 +69,9 @@ add_custom_target(format
 # packages
 find_package(Antlr4Runtime REQUIRED)
 
+# common flags
+add_compile_options(-fmax-errors=3)
+
 #-----------------------------------------------------------------------------
 # Version based on GIT tags
 #-----------------------------------------------------------------------------
@@ -90,7 +93,6 @@ set(version_file "${CYMOCA_BINARY_DIR}/version.cc")
 #-----------------------------------------------------------------------------
 # Libraries
 #-----------------------------------------------------------------------------
-
 add_subdirectory(src/modelica_antlr)
 add_subdirectory(src/cymoca)
 

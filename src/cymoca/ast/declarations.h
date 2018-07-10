@@ -4,41 +4,45 @@
 namespace cymoca::ast {
 
 class INode;
+
+namespace model {
 class ElementDict;
 class Class;
+}  // namespace model
 
 namespace listener {
 class Base;
 }  // namespace listener
 
 namespace expression {
-class Base;
 class Add;
-class Subtract;
-class Multiply;
+class Base;
 class Divide;
-class Reference;
+class Multiply;
 class Number;
+class Reference;
+class Subtract;
 }  // namespace expression
 
 namespace condition {
+class And;
 class Base;
 class Boolean;
-class And;
-class Or;
-class Not;
-class LessThan;
-class LessThanOrEqual;
+class Equal;
 class GreaterThan;
 class GreaterThanOrEqual;
-class Equal;
+class LessThan;
+class LessThanOrEqual;
+class Not;
+class Or;
 }  // namespace condition
 
 namespace equation {
 class Base;
 class Block;
-class Simple;
 class If;
+class List;
+class Simple;
 class When;
 }  // namespace equation
 
@@ -54,4 +58,5 @@ class Component;
 }  // namespace element
 
 }  // namespace cymoca::ast
+
 #endif

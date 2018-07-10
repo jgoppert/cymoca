@@ -95,7 +95,7 @@ component_declaration:
     IDENT array_subscripts? modification? condition_attribute? comment?;
 
 condition_attribute:
-    IF expression;
+    IF condition;
 
 // B.2.5 Modification
 modification:
@@ -140,11 +140,11 @@ short_class_definition:
 
 // B.2.6 Equations
 
-// added to group equations by block
+// added to group eq by block
 eq_block:
     (equation ';')*;
 
-// added to group equations by block
+// added to group eq by block
 stmt_block:
     (statement ';')*;
 
@@ -156,13 +156,11 @@ equation_section:
 algorithm_section:
     INITIAL? ALGORITHM (statement ';')*;
 
-// expanding simple expression to remove extra layer of parse tree
 equation:
-    expr ( ':' expr ( ':' expr )? )?
-        '=' expression comment?                             # eq_simple
-    | IF expression THEN
+    expr '=' expression comment?                           # eq_simple
+    | IF '(' condition ')' THEN
         eq_block
-      (ELSEIF expression THEN
+      (ELSEIF '(' condition ')' THEN
         eq_block
       )*
       (ELSE
@@ -174,9 +172,9 @@ equation:
       END FOR comment?                                      # eq_for
     | CONNECT '(' component_reference ','
                     component_reference ')' comment?        # eq_connect
-    | WHEN expression THEN
+    | WHEN '(' condition ')' THEN
         eq_block
-      (ELSEWHEN expression THEN
+      (ELSEWHEN '(' condition ')' THEN
         eq_block
       )*
       END WHEN comment?                                     # eq_when
@@ -188,11 +186,10 @@ statement:
             function_call_args) comment?                    # stmt_ref
     | '(' output_expression_list ')' ':='
         component_reference function_call_args comment?     # stmt_func
-    | keyword=BREAK comment?                                # stmt_keyword
-    | keyword=RETURN comment?                               # stmt_keyword
-    | IF expression THEN
+    | keyword=(BREAK|RETURN)  comment?                      # stmt_key
+    | IF '(' condition ')' THEN
         stmt_block
-      (ELSEIF expression THEN
+      (ELSEIF '(' condition ')' THEN
         stmt_block
       )*
       (ELSE
@@ -202,12 +199,12 @@ statement:
     | FOR for_indices LOOP
         (statement ';')*
       END FOR comment?                                      # stmt_for
-    | WHILE expression LOOP
+    | WHILE '(' condition ')' LOOP
         (statement ';')*
       END WHEN comment?                                     # stmt_while
-    | WHEN expression THEN
+    | WHEN '(' condition ')' THEN
         stmt_block
-      (ELSEWHEN expression THEN
+      (ELSEWHEN '(' condition ')' THEN
         stmt_block
       )*
       END WHEN comment?                                     # stmt_when
@@ -221,9 +218,9 @@ for_index:
 
 // B.2.7 Expressions
 expression:
-    expr ( ':' expr ( ':' expr )? )?  # expression_simple
-    | IF expression THEN expression
-        (ELSEIF expression THEN expression)* ELSE expression # expression_if
+    expr                                                    # expr_simple
+    | IF condition THEN expr
+        (ELSEIF expr THEN expr)* ELSE expr                  # expr_if
     ;
 
 // this is a reformulation of the standard to remove extra levels
@@ -232,25 +229,31 @@ expression:
 expr :
     UNSIGNED_NUMBER                                         # expr_number
     | STRING                                                # expr_string
-    | value=FALSE                                           # expr_bool
-    | value=TRUE                                            # expr_bool
+    //| END                                                   # expr_end
     | component_reference function_call_args                # expr_func
-    | func=DER function_call_args                           # expr_func
-    | func=INITIAL function_call_args                       # expr_func
-    | func=PURE function_call_args                          # expr_func
+    | func=(DER | INITIAL | PURE) function_call_args        # expr_func
     | component_reference                                   # expr_ref
-    | '(' output_expression_list ')'                        # expr_output
-    | '[' expression_list (';' expression_list)* ']'        # expr_list
-    | '{' array_arguments '}'                               # expr_array
-    | END                                                   # epxr_end
+    //| '(' output_expression_list ')'                        # expr_output
+    //| '[' expression_list (';' expression_list)* ']'        # expr_list
+    //| '{' array_arguments '}'                               # expr_array
     | expr op=('^' | '.^') expr                             # expr_binary
     | expr op=('*' | '/' | '.*' | './') expr                # expr_binary
     | op='-' expr                                           # expr_unary
     | expr op=('+' | '-' | '.+' | '.-') expr                # expr_binary
-    | expr op=('<' | '<=' | '>' | '>=' | '==' | '<>') expr  # expr_binary
-    | op='not' expr                                         # expr_unary
-    | expr op='and' expr                                    # expr_binary
-    | expr op='or' expr                                     # expr_binary
+    | expr ( ':' expr ( ':' expr )? )                       # expr_range
+    ;
+
+// this is a reformulation of the standard to remove extra levels
+// of the parse tree that exist due to precedence and can be reformulated
+// by ordering the recursive rules
+condition :
+    value=(TRUE | FALSE)                                    # cond_bool
+    | component_reference function_call_args                # cond_func
+    | component_reference                                   # cond_ref
+    | expr op=('<' | '<=' | '>' | '>=' | '==' | '<>') expr  # cond_compare
+    | op='not' condition                                    # cond_unary
+    | condition op='and' condition                          # cond_binary
+    | condition op='or' condition                           # cond_binary
     ;
 
 // expand name gramamr in type_specifier to remove level of parse tree
@@ -302,11 +305,11 @@ array_subscripts:
 subscript:
     ':' | expression;
 
+// modify comment to require either a string comment, annotation, or both,
+// not allowing empty to trim parse tree of empty comment nodes
 comment:
-    string_comment annotation?;
+    string_comment | annotation | (string_comment annotation);
 
-// set comment to require at least one string to
-// trim empty comments from parse tree
 string_comment:
     (STRING ('+' STRING)*)+;
 

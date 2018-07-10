@@ -1,6 +1,7 @@
 #ifndef CYMOCA_AST_CONDITION_CONDITION_H_
 #define CYMOCA_AST_CONDITION_CONDITION_H_
 
+#include "../expression/expression.h"
 #include "../node.h"
 
 namespace cymoca::ast::condition {
@@ -9,15 +10,15 @@ namespace cymoca::ast::condition {
  * The base class from which all logical
  * conditions must derive.
  */
-class Base : virtual public INode {};
+class Base : public INode {};
 
-#define RELATION_MACRO(NAME)                                             \
-  class NAME : public Binary<expression::Base, expression::Base, Base> { \
-    NODE_MACRO                                                           \
-    using Binary::Binary;                                                \
-    std::unique_ptr<INode> clone() const override {                      \
-      return cloneBinary<NAME>();                                        \
-    }                                                                    \
+#define RELATION_MACRO(NAME)                                              \
+  class NAME : public TBinary<expression::Base, expression::Base, Base> { \
+    NODE_MACRO                                                            \
+    using TBinary::TBinary;                                               \
+    std::unique_ptr<INode> clone() const override {                       \
+      return cloneBinary<NAME>();                                         \
+    }                                                                     \
   };
 
 /**
@@ -46,10 +47,10 @@ RELATION_MACRO(GreaterThanOrEqual)
 RELATION_MACRO(Equal)
 
 #define BINARY_COND_MACRO(NAME)                     \
-  class NAME : public Binary<Base, Base, Base> {    \
+  class NAME : public TBinary<Base, Base, Base> {   \
    public:                                          \
     NODE_MACRO                                      \
-    using Binary::Binary;                           \
+    using TBinary::TBinary;                         \
     std::unique_ptr<INode> clone() const override { \
       return cloneBinary<NAME>();                   \
     }                                               \
@@ -66,10 +67,10 @@ BINARY_COND_MACRO(And)
 BINARY_COND_MACRO(Or)
 
 #define UNARY_COND_MACRO(NAME)                      \
-  class NAME : public Unary<Base, Base> {           \
+  class NAME : public TUnary<Base, Base> {          \
    public:                                          \
     NODE_MACRO                                      \
-    using Unary::Unary;                             \
+    using TUnary::TUnary;                           \
     std::unique_ptr<INode> clone() const override { \
       return cloneUnary<NAME>();                    \
     }                                               \

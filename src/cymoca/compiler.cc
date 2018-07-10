@@ -61,4 +61,14 @@ void Compiler::exitExpr_number(ModelicaParser::Expr_numberContext *ctx) {
   setAst(ctx, std::move(num));
 }
 
+void Compiler::exitClass_definition(ModelicaParser::Class_definitionContext * ctx) {
+  auto cls = std::make_unique<ast::model::Class>(
+      std::make_unique<ast::model::ElementDict>(),
+      std::make_unique<ast::equation::List>()
+      );
+  setAst(ctx, std::move(cls));
+  std::cout << "exit class def" << std::endl;
+  m_root = getAst<ast::model::Class>(ctx).get();
+}
+
 }  // namespace cymoca

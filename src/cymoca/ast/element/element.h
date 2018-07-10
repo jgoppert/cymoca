@@ -9,7 +9,7 @@ namespace cymoca::ast::element {
 
 enum class Prefix { VARIABLE, CONSTANT, PARAMETER, DISCRETE };
 
-class Base : virtual public INode {};
+class Base : public INode {};
 
 class Component : public Base {
  protected:

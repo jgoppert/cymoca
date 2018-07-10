@@ -8,7 +8,7 @@ namespace cymoca::ast::statement {
 /**
  * Base statment type.
  */
-class Base : virtual public INode {};
+class Base : public INode {};
 
 /**
  * A block of statements with a condition

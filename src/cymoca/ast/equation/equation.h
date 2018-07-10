@@ -7,36 +7,34 @@
 
 namespace cymoca::ast::equation {
 
-class Base : virtual public INode {};
+class Base : public INode {};
+
+/**
+ * A list of equations
+ */
+class List : public TList<equation::Base, equation::Base> {
+ public:
+  NODE_MACRO
+  using TList::TList;
+  std::unique_ptr<INode> clone() const override { return cloneList<List>(); }
+};
 
 class Block : public Base {
  protected:
-  std::unique_ptr<condition::Base> condition{};
-  std::vector<std::unique_ptr<Base>> equations{};
+  std::unique_ptr<condition::Base> m_condition{};
+  std::unique_ptr<List> m_equations{};
 
  public:
   NODE_MACRO
-  template <class... Args>
-  explicit Block(std::unique_ptr<condition::Base> condition, Args... args)
-      : condition(std::move(condition)) {
-    int dummy[1 + sizeof...(Args)] = {
-        0, (equations.push_back(std::move(args)), 0)...};
-    (void)dummy;
-  }
+  Block(std::unique_ptr<condition::Base> condition,
+        std::unique_ptr<List> equations)
+      : m_condition(std::move(condition)), m_equations(std::move(equations)) {}
   std::vector<INode *> getChildren() override {
-    std::vector<INode *> v;
-    v.push_back(condition.get());
-    for (auto &e : equations) {
-      v.push_back(e.get());
-    }
-    return v;
+    return {m_condition.get(), m_equations.get()};
   }
   std::unique_ptr<INode> clone() const override {
-    auto res = std::make_unique<Block>(condition->cloneAs<condition::Base>());
-    for (auto &e : equations) {
-      res->equations.push_back(e->cloneAs<Base>());
-    }
-    return std::move(res);
+    return std::make_unique<Block>(m_condition->cloneAs<condition::Base>(),
+                                   m_equations->cloneAs<List>());
   }
 };
 
@@ -59,10 +57,10 @@ class Simple : public Base {
   }
 };
 
-class If : public List<Block, Base> {
+class If : public TList<Block, Base> {
  public:
   NODE_MACRO
-  using List::List;
+  using TList::TList;
   std::unique_ptr<INode> clone() const override { return cloneList<If>(); }
 };
 
