@@ -53,22 +53,11 @@ void Compiler::exitEveryRule(antlr4::ParserRuleContext *ctx) {
   }
 }
 
-void Compiler::exitExpr_number(ModelicaParser::Expr_numberContext *ctx) {
-  std::stringstream ss(ctx->getText());
-  double value = 0;
-  ss >> value;
-  auto num = std::make_unique<ast::expression::Number>(value);
-  setAst(ctx, std::move(num));
-}
+//-----------------------------------------------------------------------------
+// model
+//-----------------------------------------------------------------------------
 
-void Compiler::exitExpr_ref(ModelicaParser::Expr_refContext *ctx) {
-  std::vector<std::string> ids;
-  for (auto id : ctx->component_reference()->IDENT()) {
-    ids.push_back(id->getText());
-  }
-  // TODO handle more than one string
-  setAst(ctx, std::make_unique<ast::expression::Reference>(ids[0]));
-}
+
 
 void Compiler::exitClass_definition(
     ModelicaParser::Class_definitionContext *ctx) {
@@ -79,6 +68,11 @@ void Compiler::exitClass_definition(
   std::cout << "exit class def" << std::endl;
   m_root = getAst<ast::model::Class>(ctx);
 }
+
+//-----------------------------------------------------------------------------
+// condition
+//-----------------------------------------------------------------------------
+
 
 void Compiler::exitCond_bool(ModelicaParser::Cond_boolContext *ctx) {
   auto res = std::make_unique<ast::condition::Boolean>(false);
@@ -106,5 +100,76 @@ void Compiler::exitCond_binary(ModelicaParser::Cond_binaryContext *ctx) {
     assert(false);
   }
 }
+
+void Compiler::exitCond_unary(ModelicaParser::Cond_unaryContext *ctx) {
+  assert(ctx->op->getText() == "-");
+  auto e = cloneAst<ast::condition::Base>(ctx->condition());
+  setAst(ctx, std::make_unique<ast::condition::Not>(std::move(e)));
+}
+
+//-----------------------------------------------------------------------------
+// equations
+//-----------------------------------------------------------------------------
+
+void Compiler::exitEq_simple(ModelicaParser::Eq_simpleContext *ctx) {
+  // auto left = cloneAst<ast::expression::Base>(ctx->expr());
+  // auto right = cloneAst<ast::expression::Base>(ctx->expression());
+  // setAst(ctx, std::make_unique<ast::equation::Simple>(
+  //         std::move(left), std::move(right)));
+}
+
+void Compiler::exitEq_block(ModelicaParser::Eq_blockContext *ctx) {}
+
+void Compiler::exitEq_if(ModelicaParser::Eq_ifContext *ctx) {}
+void Compiler::exitEq_for(ModelicaParser::Eq_forContext *ctx) {}
+void Compiler::exitEq_connect(ModelicaParser::Eq_connectContext *ctx) {}
+void Compiler::exitEq_when(ModelicaParser::Eq_whenContext *ctx) {}
+void Compiler::exitEq_func(ModelicaParser::Eq_funcContext *ctx) {}
+
+//-----------------------------------------------------------------------------
+// statements
+//-----------------------------------------------------------------------------
+
+void Compiler::exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) {}
+void Compiler::exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) {}
+void Compiler::exitStmt_key(ModelicaParser::Stmt_keyContext *ctx) {}
+void Compiler::exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) {}
+void Compiler::exitStmt_for(ModelicaParser::Stmt_forContext *ctx) {}
+void Compiler::exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) {}
+void Compiler::exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) {}
+void Compiler::exitFor_indices(ModelicaParser::For_indicesContext *ctx) {}
+void Compiler::exitFor_index(ModelicaParser::For_indexContext *ctx) {}
+
+//-----------------------------------------------------------------------------
+// expressions
+//-----------------------------------------------------------------------------
+
+void Compiler::exitExpr_number(ModelicaParser::Expr_numberContext *ctx) {
+  std::stringstream ss(ctx->getText());
+  double value = 0;
+  ss >> value;
+  auto num = std::make_unique<ast::expression::Number>(value);
+  setAst(ctx, std::move(num));
+}
+
+void Compiler::exitExpr_ref(ModelicaParser::Expr_refContext *ctx) {
+  std::vector<std::string> ids;
+  for (auto id : ctx->component_reference()->IDENT()) {
+    ids.push_back(id->getText());
+  }
+  // TODO handle more than one string
+  setAst(ctx, std::make_unique<ast::expression::Reference>(ids[0]));
+}
+
+void Compiler::exitExpr_simple(ModelicaParser::Expr_simpleContext *ctx) {}
+void Compiler::exitExpr_if(ModelicaParser::Expr_ifContext *ctx) {}
+void Compiler::exitExpr_func(ModelicaParser::Expr_funcContext *ctx) {}
+void Compiler::exitExpr_string(ModelicaParser::Expr_stringContext *ctx) {}
+void Compiler::exitExpr_range(ModelicaParser::Expr_rangeContext *ctx) {}
+void Compiler::exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) {}
+void Compiler::exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) {}
+void Compiler::exitCond_compare(ModelicaParser::Cond_compareContext *ctx) {}
+void Compiler::exitCond_func(ModelicaParser::Cond_funcContext *ctx) {}
+void Compiler::exitCond_ref(ModelicaParser::Cond_refContext *ctx) {}
 
 }  // namespace cymoca

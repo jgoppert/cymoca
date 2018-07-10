@@ -8,3 +8,5 @@ compile_commands.json
 *.txt.user
 *.orig
 *.swp
+.idea
+.vscode
