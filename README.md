@@ -29,7 +29,7 @@ A Modelica compiler written in modern C++ with Python bindings.
 ## Documentation
 
 * Doxygen [API Documentation](https://jgoppert.github.io/cymoca/)
-  * Useful inheritance [diagram](https://jgoppert.github.io/cymoca/inherits.html)
+  * Inheritance [diagram](https://jgoppert.github.io/cymoca/inherits.html)
   * Class [list](https://jgoppert.github.io/cymoca/annotated.html)
 
 ## Command Line Interface
