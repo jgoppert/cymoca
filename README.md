@@ -98,7 +98,9 @@ cymoca my_model.mo
      * Prefer setName() to set_name() for setter
 
 * IDE Recommendations
-  * Vim - reliable, no frills
+  * Vim - reliable, fast
+    * autocomplete working with [youcompleteme](https://github.com/Valloric/YouCompleteMe)
+    * project config with [localvim](https://github.com/embear/vim-localvimrc), see [.lvimrc](.lvimrc)
   * QtCreator - nice debugging and analysis
   * VSCode - nice gui, not as quick with analysis tips, antlr support
   * CLion - confused by some macros, but useful for overriding functions, antlr support
