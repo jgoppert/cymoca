@@ -25,11 +25,17 @@ matrix:
     - CPACK=ON
     - COVERAGE=OFF
     - BUILD_TYPE=Release
+    - DOXYGEN=ON
     addons:
       apt:
         packages:
         - *pkg_common
         - g++-7
+        - doxygen
+        - doxygen-doc
+        - doxygen-latex
+        - doxygen-gui
+        - graphviz
         sources:
         - *src_common
   - env:
@@ -63,6 +69,7 @@ script:
 after_success:
   - if [ "${CPACK}" = "ON" ]; then cpack -G ZIP; fi
   - if [ "${COVERAGE}" = "ON" ]; then coveralls -r .. -b . -i src --gcov gcov-7; fi
+  - if [ "${DOXYGEN}" = "ON" ]; then cd ../doc && doxygen Doxyfile; fi
 
 deploy:
   provider: releases
@@ -74,3 +81,13 @@ deploy:
   on:
     tags: true
     condition: $CPACK = ON
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GH_REPO_TOKEN
+  keep-history: true
+  local_dir: $TRAVIS_BUILD_DIR/docs/html
+  on:
+    branch: master
+    condition: $DOXYGEN = ON
