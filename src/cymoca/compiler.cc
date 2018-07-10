@@ -57,8 +57,6 @@ void Compiler::exitEveryRule(antlr4::ParserRuleContext *ctx) {
 // model
 //-----------------------------------------------------------------------------
 
-
-
 void Compiler::exitClass_definition(
     ModelicaParser::Class_definitionContext *ctx) {
   auto cls = std::make_unique<ast::model::Class>(
@@ -72,7 +70,6 @@ void Compiler::exitClass_definition(
 //-----------------------------------------------------------------------------
 // condition
 //-----------------------------------------------------------------------------
-
 
 void Compiler::exitCond_bool(ModelicaParser::Cond_boolContext *ctx) {
   auto res = std::make_unique<ast::condition::Boolean>(false);
