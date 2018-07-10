@@ -115,83 +115,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;## Documentation</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;* Doxygen hosted on github pages: [https:<span class="comment">//jgoppert.github.io/cymoca/](https://jgoppert.github.io/cymoca/)</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">## Command Line Interface</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;This command line just prints the LISP generator output currently, but it will be extended to support various generators.</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;```bash</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;$ ./cymoca -h</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;Cymoca Modelica Compiler 0.0.9-60-g9dd7a23</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;usage: cymoca [options] model.mo</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;Options:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;Generic options:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  -h [ --help ]          print help message</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;$ ./cymoca ./test/models/BouncingBall.mo </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;(<span class="keyword">class</span>(dict of comp( v(Real))(parameter g(Real))( x(Real))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;)(list of eq(=(der((x)))(v))(=(der((v)))(-(g)))(when(eq block(&lt;(x)(0))(list of eq(=(v)(-(v))))))))</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;```</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">## Install</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">### Binary</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;* Useful inheritance [diagram](https:<span class="comment">//jgoppert.github.io/cymoca/inherits.html)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;* Class [list](https:<span class="comment">//jgoppert.github.io/cymoca/annotated.html)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">## Command Line Interface</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;This command line just prints the LISP generator output currently, but it will be extended to support various generators.</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;```bash</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;$ ./cymoca -h</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;Cymoca Modelica Compiler 0.0.9-60-g9dd7a23</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;usage: cymoca [options] model.mo</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;Options:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;Generic options:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  -h [ --help ]          print help message</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;$ ./cymoca ./test/models/BouncingBall.mo </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;(<span class="keyword">class</span>(dict of comp( v(Real))(parameter g(Real))( x(Real))</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;)(list of eq(=(der((x)))(v))(=(der((v)))(-(g)))(when(eq block(&lt;(x)(0))(list of eq(=(v)(-(v))))))))</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;```</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">## Install</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;* Binaries are provided here: [releases](https:<span class="comment">//github.com/jgoppert/cymoca/releases/latest).</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;* The cymoca-...-Linux.zip is statically linked so it should work on all linux variants and Mac out of the box given the</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;following dependencies are met:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;* Dependencies</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;   * glibc 2.2.5</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">### Build from Source</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;* You can build cymoca from source <span class="keyword">using</span> cmake. You will need the following dependencies:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;* Dependencies</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;   * Antlr4 C++ runtime:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;     * Ubuntu 18.04: [deb](https:<span class="comment">//github.com/jgoppert/antlr4/releases/download/4.7.1-cpack/LIBANTLR4-4.7.1-Linux.deb)</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;     * Mac [Zip](http:<span class="comment">//www.antlr.org/download/antlr4-cpp-runtime-4.7.1-macos.zip)</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;     * Windows [Zip](http:<span class="comment">//www.antlr.org/download/antlr4-cpp-runtime-4.7.1-vs2015.zip)</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;     * Build from Source: see [script](scripts/install_antlr.sh)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;   * Casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;     * Ubuntu 18.04: [deb](https:<span class="comment">//github.com/jgoppert/casadi/releases/download/3.4.4-jmg/casadi-3.4.4-Linux.deb)</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;     * Build from Source: see [script](scripts/install_casadi.sh)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;   * Gtest, optional, used <span class="keywordflow">for</span> testing</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;     * Build from Source: see [script](scripts/install_googletest.sh)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;* A quick example of building with cmake:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;```bash</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;git clone https:<span class="comment">//github.com/jgoppert/cymoca</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;cd cymoca</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;mkdir -p build</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;cd build &amp;&amp; cmake -DWITH_TEST=ON ..</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;make -j4</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;ctest</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;cpack -G DEB</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;sudo dpkg -i cymoca*.deb</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;cymoca my_model.mo</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;```</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;## Contributing</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">### Binary</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;* Binaries are provided here: [releases](https:<span class="comment">//github.com/jgoppert/cymoca/releases/latest).</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;* The cymoca-...-Linux.zip is statically linked so it should work on all linux variants and Mac out of the box given the</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;following dependencies are met:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;* Dependencies</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;   * glibc 2.2.5</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">### Build from Source</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;* You can build cymoca from source <span class="keyword">using</span> cmake. You will need the following dependencies:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;* Dependencies</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;   * Antlr4 C++ runtime:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;     * Ubuntu 18.04: [deb](https:<span class="comment">//github.com/jgoppert/antlr4/releases/download/4.7.1-cpack/LIBANTLR4-4.7.1-Linux.deb)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;     * Mac [Zip](http:<span class="comment">//www.antlr.org/download/antlr4-cpp-runtime-4.7.1-macos.zip)</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;     * Windows [Zip](http:<span class="comment">//www.antlr.org/download/antlr4-cpp-runtime-4.7.1-vs2015.zip)</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;     * Build from Source: see [script](scripts/install_antlr.sh)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;   * Casadi, optional, requires system installed headers and libraries, enabled with -DWITH_CASADI=ON</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;     * Ubuntu 18.04: [deb](https:<span class="comment">//github.com/jgoppert/casadi/releases/download/3.4.4-jmg/casadi-3.4.4-Linux.deb)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;     * Build from Source: see [script](scripts/install_casadi.sh)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;   * Gtest, optional, used <span class="keywordflow">for</span> testing</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;     * Build from Source: see [script](scripts/install_googletest.sh)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;* A quick example of building with cmake:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;```bash</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;git clone https:<span class="comment">//github.com/jgoppert/cymoca</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;cd cymoca</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;mkdir -p build</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;cd build &amp;&amp; cmake -DWITH_TEST=ON ..</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;make -j4</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;ctest</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;cpack -G DEB</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;sudo dpkg -i cymoca*.deb</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;cymoca my_model.mo</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;```</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;* Coding standard: [Google](https:<span class="comment">//google.github.io/styleguide/cppguide.html)</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  * Changes:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;     * Use m_name instead of name_ <span class="keywordflow">for</span> <span class="keyword">class</span> members to make leading autocomplete nicer to work with.</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;     * Prefer getName() to name() for getter so that all attributes are also easy to acces with get&lt;TAB&gt;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;     * Prefer setName() to set_name() for setter</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;* Supported Development Environments</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  * QtCreator &gt;= 4.5</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  * Vim</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;* If you want to get started, feel free to make a PR. The easiest place to start is with a new generator:</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  * Lisp example [LispListener](src/cymoca/ast/listener/lisp.h).</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  * [cymoca::ast::listener::Base](src/cymoca/ast/listener/listener.h)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">## License</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;* BSD-3-clause, open source and free <span class="keywordflow">for</span> commercial use. [LICENSE](LICENSE)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;## Contributing</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;* Coding standard: [Google](https:<span class="comment">//google.github.io/styleguide/cppguide.html)</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  * Changes:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;     * Use m_name instead of name_ <span class="keywordflow">for</span> <span class="keyword">class</span> members to make leading autocomplete nicer to work with.</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;     * Prefer getName() to name() for getter so that all attributes are also easy to acces with get&lt;TAB&gt;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;     * Prefer setName() to set_name() for setter</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;* Supported Development Environments</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  * QtCreator &gt;= 4.5</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  * Vim</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;* If you want to get started, feel free to make a PR. The easiest place to start is with a new generator:</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  * Lisp example [LispListener](src/cymoca/ast/listener/lisp.h).</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  * [cymoca::ast::listener::Base](src/cymoca/ast/listener/listener.h)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">## License</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;* BSD-3-clause, open source and free <span class="keywordflow">for</span> commercial use. [LICENSE](LICENSE)</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
