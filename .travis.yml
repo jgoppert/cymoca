@@ -87,7 +87,7 @@ deploy:
   skip-cleanup: true
   github-token: $GH_REPO_TOKEN
   keep-history: true
-  local_dir: $TRAVIS_BUILD_DIR/docs/html
+  local_dir: docs/html
   on:
     branch: master
     condition: $DOXYGEN = ON
