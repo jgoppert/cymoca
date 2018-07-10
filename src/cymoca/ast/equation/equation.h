@@ -1,13 +1,9 @@
 #ifndef CYMOCA_AST_EQUATION_EQUATION_H_
 #define CYMOCA_AST_EQUATION_EQUATION_H_
 
-#include "../condition/condition.h"
-#include "../expression/expression.h"
 #include "../node.h"
 
 namespace cymoca::ast::equation {
-
-class Base : public INode {};
 
 /**
  * A list of equations

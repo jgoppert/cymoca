@@ -30,7 +30,7 @@ class Compiler : public ModelicaBaseListener {
   Compiler(const Compiler &) = delete;
   Compiler &operator=(const Compiler &) = delete;
   using AstMap = std::unordered_map<antlr4::ParserRuleContext *,
-                             std::unique_ptr<ast::INode>>;
+                                    std::unique_ptr<ast::INode>>;
 
  protected:
   std::unique_ptr<ModelicaParser> m_parser;
@@ -41,13 +41,42 @@ class Compiler : public ModelicaBaseListener {
   bool m_verbose;
   AstMap m_ast;
 
+  /**
+   * This function gets a pointer to the AST
+   * associated with ctx.
+   */
   template <typename T>
-  std::unique_ptr<T> getAst(antlr4::ParserRuleContext *ctx) {
+  T *getAst(antlr4::ParserRuleContext *ctx) {
     auto iter = m_ast.find(ctx);
     assert(iter != m_ast.end());
-    std::unique_ptr<T> val = static_unique_ptr_cast<T>(move(iter->second));
-    assert(val != nullptr);
-    return val;
+    auto p = dynamic_cast<T *>(iter->second.get());
+    assert(p);
+    return p;
+  }
+
+  /**
+   * This function gets the AST associated with ctx and
+   * transfers ownership to the caller, removing it from
+   * the ast dictionary.
+   */
+  template <typename T>
+  std::unique_ptr<T> moveAst(antlr4::ParserRuleContext *ctx) {
+    auto iter = m_ast.find(ctx);
+    assert(iter != m_ast.end());
+    auto p = static_unique_ptr_cast<T>(std::move(iter->second));
+    assert(p);
+    return p;
+  }
+
+  /**
+   * This function gets the AST associated with ctx and
+   * makes a copy which is returns to the caller.
+   */
+  template <typename T>
+  std::unique_ptr<T> cloneAst(antlr4::ParserRuleContext *ctx) {
+    auto iter = m_ast.find(ctx);
+    assert(iter != m_ast.end());
+    return iter->second->cloneAs<T>();
   }
 
   void setAst(antlr4::ParserRuleContext *ctx,
@@ -80,10 +109,13 @@ class Compiler : public ModelicaBaseListener {
   void enterEveryRule(antlr4::ParserRuleContext * /*ctx*/) override;
   void exitEveryRule(antlr4::ParserRuleContext * /*ctx*/) override;
   void exitExpr_number(ModelicaParser::Expr_numberContext * /*ctx*/) override;
+  void exitExpr_ref(ModelicaParser::Expr_refContext * /*ctx*/) override;
   void exitClass_definition(
       ModelicaParser::Class_definitionContext * /*ctx*/) override;
   // void exitExpr_simple(ModelicaParser::Expr_simpleContext * /*ctx*/)
   // override;
+  void exitCond_bool(ModelicaParser::Cond_boolContext * /*ctx*/) override;
+  void exitCond_binary(ModelicaParser::Cond_binaryContext * /*ctx*/) override;
 };
 
 }  // namespace cymoca

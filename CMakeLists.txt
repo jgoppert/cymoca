@@ -70,7 +70,7 @@ add_custom_target(format
 find_package(Antlr4Runtime REQUIRED)
 
 # common flags
-add_compile_options(-fmax-errors=3)
+add_compile_options(-Wfatal-errors)
 
 #-----------------------------------------------------------------------------
 # Version based on GIT tags

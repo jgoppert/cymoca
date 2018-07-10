@@ -1,20 +1,11 @@
 #ifndef CYMOCA_AST_MODEL_MODEL_H_
 #define CYMOCA_AST_MODEL_MODEL_H_
 
-#include "../condition/condition.h"
-#include "../element/element.h"
-#include "../equation/equation.h"
-#include "../expression/expression.h"
 #include "../node.h"
 
 #include <unordered_map>
 
 namespace cymoca::ast::model {
-
-/**
- * A high level node that doesn't fit into any other category
- */
-class Base : public INode {};
 
 /**
  * A dictionary of elements with names as keys and

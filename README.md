@@ -92,6 +92,10 @@ cymoca my_model.mo
      * Prefer getName() to name() for getter so that all attributes are also easy to acces with get<TAB>
      * Prefer setName() to set_name() for setter
 
+* Supported Development Environments
+  * QtCreator >= 4.5
+  * Vim
+
 * If you want to get started, feel free to make a PR. The easiest place to start is with a new generator derived from Listener/ConstListener.
 
 ## License

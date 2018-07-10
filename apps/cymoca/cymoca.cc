@@ -51,7 +51,7 @@ int main(int argc, const char *argv[]) {
       throw std::runtime_error("failed to compile model");
     }
     walker.walk(*c.root(), printer);
-    //std::cout << printer.get() << std::endl;
+    std::cout << printer.get() << std::endl;
 
   }
   catch (std::exception &e) {

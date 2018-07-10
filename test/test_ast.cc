@@ -20,24 +20,22 @@ struct AddOne : listener::Base {
 };
 
 TEST(Ast, If) {
-
   auto c = M(mdl::Class)(
-      M(mdl::ElementDict)(M(elem::Component)("x", "Real", elem::Prefix::CONSTANT),
-                     M(elem::Component)("y", "Real", elem::Prefix::CONSTANT)),
-      M(eq::List)(
-        M(eq::If)(
+      M(mdl::ElementDict)(
+          M(elem::Component)("x", "Real", elem::Prefix::CONSTANT),
+          M(elem::Component)("y", "Real", elem::Prefix::CONSTANT)),
+      M(eq::List)(M(eq::If)(
           M(eq::Block)(
               M(cond::LessThan)(M(expr::Reference)("x"), M(expr::Number)(3)),
-              M(eq::List)(
-                M(eq::Simple)(M(expr::Add)(M(expr::Number)(1), M(expr::Number)(2)),
-                              M(expr::Reference)("x")))),
-          M(eq::Block)(
-              M(cond::And)(
-                  M(cond::LessThan)(M(expr::Reference)("x"), M(expr::Number)(3)),
-                  M(cond::Boolean)(true)),
-              M(eq::List)(
-                M(eq::Simple)(M(expr::Add)(M(expr::Number)(1), M(expr::Number)(2)),
-                             M(expr::Reference)("x")))))));
+              M(eq::List)(M(eq::Simple)(
+                  M(expr::Add)(M(expr::Number)(1), M(expr::Number)(2)),
+                  M(expr::Reference)("x")))),
+          M(eq::Block)(M(cond::And)(M(cond::LessThan)(M(expr::Reference)("x"),
+                                                      M(expr::Number)(3)),
+                                    M(cond::Boolean)(true)),
+                       M(eq::List)(M(eq::Simple)(
+                           M(expr::Add)(M(expr::Number)(1), M(expr::Number)(2)),
+                           M(expr::Reference)("x")))))));
 
   auto c2 = c->cloneAs<mdl::Class>();
   listener::Lisp printer;

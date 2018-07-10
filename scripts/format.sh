@@ -10,7 +10,7 @@ then
 fi
 apply=$1
 
-files=`find . -regex "./\(src\|test\).*\.\(cpp\|h\|c\|hpp\)"`
+files=`find . -regex "./\(src\|test\).*\.\(cpp\|h\|c\|cc\|hpp\)"`
 
 clang-format-6.0 -output-replacements-xml $files | grep -c "<replacement " >/dev/null
 if [ $? -ne 1 ]; then 
