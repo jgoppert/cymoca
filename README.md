@@ -96,6 +96,7 @@ cymoca my_model.mo
   * Vim
 
 * If you want to get started, feel free to make a PR. The easiest place to start is with a new generator derived from:
+  * Lisp example [LispListener](src/cymoca/ast/listener/lisp.h).
   * [cymoca::ast::listener::Base](src/cymoca/ast/listener/listener.h)
 
 ## License
