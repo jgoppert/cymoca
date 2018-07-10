@@ -12,8 +12,7 @@ A Modelica compiler written in modern C++ with Python bindings.
 * Listener based generators decoupled from the AST, easy to compile Modelica to new targets.
   * Lisp string printing [LispListener](src/cymoca/ast/listener/lisp.h).
 * Listener based compiler
-  * [Compiler](src/cymoca/Compiler.cpp)
-  * [Tree Rewriting](src/cymoca/ast/listener/when_expander.h)
+  * [Compiler](src/cymoca/compiler.cc)
 * C++17 used throughout, minimal copying, low memory footprint, and fast.
 * Python bindings planned.
 * Data format for simulations [HDF5](https://www.hdfgroup.org/)
