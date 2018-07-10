@@ -97,9 +97,11 @@ cymoca my_model.mo
      * Prefer getName() to name() for getter so that all attributes are also easy to acces with get<TAB>
      * Prefer setName() to set_name() for setter
 
-* Supported Development Environments
-  * QtCreator >= 4.5
-  * Vim
+* IDE Recommendations
+  * Vim - reliable, no frills
+  * QtCreator - nice debugging and analysis
+  * VSCode - nice gui, not as quick with analysis tips, antlr support
+  * CLion - confused by some macros, but useful for overriding functions, antlr support
 
 * If you want to get started, feel free to make a PR. The easiest place to start is with a new generator:
   * Lisp example [LispListener](src/cymoca/ast/listener/lisp.h).
