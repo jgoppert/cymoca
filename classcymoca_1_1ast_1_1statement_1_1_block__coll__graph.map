@@ -1,4 +1,4 @@
 <map id="cymoca::ast::statement::Block" name="cymoca::ast::statement::Block">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1cymoca_1_1ast_1_1statement_1_1_base.html" title="cymoca::ast::cymoca\l::ast::statement::Base" alt="" coords="8,81,160,122"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1statement_1_1_base.html" title="cymoca::ast::statement\l::Base" alt="" coords="4,81,163,122"/>
 <area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_i_node.html" title="cymoca::ast::INode" alt="" coords="15,5,152,32"/>
 </map>
