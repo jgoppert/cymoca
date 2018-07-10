@@ -1,10 +1,10 @@
 #!/bin/bash
 if [ $# != 0 ]
 then
-	echo """
-	usage: $0
-	"""
-	exit 1
+  echo """
+  usage: $0
+  """
+  exit 1
 fi
 apply=$1
 

@@ -1,4 +1,5 @@
-autocmd FileType cpp setlocal ts=2 sts=2 sw=2 et
-autocmd FileType c setlocal ts=2 sts=2 sw=2 et
+set ts=2
+set sts=2
+set sw=2
+set et
 autocmd FileType cmake setlocal ts=4 sts=4 sw=4 et
-autocmd FileType markdown setlocal ts=2 sts=2 sw=2 et
