@@ -26,6 +26,8 @@ A Modelica compiler written in modern C++ with Python bindings.
 * [ ] NuSMV output for state machines to support model checking.
 * [ ] Python bindings.
 
+## Documentation
+
 ## Command Line Interface
 
 This command line just prints the LISP generator output currently, but it will be extended to support various generators.
