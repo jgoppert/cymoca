@@ -9,30 +9,28 @@ if (NOT ANTLR4_JAR)
 endif ()
 find_package(Java COMPONENTS Runtime REQUIRED)
 
-set(antlr_parser ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
-set(antlr_lexer ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
+set(antlr_grammar ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
 set(antlr_srcs
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaBaseListener.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaLexer.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaListener.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaParser.cpp
         )
-set_source_files_properties(${antlr_srcs} PROPERTIES GENERATED True)
 set(antlr_hdrs
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaBaseListener.h
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaLexer.h
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaListener.h
         ${CMAKE_CURRENT_BINARY_DIR}/ModelicaParser.h
         )
-set_source_files_properties(${antlr_hdrs} PROPERTIES GENERATED True)
 add_custom_command(OUTPUT ${antlr_srcs} ${antlr_hdrs}
         COMMAND "${Java_JAVA_EXECUTABLE}" -jar "${ANTLR4_JAR}" -Werror
         -Dlanguage=Cpp -listener -o "."
-        -package modelica_antlr "${antlr_lexer}" "${antlr_parser}"
-        DEPENDS ${antlr_parser} ${antlr_lexer})
+        -package modelica_antlr "${antlr_grammar}"
+        DEPENDS ${antlr_grammar})
 include_directories(${Antlr4Runtime_INCLUDE_DIRS})
 add_library(modelica_antlr STATIC
-        ${antlr_hdrs} ${antlr_srcs}
+        ${antlr_hdrs}
+        ${antlr_srcs}
         )
 target_compile_options(modelica_antlr PRIVATE -Wno-attributes)
 target_link_libraries(modelica_antlr ${Antlr4Runtime_LIBRARIES})
