@@ -22,7 +22,7 @@ if (WITH_COVERAGE)
 endif()
 
 include_directories(SYSTEM
-    ${CYMOCA_BINARY_DIR}
+    ${CYMOCA_BINARY_DIR}/src
     ${CMAKE_CURRENT_BINARY_DIR}
     ${Antlr4Runtime_INCLUDE_DIRS}
     )

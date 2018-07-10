@@ -3,19 +3,18 @@
 #-----------------------------------------------------------------------------
 
 include_directories(SYSTEM
-        ${PROJECT_BINARY_DIR}
+        ${CYMOCA_BINARY_DIR}/src
         ${Antlr4Runtime_INCLUDE_DIRS}
         )
 
-include_directories(
-        ${PROJECT_SOURCE_DIR}/src)
+include_directories(${CYMOCA_SOURCE_DIR}/src)
 
 add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)
 
 add_subdirectory(ast)
 
 add_library(cymoca_compiler STATIC
-        ${PROJECT_BINARY_DIR}/version.cc
+        ${CMAKE_CURRENT_BINARY_DIR}/version.cc
         version.h
         util.h
         compiler.cc

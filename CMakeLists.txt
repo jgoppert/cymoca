@@ -57,7 +57,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL
         "export compile commands, useful for vim completion" FORCE)
 add_custom_target(copy_compile_commands ALL
         COMMAND ${CMAKE_COMMAND} -E copy
-        ${PROJECT_BINARY_DIR}/compile_commands.json ${PROJECT_SOURCE_DIR}
+        ${CYMOCA_BINARY_DIR}/compile_commands.json ${CYMOCA_SOURCE_DIR}
         DEPENDS cymoca)
 
 # format
@@ -87,8 +87,8 @@ string(REGEX REPLACE ${version_regex} "\\3" VERSION_PATCH ${VERSION})
 string(REGEX REPLACE ${version_regex} "\\4" VERSION_SHA ${VERSION})
 set(VERSION_SHORT "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 configure_file(${CYMOCA_SOURCE_DIR}/cmake/version.cc.in
-    ${CYMOCA_BINARY_DIR}/version.cc)
-set(version_file "${CYMOCA_BINARY_DIR}/version.cc")
+    ${CYMOCA_BINARY_DIR}/src/cymoca/version.cc)
+set(version_file "${CYMOCA_BINARY_DIR}/src/cymoca/version.cc")
 
 #-----------------------------------------------------------------------------
 # Libraries

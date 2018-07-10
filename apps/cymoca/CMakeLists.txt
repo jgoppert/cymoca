@@ -12,8 +12,8 @@ target_link_libraries(cymoca
 
 target_compile_options(cymoca PRIVATE -pedantic -Werror -Weffc++ -Wall -Wextra)
 target_include_directories(cymoca SYSTEM PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}
+        ${CYMOCA_SOURCE_DIR}/src
+        ${CYMOCA_BINARY_DIR}/src
         ${Antlr4Runtime_INCLUDE_DIRS}
         )
 

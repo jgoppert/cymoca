@@ -9,35 +9,30 @@ if (NOT ANTLR4_JAR)
 endif ()
 find_package(Java COMPONENTS Runtime REQUIRED)
 
-set(antlr_dir ${PROJECT_BINARY_DIR}/modelica_antlr)
 set(antlr_parser ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
 set(antlr_lexer ${CMAKE_CURRENT_SOURCE_DIR}/Modelica.g4)
-file(MAKE_DIRECTORY ${antlr_dir})
 set(antlr_srcs
-        ${antlr_dir}/ModelicaBaseListener.cpp
-        ${antlr_dir}/ModelicaLexer.cpp
-        ${antlr_dir}/ModelicaListener.cpp
-        ${antlr_dir}/ModelicaParser.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaBaseListener.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaLexer.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaListener.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaParser.cpp
         )
 set_source_files_properties(${antlr_srcs} PROPERTIES GENERATED True)
 set(antlr_hdrs
-        ${antlr_dir}/ModelicaBaseListener.h
-        ${antlr_dir}/ModelicaLexer.h
-        ${antlr_dir}/ModelicaListener.h
-        ${antlr_dir}/ModelicaParser.h
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaBaseListener.h
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaLexer.h
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaListener.h
+        ${CMAKE_CURRENT_BINARY_DIR}/ModelicaParser.h
         )
 set_source_files_properties(${antlr_hdrs} PROPERTIES GENERATED True)
 add_custom_command(OUTPUT ${antlr_srcs} ${antlr_hdrs}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${antlr_dir}
         COMMAND "${Java_JAVA_EXECUTABLE}" -jar "${ANTLR4_JAR}" -Werror
-        -Dlanguage=Cpp -listener -o "${antlr_dir}"
+        -Dlanguage=Cpp -listener -o "."
         -package modelica_antlr "${antlr_lexer}" "${antlr_parser}"
-        WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
         DEPENDS ${antlr_parser} ${antlr_lexer})
 include_directories(${Antlr4Runtime_INCLUDE_DIRS})
 add_library(modelica_antlr STATIC
-        ${antlr_srcs}
-        ${antlr_hdrs}
+        ${antlr_hdrs} ${antlr_srcs}
         )
 target_compile_options(modelica_antlr PRIVATE -Wno-attributes)
 target_link_libraries(modelica_antlr ${Antlr4Runtime_LIBRARIES})
