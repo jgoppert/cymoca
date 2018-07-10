@@ -28,6 +28,8 @@ A Modelica compiler written in modern C++ with Python bindings.
 
 ## Documentation
 
+* Doxygen hosted on github pages: [https://jgoppert.github.io/cymoca/](https://jgoppert.github.io/cymoca/)
+
 ## Command Line Interface
 
 This command line just prints the LISP generator output currently, but it will be extended to support various generators.
