@@ -1,7 +1,3 @@
-//
-// Created by jgoppert on 3/17/18.
-//
-
 #ifndef CYMOCA_COMPILER_H_
 #define CYMOCA_COMPILER_H_
 

@@ -1,7 +1,3 @@
-//
-// Created by jgoppert on 3/17/18.
-//
-
 #include "compiler.h"
 
 namespace cymoca {
