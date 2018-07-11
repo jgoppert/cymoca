@@ -125,6 +125,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1expression_1_1_number.html">cymoca::ast::expression::Number</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1expression_1_1_list.html">cymoca::ast::expression::List</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1expression_1_1_function.html">cymoca::ast::expression::Function</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1expression_1_1_negative.html">cymoca::ast::expression::Negative</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -135,6 +141,8 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a4e11a81dd9dc66def6af13c0e52db51d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression_8h.html#a4e11a81dd9dc66def6af13c0e52db51d">BINARY_EXPR_MACRO</a>(NAME)</td></tr>
 <tr class="separator:a4e11a81dd9dc66def6af13c0e52db51d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b95d3f4aefbeab3e365cc30d58ee831"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="expression_8h.html#a1b95d3f4aefbeab3e365cc30d58ee831">UNARY_EXPR_MACRO</a>(NAME)</td></tr>
+<tr class="separator:a1b95d3f4aefbeab3e365cc30d58ee831"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="a4e11a81dd9dc66def6af13c0e52db51d"></a>
@@ -160,6 +168,32 @@ Macros</h2></td></tr>
 <div class="line">  };</div>
 </div><!-- fragment -->
 <p>Definition at line <a class="el" href="expression_8h_source.html#l00028">28</a> of file <a class="el" href="expression_8h_source.html">expression.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1b95d3f4aefbeab3e365cc30d58ee831"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UNARY_EXPR_MACRO</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">NAME</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">class </span>NAME : <span class="keyword">public</span> TUnary&lt;Base, Base&gt; {          \</div>
+<div class="line">   public:                                          \</div>
+<div class="line">    NODE_MACRO                                      \</div>
+<div class="line">    using TUnary::TUnary;                           \</div>
+<div class="line">    std::unique_ptr&lt;INode&gt; clone()<span class="keyword"> const override </span>{ \</div>
+<div class="line">      return cloneUnary&lt;NAME&gt;();                    \</div>
+<div class="line">    }                                               \</div>
+<div class="line">  };</div>
+</div><!-- fragment -->
+<p>Definition at line <a class="el" href="expression_8h_source.html#l00108">108</a> of file <a class="el" href="expression_8h_source.html">expression.h</a>.</p>
 
 </div>
 </div>

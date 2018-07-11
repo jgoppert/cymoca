@@ -76,9 +76,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
-      <li><a href="functions_func.html#index_b"><span>b</span></a></li>
+      <li><a href="functions_func.html#index_a"><span>a</span></a></li>
+      <li><a href="functions_func_b.html#index_b"><span>b</span></a></li>
       <li><a href="functions_func_c.html#index_c"><span>c</span></a></li>
       <li class="current"><a href="functions_func_e.html#index_e"><span>e</span></a></li>
+      <li><a href="functions_func_f.html#index_f"><span>f</span></a></li>
       <li><a href="functions_func_g.html#index_g"><span>g</span></a></li>
       <li><a href="functions_func_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_func_l.html#index_l"><span>l</span></a></li>
@@ -128,13 +130,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classcymoca_1_1ast_1_1equation_1_1_when.html#a4b848630500f01c71d16fc3d534ca857">cymoca::ast::equation::When</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_add.html#a86dc4e76c82995aa7b91d427d7a7d28d">cymoca::ast::expression::Add</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_divide.html#ab66c3ac06c750ee8e610b1403d2d7c72">cymoca::ast::expression::Divide</a>
+, <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_function.html#a644d7334e25b3024b1772f9e6ae9cb4c">cymoca::ast::expression::Function</a>
+, <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_list.html#a59654d90c09cf4c31c447d475d718d25">cymoca::ast::expression::List</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_multiply.html#a0ef32b03448920aa5a9341828b49b5eb">cymoca::ast::expression::Multiply</a>
+, <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_negative.html#a6a4b31b1ab52122f4eb8145c7926a41b">cymoca::ast::expression::Negative</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_number.html#a8214c2401a6318e5259e5e5b582d6851">cymoca::ast::expression::Number</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_reference.html#a2f3885013216795d089bdb12bf492c01">cymoca::ast::expression::Reference</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_subtract.html#a7b0759dd4c958b24f0e7774e95c7ffb0">cymoca::ast::expression::Subtract</a>
 , <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#aa949c5657475af7b8d540c263756537b">cymoca::ast::INode</a>
-, <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html#a70e035f94e3575eb33e0f42b2864f524">cymoca::ast::listener::Base</a>
-, <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_lisp.html#a680c0ed7d8da707d58f4f5af7c61e87e">cymoca::ast::listener::Lisp</a>
+, <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html#af2b6407848cfcbf3dcbbc8e376d9d28e">cymoca::ast::listener::Base</a>
+, <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_lisp.html#a354f54b7bb0c83815b6e727e40d1e226">cymoca::ast::listener::Lisp</a>
 , <a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#a87d7f38f6803688f756e30756d0a72ff">cymoca::ast::model::Class</a>
 , <a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a9f4d480f27597859c1a298db03f5441b">cymoca::ast::model::ElementDict</a>
 </li>
@@ -143,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_lisp.html#a677c0571cba10d9352af2dd6091a6f22">cymoca::ast::listener::Lisp</a>
 </li>
 <li>enterEveryRule()
-: <a class="el" href="classcymoca_1_1_compiler.html#aee8d2958efecbc7f0a2dc3b734ccb91a">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#abe3ff5b6f7497cd02400636f37335bf5">cymoca::Compiler</a>
 </li>
 <li>exit()
 : <a class="el" href="classcymoca_1_1ast_1_1condition_1_1_and.html#a2499128a6328f4b655b69a8938133f12">cymoca::ast::condition::And</a>
@@ -158,117 +163,135 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classcymoca_1_1ast_1_1equation_1_1_when.html#a82678934e63ac18e783066cebbf32ff5">cymoca::ast::equation::When</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_add.html#aa173db96ecddbaca2e6c5756bb09d689">cymoca::ast::expression::Add</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_divide.html#a5a7bf2715c35c3b063d8fa756e8f9738">cymoca::ast::expression::Divide</a>
+, <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_function.html#a55ad1ae84eaa512a83a18af9ef3f670c">cymoca::ast::expression::Function</a>
+, <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_list.html#a11314b94b715196d9ddbed4c39d98642">cymoca::ast::expression::List</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_multiply.html#a337edc489e4b634e9f89edd5506bc1f0">cymoca::ast::expression::Multiply</a>
+, <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_negative.html#ad392df0967804d863e512de4bcec9b2d">cymoca::ast::expression::Negative</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_number.html#a5b7961771fb7d65f8d3df369e53faebe">cymoca::ast::expression::Number</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_reference.html#af9ec63d1f9debfce2ec2b19e006c3e85">cymoca::ast::expression::Reference</a>
 , <a class="el" href="classcymoca_1_1ast_1_1expression_1_1_subtract.html#ad0c224473c6b93bbf879af12cd9709db">cymoca::ast::expression::Subtract</a>
 , <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#ada506b731700f862be9a83c8bd61d404">cymoca::ast::INode</a>
-, <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html#af9321f5c680c6f7c33825b156323893f">cymoca::ast::listener::Base</a>
+, <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html#a9f206f7491723ffe4a35655566db3f38">cymoca::ast::listener::Base</a>
 , <a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#a34589206822a4b6ed739f5d1bd7bb530">cymoca::ast::model::Class</a>
 , <a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#af7c8a15559737c90470cbfd677633c8c">cymoca::ast::model::ElementDict</a>
 </li>
 <li>exitClass_definition()
-: <a class="el" href="classcymoca_1_1_compiler.html#a698e696c6d32b14bf9b122a18567c796">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a4d412314566b7d51b59f2898566f9cf0">cymoca::Compiler</a>
 </li>
 <li>exitCond_binary()
-: <a class="el" href="classcymoca_1_1_compiler.html#ac3524008e739d7cadbe235dc629f254b">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a0031920f16210b7a821d6d9520c0ab77">cymoca::Compiler</a>
 </li>
 <li>exitCond_bool()
-: <a class="el" href="classcymoca_1_1_compiler.html#a6019113edd1f502e0ad5f19de65c6b5e">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#ade982a828fed246287896b2720f8e4cf">cymoca::Compiler</a>
 </li>
 <li>exitCond_compare()
-: <a class="el" href="classcymoca_1_1_compiler.html#a6fac51681ff2ed6ff4d80c26a5fa59a7">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#ad02e6022dc8d0762f113f11115411bbf">cymoca::Compiler</a>
 </li>
 <li>exitCond_func()
-: <a class="el" href="classcymoca_1_1_compiler.html#a222003493c31b43d9f6e6b78b13640ab">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a8f04d504e1dd6073c7d7097436a18996">cymoca::Compiler</a>
 </li>
 <li>exitCond_ref()
-: <a class="el" href="classcymoca_1_1_compiler.html#acd882e86cd319e033900e05cd13b7dc0">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a506df0c28743ccb61a4b3285649c290e">cymoca::Compiler</a>
 </li>
 <li>exitCond_unary()
-: <a class="el" href="classcymoca_1_1_compiler.html#afeb6570eab51db9f3b604b69d23cbd3e">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a26b64179b2c13aa501301461d950879b">cymoca::Compiler</a>
 </li>
 <li>exitEq_block()
-: <a class="el" href="classcymoca_1_1_compiler.html#a3d88b801152dee36994c429cc95b6671">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a9730e6e8b98ae34cf0ef3a79a28c1883">cymoca::Compiler</a>
 </li>
 <li>exitEq_connect()
-: <a class="el" href="classcymoca_1_1_compiler.html#af8ac1eff39264ece4fd691e3de173269">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a92713e04b571913b8696bbe3b726934a">cymoca::Compiler</a>
 </li>
 <li>exitEq_for()
-: <a class="el" href="classcymoca_1_1_compiler.html#aac3f0361685677e968b4dd1f715bf217">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a0c1bf98af875be5684c13b15fcf204a5">cymoca::Compiler</a>
 </li>
 <li>exitEq_func()
-: <a class="el" href="classcymoca_1_1_compiler.html#af4384eb7202f1f1a0abbeb12eba5da84">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a9abd4f6cf8dd40e00898ab263aeafd3d">cymoca::Compiler</a>
 </li>
 <li>exitEq_if()
-: <a class="el" href="classcymoca_1_1_compiler.html#ab17e8e3fb963d25a3889ccd828627cea">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a38d830ac318c933f56acfa398ecae38c">cymoca::Compiler</a>
 </li>
 <li>exitEq_simple()
-: <a class="el" href="classcymoca_1_1_compiler.html#aadd92a8bad5f62200fce997507b3ab3c">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#ad4078c70b1943116cd1f16f8d45f7913">cymoca::Compiler</a>
 </li>
 <li>exitEq_when()
-: <a class="el" href="classcymoca_1_1_compiler.html#ac85eb1ce346eb2122e6a32798431e675">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#ae0f576d56137c23991c5ca4c9eb2b7fc">cymoca::Compiler</a>
 </li>
 <li>exitEvery()
 : <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_base.html#a290fcd344c05cbb2d9d7a609a16f11e8">cymoca::ast::listener::Base</a>
 , <a class="el" href="classcymoca_1_1ast_1_1listener_1_1_lisp.html#ab015604ff41c2c9fa3ab0ebe17568892">cymoca::ast::listener::Lisp</a>
 </li>
 <li>exitEveryRule()
-: <a class="el" href="classcymoca_1_1_compiler.html#a5efe5fbd2210b235e2d772938910175d">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a25c45d0a5536d9263af3f98a3804f51d">cymoca::Compiler</a>
 </li>
 <li>exitExpr_binary()
-: <a class="el" href="classcymoca_1_1_compiler.html#a7b4639abf8377a03bd9a92a3c1533d97">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a74c05986eeba6bdbd3aa138f51422829">cymoca::Compiler</a>
 </li>
 <li>exitExpr_func()
-: <a class="el" href="classcymoca_1_1_compiler.html#a223f862270790f978e70f5bcb092a28b">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#aa2a741027861de4603e3ee1250c7b2a1">cymoca::Compiler</a>
 </li>
 <li>exitExpr_if()
-: <a class="el" href="classcymoca_1_1_compiler.html#ad499938902ccb27e6c86c9a89223edd2">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a30cf966fbab891d68e30ad82bfc9620c">cymoca::Compiler</a>
 </li>
 <li>exitExpr_number()
-: <a class="el" href="classcymoca_1_1_compiler.html#abba89a5516f734501a61f721834ab7ad">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a585428bc75b84e1beec08aaf3b041b0e">cymoca::Compiler</a>
 </li>
 <li>exitExpr_range()
-: <a class="el" href="classcymoca_1_1_compiler.html#a8567ded022a012c503fe22e57613a748">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a8d202e1e99e0da8920629406dc64d517">cymoca::Compiler</a>
 </li>
 <li>exitExpr_ref()
-: <a class="el" href="classcymoca_1_1_compiler.html#a2f9fcf38920c5353b94bdefef7ae27c7">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#abfec9bb5285a327ef72dcab3f00142f4">cymoca::Compiler</a>
 </li>
 <li>exitExpr_simple()
-: <a class="el" href="classcymoca_1_1_compiler.html#a6c1edcfbf5f7accd39b70e508951011d">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a569125389fe65670c69d63cd7dd083bb">cymoca::Compiler</a>
 </li>
 <li>exitExpr_string()
-: <a class="el" href="classcymoca_1_1_compiler.html#a21903d5c5dd6a8629a6f7cb2c4df1ddf">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a5b8dafdf7a08ddf200bcb4e1466cb78e">cymoca::Compiler</a>
 </li>
 <li>exitExpr_unary()
-: <a class="el" href="classcymoca_1_1_compiler.html#af1d315adbe593e3935dc6c30bf845192">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a8c2aeb82c6f44b2f8d2e09cd98912ece">cymoca::Compiler</a>
 </li>
 <li>exitFor_index()
-: <a class="el" href="classcymoca_1_1_compiler.html#a9763c653771ec7385207019e6f07b3f4">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#acc41d00e89a902a3498f1300aacbf677">cymoca::Compiler</a>
 </li>
 <li>exitFor_indices()
-: <a class="el" href="classcymoca_1_1_compiler.html#af5b6c596e22fcf06e4f419b8279a66fc">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a34b003503ff27e1391c293ede020e599">cymoca::Compiler</a>
+</li>
+<li>exitFunc_arg_expr()
+: <a class="el" href="classcymoca_1_1_compiler.html#ae1d24c23886af3697015089ebeed0f71">cymoca::Compiler</a>
+</li>
+<li>exitFunc_arg_for()
+: <a class="el" href="classcymoca_1_1_compiler.html#a58fd8df5b75129be88b37cba5ea847bc">cymoca::Compiler</a>
+</li>
+<li>exitFunc_arg_func()
+: <a class="el" href="classcymoca_1_1_compiler.html#ac999bdc2ea0549185be27c290259e407">cymoca::Compiler</a>
+</li>
+<li>exitFunc_arg_named()
+: <a class="el" href="classcymoca_1_1_compiler.html#aad8abe54eed6773cffd9db62dbaba11b">cymoca::Compiler</a>
+</li>
+<li>exitFunction_call_args()
+: <a class="el" href="classcymoca_1_1_compiler.html#a68b3ba9787e94b838dcd691e0a96d21b">cymoca::Compiler</a>
 </li>
 <li>exitStmt_for()
-: <a class="el" href="classcymoca_1_1_compiler.html#abeb51c556dddc066dc2b05856e773d8b">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#ab3eac5c1cbb9eefd149b2f6503f16b3a">cymoca::Compiler</a>
 </li>
 <li>exitStmt_func()
-: <a class="el" href="classcymoca_1_1_compiler.html#a47f1a90918f5c3c99136291cae7dccc9">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a58d3c0b394221b7ca08080ee20d1d10e">cymoca::Compiler</a>
 </li>
 <li>exitStmt_if()
-: <a class="el" href="classcymoca_1_1_compiler.html#ad62d09deb53ef8102d7240452b84626a">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a51f3ab055134317bb3e448063f5062ff">cymoca::Compiler</a>
 </li>
 <li>exitStmt_key()
-: <a class="el" href="classcymoca_1_1_compiler.html#a5108f9f578eb7a9ab5d3b22c75669a8d">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a979b22f71b635f908ce27469957d5e76">cymoca::Compiler</a>
 </li>
 <li>exitStmt_ref()
-: <a class="el" href="classcymoca_1_1_compiler.html#aac08983c684adeb0b379236986668360">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a7dbc6442f79670dc728772baea689426">cymoca::Compiler</a>
 </li>
 <li>exitStmt_when()
-: <a class="el" href="classcymoca_1_1_compiler.html#ac101f7e7be7acc819e1fb07b7899c8a5">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#a2370c1295f18f4cc28de0904316b5e81">cymoca::Compiler</a>
 </li>
 <li>exitStmt_while()
-: <a class="el" href="classcymoca_1_1_compiler.html#a70bf8d90b21949debfc70d92f360cd58">cymoca::Compiler</a>
+: <a class="el" href="classcymoca_1_1_compiler.html#acaba61760344d20e05a06e0747f6b01b">cymoca::Compiler</a>
 </li>
 </ul>
 </div><!-- contents -->

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['unary_5fcond_5fmacro',['UNARY_COND_MACRO',['../condition_8h.html#a2176d85fab63a9c06bb8f06ba2bf6296',1,'condition.h']]]
+  ['relation_5fmacro',['RELATION_MACRO',['../condition_8h.html#af0d7e965cb97cf4ee7b2062fee2c1aa0',1,'condition.h']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['if',['If',['../classcymoca_1_1ast_1_1statement_1_1_if.html',1,'cymoca::ast::statement']]],
-  ['if',['If',['../classcymoca_1_1ast_1_1equation_1_1_if.html',1,'cymoca::ast::equation']]],
-  ['inode',['INode',['../classcymoca_1_1ast_1_1_i_node.html',1,'cymoca::ast']]]
+  ['greaterthan',['GreaterThan',['../classcymoca_1_1ast_1_1condition_1_1_greater_than.html',1,'cymoca::ast::condition']]],
+  ['greaterthanorequal',['GreaterThanOrEqual',['../classcymoca_1_1ast_1_1condition_1_1_greater_than_or_equal.html',1,'cymoca::ast::condition']]]
 ];

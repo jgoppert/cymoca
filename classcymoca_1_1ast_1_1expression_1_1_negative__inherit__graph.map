@@ -1,0 +1,4 @@
+<map id="cymoca::ast::expression::Negative" name="cymoca::ast::expression::Negative">
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_unary.html" title="{cymoca::ast::TUnary\l\&lt; Base, Base \&gt;\n|# right\l|+ TUnary()\l+ getChildren()\l+ cloneUnary()\l}" alt="" coords="15,321,160,442"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_unary.html" title="{cymoca::ast::TUnary\l\&lt; Right, Base \&gt;\n|# right\l|+ TUnary()\l+ getChildren()\l+ cloneUnary()\l}" alt="" coords="105,134,249,255"/>
+</map>

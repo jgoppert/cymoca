@@ -1,6 +1,9 @@
 <map id="cymoca::ast::TList&lt; Item, Base &gt;" name="cymoca::ast::TList&lt; Item, Base &gt;">
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Block, Base \&gt;\n|# list\l|+ TList()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="24,355,153,491"/>
-<area shape="rect" id="node5" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; equation::Base, equation\l::Base \&gt;\n|# list\l|+ TList()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="180,347,359,498"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1equation_1_1_if.html" title="{cymoca::ast::equation::If\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="5,557,171,664"/>
-<area shape="rect" id="node6" href="$classcymoca_1_1ast_1_1equation_1_1_list.html" title="{cymoca::ast::equation\l::List\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="195,550,345,671"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Block, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="205,350,335,501"/>
+<area shape="rect" id="node6" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Base, INode \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="388,350,517,501"/>
+<area shape="rect" id="node8" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Base, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="559,350,688,501"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1equation_1_1_if.html" title="{cymoca::ast::equation::If\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="5,560,171,667"/>
+<area shape="rect" id="node5" href="$classcymoca_1_1ast_1_1equation_1_1_when.html" title="{cymoca::ast::equation\l::When\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="195,553,345,674"/>
+<area shape="rect" id="node7" href="$classcymoca_1_1ast_1_1expression_1_1_list.html" title="{cymoca::ast::expression\l::List\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="371,553,535,674"/>
+<area shape="rect" id="node9" href="$classcymoca_1_1ast_1_1equation_1_1_list.html" title="{cymoca::ast::equation\l::List\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="561,553,711,674"/>
 </map>

@@ -1,6 +1,4 @@
 <map id="cymoca::ast::equation::List" name="cymoca::ast::equation::List">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; equation::Base, equation\l::Base \&gt;\n|# list\l|+ TList()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="88,422,267,573"/>
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1equation_1_1_base.html" title="{cymoca::ast::equation\l::Base\n||}" alt="" coords="5,230,155,322"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="11,6,148,157"/>
-<area shape="rect" id="node5" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Item, Base \&gt;\n|# list\l|+ TList()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="180,208,309,344"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Base, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="15,350,144,501"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Item, Base \&gt;\n|# m_list\l|+ TList()\l+ append()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="96,134,225,285"/>
 </map>

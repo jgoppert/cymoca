@@ -101,7 +101,7 @@ Inheritance diagram for cymoca::ast::TList&lt; Item, Base &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcymoca_1_1ast_1_1_t_list__inherit__graph.png" border="0" usemap="#cymoca_1_1ast_1_1_t_list_3_01_item_00_01_base_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="cymoca_1_1ast_1_1_t_list_3_01_item_00_01_base_01_4_inherit__map" id="cymoca_1_1ast_1_1_t_list_3_01_item_00_01_base_01_4_inherit__map">
-<area shape="rect" id="node3" href="classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Block, Base \&gt;\n|# list\l|+ TList()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="24,355,153,491"/><area shape="rect" id="node5" href="classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; equation::Base, equation\l::Base \&gt;\n|# list\l|+ TList()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="180,347,359,498"/><area shape="rect" id="node4" href="classcymoca_1_1ast_1_1equation_1_1_if.html" title="{cymoca::ast::equation::If\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="5,557,171,664"/><area shape="rect" id="node6" href="classcymoca_1_1ast_1_1equation_1_1_list.html" title="{cymoca::ast::equation\l::List\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="195,550,345,671"/></map>
+<area shape="rect" id="node3" href="classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Block, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="205,350,335,501"/><area shape="rect" id="node6" href="classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Base, INode \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="388,350,517,501"/><area shape="rect" id="node8" href="classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Base, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="559,350,688,501"/><area shape="rect" id="node4" href="classcymoca_1_1ast_1_1equation_1_1_if.html" title="{cymoca::ast::equation::If\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="5,560,171,667"/><area shape="rect" id="node5" href="classcymoca_1_1ast_1_1equation_1_1_when.html" title="{cymoca::ast::equation\l::When\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="195,553,345,674"/><area shape="rect" id="node7" href="classcymoca_1_1ast_1_1expression_1_1_list.html" title="{cymoca::ast::expression\l::List\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="371,553,535,674"/><area shape="rect" id="node9" href="classcymoca_1_1ast_1_1equation_1_1_list.html" title="{cymoca::ast::equation\l::List\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="561,553,711,674"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for cymoca::ast::TList&lt; Item, Base &gt;:</div>
@@ -115,6 +115,8 @@ Collaboration diagram for cymoca::ast::TList&lt; Item, Base &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e66f6824efe0ceab045d3af359b21b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_list.html#a9e66f6824efe0ceab045d3af359b21b7">TList</a> ()=default</td></tr>
 <tr class="separator:a9e66f6824efe0ceab045d3af359b21b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b736158ebbead87f1e3b27b8d26d1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_list.html#a96b736158ebbead87f1e3b27b8d26d1d">append</a> (std::unique_ptr&lt; Item &gt; item)</td></tr>
+<tr class="separator:a96b736158ebbead87f1e3b27b8d26d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc6de61743803b9a402281a1c6485805"><td class="memTemplParams" colspan="2">template&lt;class Arg1 , class... Args&gt; </td></tr>
 <tr class="memitem:afc6de61743803b9a402281a1c6485805"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_list.html#afc6de61743803b9a402281a1c6485805">TList</a> (Arg1 arg1, Args...args)</td></tr>
 <tr class="separator:afc6de61743803b9a402281a1c6485805"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,9 +128,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a6e9a89b04fd0553ec20700931dbb11f4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr<br class="typebreak"/>
-&lt; Item &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_list.html#a6e9a89b04fd0553ec20700931dbb11f4">list</a> {}</td></tr>
-<tr class="separator:a6e9a89b04fd0553ec20700931dbb11f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0de98b4a8893c7ed8a3b90ac50b6fb2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr<br class="typebreak"/>
+&lt; Item &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_list.html#af0de98b4a8893c7ed8a3b90ac50b6fb2">m_list</a> {}</td></tr>
+<tr class="separator:af0de98b4a8893c7ed8a3b90ac50b6fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class Item, class Base&gt;<br/>
@@ -199,11 +201,39 @@ template&lt;class Arg1 , class... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00111">111</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00112">112</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a96b736158ebbead87f1e3b27b8d26d1d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Item, class Base&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classcymoca_1_1ast_1_1_t_list.html">cymoca::ast::TList</a>&lt; Item, Base &gt;::append </td>
+          <td>(</td>
+          <td class="paramtype">std::unique_ptr&lt; Item &gt;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="node_8h_source.html#l00110">110</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a53cfc8b9cf293ea802c3868cf9d91bab"></a>
 <div class="memitem">
 <div class="memproto">
@@ -229,7 +259,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00125">125</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00126">126</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
@@ -256,12 +286,12 @@ template&lt;class Item, class Base&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00117">117</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00118">118</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a6e9a89b04fd0553ec20700931dbb11f4"></a>
+<a class="anchor" id="af0de98b4a8893c7ed8a3b90ac50b6fb2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -271,7 +301,7 @@ template&lt;class Item, class Base&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::unique_ptr&lt;Item&gt; &gt; <a class="el" href="classcymoca_1_1ast_1_1_t_list.html">cymoca::ast::TList</a>&lt; Item, Base &gt;::list {}</td>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;Item&gt; &gt; <a class="el" href="classcymoca_1_1ast_1_1_t_list.html">cymoca::ast::TList</a>&lt; Item, Base &gt;::m_list {}</td>
         </tr>
       </table>
   </td>
