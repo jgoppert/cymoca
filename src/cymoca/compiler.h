@@ -195,7 +195,6 @@ class Compiler : public ModelicaBaseListener {
   void exitType_prefix(ModelicaParser::Type_prefixContext *ctx) override;
   void exitComponent_declaration(
       ModelicaParser::Component_declarationContext *ctx) override;
-  void exitModification(ModelicaParser::ModificationContext *ctx) override;
   void exitClass_modification(
       ModelicaParser::Class_modificationContext *ctx) override;
   void exitStmt_block(ModelicaParser::Stmt_blockContext *ctx) override;
@@ -236,6 +235,12 @@ class Compiler : public ModelicaBaseListener {
       ModelicaParser::Arg_redeclare_classContext *ctxt) override;
   void exitArg_redeclare_element(
       ModelicaParser::Arg_redeclare_elementContext *ctxt) override;
+  void exitModification_class(
+      ModelicaParser::Modification_classContext *ctx) override;
+  void exitModification_equation(
+      ModelicaParser::Modification_equationContext *ctx) override;
+  void exitModification_statement(
+      ModelicaParser::Modification_statementContext *ctx) override;
 };
 
 }  // namespace cymoca

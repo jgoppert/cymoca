@@ -89,9 +89,10 @@ component_declaration:
 
 // B.2.5 Modification
 modification:
-    class_modification ('=' expression)?
-    | '=' expression
-    | ':=' expression;
+    class_modification ('=' expression)?  # modification_class
+    | '=' expression                      # modification_equation
+    | ':=' expression                     # modification_statement
+    ;
 
 class_modification:
     '(' (argument (',' argument)*)? ')';

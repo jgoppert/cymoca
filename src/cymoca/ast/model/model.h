@@ -12,26 +12,35 @@ namespace cymoca::ast::model {
  * allocated element instances as values.
  */
 class ElementDict : public Base {
+ protected:
+  std::unordered_map<std::string, std::unique_ptr<element::Base>> m_map{};
+
  public:
   NODE_MACRO
   template <class... Args>
   explicit ElementDict(Args... args) {
     int dummy[1 + sizeof...(Args)] = {
-        (map[args->getName()] = move(args), 0)...};
+        (m_map[args->getName()] = std::move(args), 0)...};
     (void)dummy;
   }
-  std::unordered_map<std::string, std::unique_ptr<element::Base>> map{};
+
+  void set(const std::string &name, std::unique_ptr<element::Base> element) {
+    m_map[name] = std::move(element);
+  }
+
+  element::Base &get(const std::string &name) { return *m_map[name]; }
+
   std::vector<INode *> getChildren() override {
     std::vector<INode *> v;
-    for (auto &c : map) {
+    for (auto &c : m_map) {
       v.push_back(c.second.get());
     }
     return v;
   }
   std::unique_ptr<INode> clone() const override {
     auto res = std::make_unique<ElementDict>();
-    for (auto &keval : map) {
-      res->map[keval.first] = keval.second->cloneAs<element::Base>();
+    for (auto &keval : m_map) {
+      res->m_map[keval.first] = keval.second->cloneAs<element::Base>();
     }
     return res;
   }

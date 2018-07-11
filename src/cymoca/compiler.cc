@@ -330,17 +330,34 @@ void Compiler::exitConstraining_clause(
 }
 void Compiler::exitComponent_clause(
     ModelicaParser::Component_clauseContext *ctx) {
-  throw compiler_exception("not implemented");
+  // TODO handle multi-level names
+  auto elements = std::make_unique<ast::model::ElementDict>();
+  auto type = ctx->type_specifier()->getText();
+  auto prefix_str = ctx->type_prefix()->getText();
+  ast::element::Prefix prefix;
+  if (prefix_str == "parameter") {
+    prefix = ast::element::Prefix::PARAMETER;
+  } else if (prefix_str == "constant") {
+    prefix = ast::element::Prefix::CONSTANT;
+  } else if (prefix_str == "discrete") {
+    prefix = ast::element::Prefix::DISCRETE;
+  } else if (prefix_str == "") {
+    prefix = ast::element::Prefix::VARIABLE;
+  } else {
+    throw compiler_exception("unhandled type prefix " + type);
+  }
+  for (auto d : ctx->component_declaration()) {
+    std::string name = d->IDENT()->getText();
+    elements->set(
+        name, std::make_unique<ast::element::Component>(name, type, prefix));
+  }
 }
 void Compiler::exitType_prefix(ModelicaParser::Type_prefixContext *ctx) {
   // pass, just text, let level above handle this
 }
 void Compiler::exitComponent_declaration(
     ModelicaParser::Component_declarationContext *ctx) {
-  throw compiler_exception("not implemented");
-}
-void Compiler::exitModification(ModelicaParser::ModificationContext *ctx) {
-  throw compiler_exception("not implemented");
+  // pass, handle in component_clause
 }
 void Compiler::exitClass_modification(
     ModelicaParser::Class_modificationContext *ctx) {
@@ -434,6 +451,18 @@ void Compiler::exitArg_redeclare_class(
 }
 void Compiler::exitArg_redeclare_element(
     ModelicaParser::Arg_redeclare_elementContext *ctxt) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitModification_class(
+    ModelicaParser::Modification_classContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitModification_equation(
+    ModelicaParser::Modification_equationContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitModification_statement(
+    ModelicaParser::Modification_statementContext *ctx) {
   throw compiler_exception("not implemented");
 }
 
