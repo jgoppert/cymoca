@@ -23,6 +23,8 @@ class Lisp : public listener::Base {
   void enter(condition::GreaterThanOrEqual &) override { m_ss << ">="; }
   void enter(condition::LessThan &) override { m_ss << "<"; }
   void enter(condition::LessThanOrEqual &) override { m_ss << "<="; }
+  void enter(condition::Not &) override { m_ss << "!"; }
+  void enter(condition::NotEqual &) override { m_ss << "<>"; }
   void enter(model::Class &) override { m_ss << "class"; }
   void enter(model::ElementDict &) override { m_ss << "elem dict"; }
   void enter(equation::List &) override { m_ss << "eq list"; }

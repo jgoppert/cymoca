@@ -267,6 +267,18 @@ void Compiler::exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) {
 void Compiler::exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) {
   throw compiler_exception("not implemented");
 }
+void Compiler::exitExpr_output(ModelicaParser::Expr_outputContext *context) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitExpr_list(ModelicaParser::Expr_listContext *context) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitExpr_end(ModelicaParser::Expr_endContext *context) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitExpr_array(ModelicaParser::Expr_arrayContext *context) {
+  throw compiler_exception("not implemented");
+}
 
 //-----------------------------------------------------------------------------
 // function arguments
@@ -292,5 +304,99 @@ void Compiler::exitFunc_arg_func(ModelicaParser::Func_arg_funcContext *ctx) {
 void Compiler::exitFunc_arg_named(ModelicaParser::Func_arg_namedContext *ctx) {
   throw compiler_exception("not implemented");
 }
+
+//-----------------------------------------------------------------------------
+// elements
+//-----------------------------------------------------------------------------
+
+void Compiler::exitElem_import(ModelicaParser::Elem_importContext *context) {}
+void Compiler::exitElem_extends(ModelicaParser::Elem_extendsContext *context) {}
+void Compiler::exitElem_class(ModelicaParser::Elem_classContext *context) {}
+void Compiler::exitElem_comp(ModelicaParser::Elem_compContext *context) {}
+
+//-----------------------------------------------------------------------------
+// misc
+//-----------------------------------------------------------------------------
+
+void Compiler::exitClass_prefixes(
+    ModelicaParser::Class_prefixesContext *context) {}
+void Compiler::exitStored_definition(
+    ModelicaParser::Stored_definitionContext *context) {}
+void Compiler::exitClass_specifier(
+    ModelicaParser::Class_specifierContext *context) {}
+void Compiler::exitLong_class_specifier(
+    ModelicaParser::Long_class_specifierContext *context) {}
+void Compiler::exitShort_class_specifier(
+    ModelicaParser::Short_class_specifierContext *context) {}
+void Compiler::exitDer_class_specifier(
+    ModelicaParser::Der_class_specifierContext *context) {}
+void Compiler::exitBase_prefix(ModelicaParser::Base_prefixContext *context) {}
+void Compiler::exitEnum_list(ModelicaParser::Enum_listContext *context) {}
+void Compiler::exitEnumeration_literal(
+    ModelicaParser::Enumeration_literalContext *context) {}
+void Compiler::exitComposition(ModelicaParser::CompositionContext *context) {}
+void Compiler::exitLanguage_specification(
+    ModelicaParser::Language_specificationContext *context) {}
+void Compiler::exitExternal_function_call(
+    ModelicaParser::External_function_callContext *context) {}
+void Compiler::exitImport_list(ModelicaParser::Import_listContext *context) {}
+void Compiler::exitConstraining_clause(
+    ModelicaParser::Constraining_clauseContext *context) {}
+void Compiler::exitComponent_clause(
+    ModelicaParser::Component_clauseContext *context) {}
+void Compiler::exitType_prefix(ModelicaParser::Type_prefixContext *context) {}
+void Compiler::exitComponent_list(
+    ModelicaParser::Component_listContext *context) {}
+void Compiler::exitComponent_declaration(
+    ModelicaParser::Component_declarationContext *context) {}
+void Compiler::exitCondition_attribute(
+    ModelicaParser::Condition_attributeContext *context) {}
+void Compiler::exitModification(ModelicaParser::ModificationContext *context) {}
+void Compiler::exitClass_modification(
+    ModelicaParser::Class_modificationContext *context) {}
+void Compiler::exitArgument_list(
+    ModelicaParser::Argument_listContext *context) {}
+void Compiler::exitArgument(ModelicaParser::ArgumentContext *context) {}
+void Compiler::exitElement_modification_or_replaceable(
+    ModelicaParser::Element_modification_or_replaceableContext *context) {}
+void Compiler::exitElement_modification(
+    ModelicaParser::Element_modificationContext *context) {}
+void Compiler::exitElement_replaceable(
+    ModelicaParser::Element_replaceableContext *context) {}
+void Compiler::exitComponent_clause1(
+    ModelicaParser::Component_clause1Context *context) {}
+void Compiler::exitShort_class_definition(
+    ModelicaParser::Short_class_definitionContext *context) {}
+void Compiler::exitStmt_block(ModelicaParser::Stmt_blockContext *context) {}
+void Compiler::exitEquation_section(
+    ModelicaParser::Equation_sectionContext *context) {}
+void Compiler::exitAlgorithm_section(
+    ModelicaParser::Algorithm_sectionContext *context) {}
+void Compiler::exitType_specifier(
+    ModelicaParser::Type_specifierContext *context) {}
+void Compiler::exitName(ModelicaParser::NameContext *context) {}
+void Compiler::exitComponent_reference(
+    ModelicaParser::Component_referenceContext *context) {}
+void Compiler::exitArray_arg_expr(
+    ModelicaParser::Array_arg_exprContext *context) {}
+void Compiler::exitArray_arg_for(
+    ModelicaParser::Array_arg_forContext *context) {}
+void Compiler::exitArray_arguments(
+    ModelicaParser::Array_argumentsContext *context) {}
+void Compiler::exitNamed_arguments(
+    ModelicaParser::Named_argumentsContext *context) {}
+void Compiler::exitNamed_argument(
+    ModelicaParser::Named_argumentContext *context) {}
+void Compiler::exitOutput_expression_list(
+    ModelicaParser::Output_expression_listContext *context) {}
+void Compiler::exitExpression_list(
+    ModelicaParser::Expression_listContext *context) {}
+void Compiler::exitArray_subscripts(
+    ModelicaParser::Array_subscriptsContext *context) {}
+void Compiler::exitSubscript(ModelicaParser::SubscriptContext *context) {}
+void Compiler::exitComment(ModelicaParser::CommentContext *context) {}
+void Compiler::exitString_comment(
+    ModelicaParser::String_commentContext *context) {}
+void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *context) {}
 
 }  // namespace cymoca

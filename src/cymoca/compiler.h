@@ -166,6 +166,10 @@ class Compiler : public ModelicaBaseListener {
   void exitExpr_range(ModelicaParser::Expr_rangeContext *ctx) override;
   void exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) override;
   void exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) override;
+  void exitExpr_output(ModelicaParser::Expr_outputContext *ctx) override;
+  void exitExpr_list(ModelicaParser::Expr_listContext *ctx) override;
+  void exitExpr_end(ModelicaParser::Expr_endContext *ctx) override;
+  void exitExpr_array(ModelicaParser::Expr_arrayContext *ctx) override;
 
   // function arguments
   void exitFunction_call_args(
@@ -174,6 +178,86 @@ class Compiler : public ModelicaBaseListener {
   void exitFunc_arg_for(ModelicaParser::Func_arg_forContext *ctx) override;
   void exitFunc_arg_func(ModelicaParser::Func_arg_funcContext *ctx) override;
   void exitFunc_arg_named(ModelicaParser::Func_arg_namedContext *ctx) override;
+
+  // elements
+  void exitElem_import(ModelicaParser::Elem_importContext *ctx) override;
+  void exitElem_extends(ModelicaParser::Elem_extendsContext *ctx) override;
+  void exitElem_class(ModelicaParser::Elem_classContext *ctx) override;
+  void exitElem_comp(ModelicaParser::Elem_compContext *ctx) override;
+
+  // misc
+  void exitClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) override;
+  void exitStored_definition(
+      ModelicaParser::Stored_definitionContext *ctx) override;
+  void exitClass_specifier(
+      ModelicaParser::Class_specifierContext *ctx) override;
+  void exitLong_class_specifier(
+      ModelicaParser::Long_class_specifierContext *ctx) override;
+  void exitShort_class_specifier(
+      ModelicaParser::Short_class_specifierContext *ctx) override;
+  void exitDer_class_specifier(
+      ModelicaParser::Der_class_specifierContext *ctx) override;
+  void exitBase_prefix(ModelicaParser::Base_prefixContext *ctx) override;
+  void exitEnum_list(ModelicaParser::Enum_listContext *ctx) override;
+  void exitEnumeration_literal(
+      ModelicaParser::Enumeration_literalContext *ctx) override;
+  void exitComposition(ModelicaParser::CompositionContext *ctx) override;
+  void exitLanguage_specification(
+      ModelicaParser::Language_specificationContext *ctx) override;
+  void exitExternal_function_call(
+      ModelicaParser::External_function_callContext *ctx) override;
+  void exitImport_list(ModelicaParser::Import_listContext *ctx) override;
+  void exitConstraining_clause(
+      ModelicaParser::Constraining_clauseContext *ctx) override;
+  void exitComponent_clause(
+      ModelicaParser::Component_clauseContext *ctx) override;
+  void exitType_prefix(ModelicaParser::Type_prefixContext *ctx) override;
+  void exitComponent_list(ModelicaParser::Component_listContext *ctx) override;
+  void exitComponent_declaration(
+      ModelicaParser::Component_declarationContext *ctx) override;
+  void exitCondition_attribute(
+      ModelicaParser::Condition_attributeContext *ctx) override;
+  void exitModification(ModelicaParser::ModificationContext *ctx) override;
+  void exitClass_modification(
+      ModelicaParser::Class_modificationContext *ctx) override;
+  void exitArgument_list(ModelicaParser::Argument_listContext *ctx) override;
+  void exitArgument(ModelicaParser::ArgumentContext *ctx) override;
+  void exitElement_modification_or_replaceable(
+      ModelicaParser::Element_modification_or_replaceableContext *ctx) override;
+  void exitElement_modification(
+      ModelicaParser::Element_modificationContext *ctx) override;
+  void exitElement_replaceable(
+      ModelicaParser::Element_replaceableContext *ctx) override;
+  void exitComponent_clause1(
+      ModelicaParser::Component_clause1Context *ctx) override;
+  void exitShort_class_definition(
+      ModelicaParser::Short_class_definitionContext *ctx) override;
+  void exitStmt_block(ModelicaParser::Stmt_blockContext *ctx) override;
+  void exitEquation_section(
+      ModelicaParser::Equation_sectionContext *ctx) override;
+  void exitAlgorithm_section(
+      ModelicaParser::Algorithm_sectionContext *ctx) override;
+  void exitType_specifier(ModelicaParser::Type_specifierContext *ctx) override;
+  void exitName(ModelicaParser::NameContext *ctx) override;
+  void exitComponent_reference(
+      ModelicaParser::Component_referenceContext *ctx) override;
+  void exitArray_arg_expr(ModelicaParser::Array_arg_exprContext *ctx) override;
+  void exitArray_arg_for(ModelicaParser::Array_arg_forContext *ctx) override;
+  void exitArray_arguments(
+      ModelicaParser::Array_argumentsContext *ctx) override;
+  void exitNamed_arguments(
+      ModelicaParser::Named_argumentsContext *ctx) override;
+  void exitNamed_argument(ModelicaParser::Named_argumentContext *ctx) override;
+  void exitOutput_expression_list(
+      ModelicaParser::Output_expression_listContext *ctx) override;
+  void exitExpression_list(
+      ModelicaParser::Expression_listContext *ctx) override;
+  void exitArray_subscripts(
+      ModelicaParser::Array_subscriptsContext *ctx) override;
+  void exitSubscript(ModelicaParser::SubscriptContext *ctx) override;
+  void exitComment(ModelicaParser::CommentContext *ctx) override;
+  void exitString_comment(ModelicaParser::String_commentContext *ctx) override;
+  void exitAnnotation(ModelicaParser::AnnotationContext *ctx) override;
 };
 
 }  // namespace cymoca
