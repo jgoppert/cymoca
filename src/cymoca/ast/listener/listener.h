@@ -17,6 +17,9 @@ class ElementDict;
 namespace expression {
 class Add;
 class Divide;
+class Function;
+class List;
+class Negative;
 class Multiply;
 class Number;
 class Reference;
@@ -32,6 +35,7 @@ class GreaterThanOrEqual;
 class LessThan;
 class LessThanOrEqual;
 class Not;
+class NotEqual;
 class Or;
 }  // namespace condition
 
@@ -74,6 +78,7 @@ class Base {
   LISTENER_MACRO(condition::LessThan)
   LISTENER_MACRO(condition::LessThanOrEqual)
   LISTENER_MACRO(condition::Not)
+  LISTENER_MACRO(condition::NotEqual)
   LISTENER_MACRO(condition::Or)
   LISTENER_MACRO(element::Component)
   LISTENER_MACRO(equation::Block)
@@ -83,7 +88,10 @@ class Base {
   LISTENER_MACRO(equation::When)
   LISTENER_MACRO(expression::Add)
   LISTENER_MACRO(expression::Divide)
+  LISTENER_MACRO(expression::Function)
+  LISTENER_MACRO(expression::List)
   LISTENER_MACRO(expression::Multiply)
+  LISTENER_MACRO(expression::Negative)
   LISTENER_MACRO(expression::Number)
   LISTENER_MACRO(expression::Reference)
   LISTENER_MACRO(expression::Subtract)

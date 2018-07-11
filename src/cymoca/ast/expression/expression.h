@@ -73,5 +73,52 @@ class Number : public Base {
   }
 };
 
+/**
+ * A list of expressions
+ */
+class List : public TList<Base, INode> {
+ public:
+  NODE_MACRO
+  using TList::TList;
+  std::unique_ptr<INode> clone() const override { return cloneList<List>(); }
+};
+
+/**
+ * A function call.
+ */
+class Function : public Base {
+ protected:
+  std::unique_ptr<Reference> m_ref;
+  std::unique_ptr<List> m_args;
+
+ public:
+  NODE_MACRO
+  explicit Function(std::unique_ptr<Reference> ref, std::unique_ptr<List> args)
+      : m_ref(std::move(ref)), m_args(std::move(args)) {}
+  const Reference &getReference() const { return *m_ref; }
+  std::vector<INode *> getChildren() override {
+    return {m_ref.get(), m_args.get()};
+  }
+  std::unique_ptr<INode> clone() const override {
+    return std::make_unique<Function>(m_ref->cloneAs<Reference>(),
+                                      m_args->cloneAs<List>());
+  }
+};
+
+#define UNARY_EXPR_MACRO(NAME)                      \
+  class NAME : public TUnary<Base, Base> {          \
+   public:                                          \
+    NODE_MACRO                                      \
+    using TUnary::TUnary;                           \
+    std::unique_ptr<INode> clone() const override { \
+      return cloneUnary<NAME>();                    \
+    }                                               \
+  };
+
+/**
+ * The logical not operator, not a
+ */
+UNARY_EXPR_MACRO(Negative)
+
 }  // namespace cymoca::ast::expression
 #endif

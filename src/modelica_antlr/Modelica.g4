@@ -229,13 +229,13 @@ expression:
 expr :
     UNSIGNED_NUMBER                                         # expr_number
     | STRING                                                # expr_string
-    //| END                                                   # expr_end
+    | END                                                   # expr_end
     | component_reference function_call_args                # expr_func
     | func=(DER | INITIAL | PURE) function_call_args        # expr_func
     | component_reference                                   # expr_ref
-    //| '(' output_expression_list ')'                        # expr_output
-    //| '[' expression_list (';' expression_list)* ']'        # expr_list
-    //| '{' array_arguments '}'                               # expr_array
+    | '(' output_expression_list ')'                        # expr_output
+    | '[' expression_list (';' expression_list)* ']'        # expr_list
+    | '{' array_arguments '}'                               # expr_array
     | expr op=('^' | '.^') expr                             # expr_binary
     | expr op=('*' | '/' | '.*' | './') expr                # expr_binary
     | op='-' expr                                           # expr_unary
@@ -265,33 +265,29 @@ component_reference:
     '.'? IDENT array_subscripts? ('.' IDENT array_subscripts?)*;
 
 function_call_args:
-    '(' function_arguments? ')';
+    '(' function_argument (',' function_argument)* ')';
 
-function_arguments:
-    expression (',' function_argumments_non_first |
-            FOR for_indices)?                           # args_expr
-    | FUNCTION name '(' named_arguments? ')'
-            (',' function_argumments_non_first)?        # args_func
-    | named_arguments                                   # args_named
+// refactored from standard gramamr by removing non-first
+function_argument:
+    expression                                # func_arg_expr
+    | FOR for_indices                         # func_arg_for
+    | FUNCTION name '(' named_arguments? ')'  # func_arg_func
+    | named_argument                          # func_arg_named
     ;
 
-function_argumments_non_first:
-    function_argument (',' function_argumments_non_first)?
-    | named_arguments;
+// refactored from standard gramamr by removing non-first
+array_argument:
+    expression            # array_arg_expr
+    | FOR for_indices     # array_arg_for
+    ;
 
 array_arguments:
-    expression (',' array_arguments_non_first | FOR for_indices)?;
+    array_argument (',' array_argument)*;
 
-array_arguments_non_first:
-    expression (',' array_arguments_non_first)?;
-
-// standard uses recursion here, not necessary
+// refactored from standard gramamr by removing non-first
 named_arguments: named_argument (',' named_argument)*;
 
-named_argument: IDENT '=' function_argument;
-
-function_argument:
-    FUNCTION name '(' named_arguments? ')' | expression;
+named_argument: IDENT '=' FUNCTION name '(' named_arguments? ')' | expression;
 
 output_expression_list:
     expression? (',' expression?)*;

@@ -39,6 +39,11 @@ RELATION_MACRO(GreaterThanOrEqual)
  */
 RELATION_MACRO(Equal)
 
+/**
+ * The not equal operator, a <> b
+ */
+RELATION_MACRO(NotEqual)
+
 #define BINARY_COND_MACRO(NAME)                     \
   class NAME : public TBinary<Base, Base, Base> {   \
    public:                                          \

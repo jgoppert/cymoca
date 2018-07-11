@@ -63,7 +63,6 @@ void Compiler::exitClass_definition(
       std::make_unique<ast::model::ElementDict>(),
       std::make_unique<ast::equation::List>());
   setAst(ctx, std::move(cls));
-  std::cout << "exit class def" << std::endl;
   m_root = getAst<ast::model::Class>(ctx);
 }
 
@@ -104,38 +103,113 @@ void Compiler::exitCond_unary(ModelicaParser::Cond_unaryContext *ctx) {
   setAst(ctx, std::make_unique<ast::condition::Not>(std::move(e)));
 }
 
+void Compiler::exitCond_compare(ModelicaParser::Cond_compareContext *ctx) {
+  auto left = cloneAst<ast::expression::Base>(ctx->expr(0));
+  auto right = cloneAst<ast::expression::Base>(ctx->expr(1));
+  std::string op = ctx->op->getText();
+  if (op == "<") {
+    setAst(ctx, std::make_unique<ast::condition::LessThan>(std::move(left),
+                                                           std::move(right)));
+  } else if (op == "<=") {
+    setAst(ctx, std::make_unique<ast::condition::LessThanOrEqual>(
+                    std::move(left), std::move(right)));
+  } else if (op == ">") {
+    setAst(ctx, std::make_unique<ast::condition::GreaterThan>(
+                    std::move(left), std::move(right)));
+  } else if (op == ">=") {
+    setAst(ctx, std::make_unique<ast::condition::GreaterThanOrEqual>(
+                    std::move(left), std::move(right)));
+  } else if (op == "==") {
+    setAst(ctx, std::make_unique<ast::condition::Equal>(std::move(left),
+                                                        std::move(right)));
+  } else if (op == "<>") {
+    setAst(ctx, std::make_unique<ast::condition::NotEqual>(std::move(left),
+                                                           std::move(right)));
+  } else {
+    throw compiler_exception(std::string("unhandled operator") + op);
+  }
+}
+void Compiler::exitCond_func(ModelicaParser::Cond_funcContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitCond_ref(ModelicaParser::Cond_refContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+
 //-----------------------------------------------------------------------------
 // equations
 //-----------------------------------------------------------------------------
 
 void Compiler::exitEq_simple(ModelicaParser::Eq_simpleContext *ctx) {
-  // auto left = cloneAst<ast::expression::Base>(ctx->expr());
-  // auto right = cloneAst<ast::expression::Base>(ctx->expression());
-  // setAst(ctx, std::make_unique<ast::equation::Simple>(
-  //         std::move(left), std::move(right)));
+  auto left = cloneAst<ast::expression::Base>(ctx->expr());
+  auto right = cloneAst<ast::expression::Base>(ctx->expression());
+  setAst(ctx, std::make_unique<ast::equation::Simple>(std::move(left),
+                                                      std::move(right)));
 }
 
-void Compiler::exitEq_block(ModelicaParser::Eq_blockContext *ctx) {}
+void Compiler::exitEq_block(ModelicaParser::Eq_blockContext *ctx) {
+  auto res = std::make_unique<ast::equation::List>();
+  for (auto eq : ctx->equation()) {
+    res->append(cloneAst<ast::equation::Base>(eq));
+  }
+  setAst(ctx, std::move(res));
+}
 
-void Compiler::exitEq_if(ModelicaParser::Eq_ifContext *ctx) {}
-void Compiler::exitEq_for(ModelicaParser::Eq_forContext *ctx) {}
-void Compiler::exitEq_connect(ModelicaParser::Eq_connectContext *ctx) {}
-void Compiler::exitEq_when(ModelicaParser::Eq_whenContext *ctx) {}
-void Compiler::exitEq_func(ModelicaParser::Eq_funcContext *ctx) {}
+void Compiler::exitEq_if(ModelicaParser::Eq_ifContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitEq_for(ModelicaParser::Eq_forContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitEq_connect(ModelicaParser::Eq_connectContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitEq_when(ModelicaParser::Eq_whenContext *ctx) {
+  assert(ctx->condition().size() == ctx->eq_block().size());
+  auto when = std::make_unique<ast::equation::When>();
+  for (size_t i = 0; i < ctx->condition().size(); i++) {
+    auto block = std::make_unique<ast::equation::Block>(
+        cloneAst<ast::condition::Base>(ctx->condition(i)),
+        cloneAst<ast::equation::List>(ctx->eq_block(i)));
+    when->append(std::move(block));
+  }
+  setAst(ctx, std::move(when));
+}
+void Compiler::exitEq_func(ModelicaParser::Eq_funcContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 
 //-----------------------------------------------------------------------------
 // statements
 //-----------------------------------------------------------------------------
 
-void Compiler::exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) {}
-void Compiler::exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) {}
-void Compiler::exitStmt_key(ModelicaParser::Stmt_keyContext *ctx) {}
-void Compiler::exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) {}
-void Compiler::exitStmt_for(ModelicaParser::Stmt_forContext *ctx) {}
-void Compiler::exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) {}
-void Compiler::exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) {}
-void Compiler::exitFor_indices(ModelicaParser::For_indicesContext *ctx) {}
-void Compiler::exitFor_index(ModelicaParser::For_indexContext *ctx) {}
+void Compiler::exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_key(ModelicaParser::Stmt_keyContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_for(ModelicaParser::Stmt_forContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitFor_indices(ModelicaParser::For_indicesContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitFor_index(ModelicaParser::For_indexContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 
 //-----------------------------------------------------------------------------
 // expressions
@@ -158,15 +232,65 @@ void Compiler::exitExpr_ref(ModelicaParser::Expr_refContext *ctx) {
   setAst(ctx, std::make_unique<ast::expression::Reference>(ids[0]));
 }
 
-void Compiler::exitExpr_simple(ModelicaParser::Expr_simpleContext *ctx) {}
-void Compiler::exitExpr_if(ModelicaParser::Expr_ifContext *ctx) {}
-void Compiler::exitExpr_func(ModelicaParser::Expr_funcContext *ctx) {}
-void Compiler::exitExpr_string(ModelicaParser::Expr_stringContext *ctx) {}
-void Compiler::exitExpr_range(ModelicaParser::Expr_rangeContext *ctx) {}
-void Compiler::exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) {}
-void Compiler::exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) {}
-void Compiler::exitCond_compare(ModelicaParser::Cond_compareContext *ctx) {}
-void Compiler::exitCond_func(ModelicaParser::Cond_funcContext *ctx) {}
-void Compiler::exitCond_ref(ModelicaParser::Cond_refContext *ctx) {}
+void Compiler::exitExpr_simple(ModelicaParser::Expr_simpleContext *ctx) {
+  linkAst(ctx, ctx->expr());
+}
+void Compiler::exitExpr_if(ModelicaParser::Expr_ifContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitExpr_func(ModelicaParser::Expr_funcContext *ctx) {
+  if (ctx->component_reference()) {
+    setAst(ctx,
+           std::make_unique<ast::expression::Function>(
+               cloneAst<ast::expression::Reference>(ctx->component_reference()),
+               cloneAst<ast::expression::List>(ctx->function_call_args())));
+  } else if (ctx->func) {
+    setAst(
+        ctx,
+        std::make_unique<ast::expression::Function>(
+            std::make_unique<ast::expression::Reference>(ctx->func->getText()),
+            cloneAst<ast::expression::List>(ctx->function_call_args())));
+  } else {
+    assert(false);
+  }
+}
+void Compiler::exitExpr_string(ModelicaParser::Expr_stringContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitExpr_range(ModelicaParser::Expr_rangeContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) {
+  setAst(ctx, std::make_unique<ast::expression::Negative>(
+                  cloneAst<ast::expression::Base>(ctx->expr())));
+}
+void Compiler::exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+
+//-----------------------------------------------------------------------------
+// function arguments
+//-----------------------------------------------------------------------------
+
+void Compiler::exitFunction_call_args(
+    ModelicaParser::Function_call_argsContext *ctx) {
+  auto args = std::make_unique<ast::expression::List>();
+  for (auto arg_ctx : ctx->function_argument()) {
+    auto arg = cloneAst<ast::expression::Base>(arg_ctx);
+  }
+  setAst(ctx, std::move(args));
+}
+void Compiler::exitFunc_arg_expr(ModelicaParser::Func_arg_exprContext *ctx) {
+  setAst(ctx, cloneAst<ast::expression::Base>(ctx->expression()));
+}
+void Compiler::exitFunc_arg_for(ModelicaParser::Func_arg_forContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitFunc_arg_func(ModelicaParser::Func_arg_funcContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitFunc_arg_named(ModelicaParser::Func_arg_namedContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 
 }  // namespace cymoca

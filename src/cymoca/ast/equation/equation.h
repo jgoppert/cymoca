@@ -8,7 +8,7 @@ namespace cymoca::ast::equation {
 /**
  * A list of equations
  */
-class List : public TList<equation::Base, equation::Base> {
+class List : public TList<Base, Base> {
  public:
   NODE_MACRO
   using TList::TList;
@@ -60,10 +60,11 @@ class If : public TList<Block, Base> {
   std::unique_ptr<INode> clone() const override { return cloneList<If>(); }
 };
 
-class When : public Block {
+class When : public TList<Block, Base> {
  public:
   NODE_MACRO
-  using Block::Block;
+  using TList::TList;
+  std::unique_ptr<INode> clone() const override { return cloneList<When>(); }
 };
 
 }  // namespace cymoca::ast::equation

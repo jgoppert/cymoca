@@ -103,20 +103,21 @@ class TUnary : public Base {
 template <class Item, class Base>
 class TList : public Base {
  protected:
-  std::vector<std::unique_ptr<Item>> list{};
+  std::vector<std::unique_ptr<Item>> m_list{};
 
  public:
   TList() = default;
+  void append(std::unique_ptr<Item> item) { m_list.push_back(std::move(item)); }
   template <class Arg1, class... Args>
   explicit TList(Arg1 arg1, Args... args) {
-    list.push_back(move(arg1));
+    m_list.push_back(move(arg1));
     // trick to get variadic template to pushback
-    int dummy[1 + sizeof...(Args)] = {0, (list.push_back(move(args)), 0)...};
+    int dummy[1 + sizeof...(Args)] = {0, (m_list.push_back(move(args)), 0)...};
     (void)dummy;
   }
   std::vector<INode *> getChildren() override {
     std::vector<INode *> v;
-    for (auto &c : list) {
+    for (auto &c : m_list) {
       v.push_back(c.get());
     }
     return v;
@@ -124,9 +125,9 @@ class TList : public Base {
   template <class T>
   std::unique_ptr<INode> cloneList() const {
     auto res = std::make_unique<T>();
-    for (auto &item : list) {
+    for (auto &item : m_list) {
       auto p = static_cast<INode *>(item.get())->cloneAs<Item>();
-      res->list.push_back(move(p));
+      res->m_list.push_back(move(p));
     }
     return std::move(res);
   }
