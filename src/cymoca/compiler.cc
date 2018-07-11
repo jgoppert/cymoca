@@ -305,94 +305,218 @@ void Compiler::exitFunc_arg_named(ModelicaParser::Func_arg_namedContext *ctx) {
 // elements
 //-----------------------------------------------------------------------------
 
-void Compiler::exitElem_import(ModelicaParser::Elem_importContext *context) {}
-void Compiler::exitElem_extends(ModelicaParser::Elem_extendsContext *context) {}
-void Compiler::exitElem_class(ModelicaParser::Elem_classContext *context) {}
-void Compiler::exitElem_comp(ModelicaParser::Elem_compContext *context) {}
+void Compiler::exitElem_import(ModelicaParser::Elem_importContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitElem_extends(ModelicaParser::Elem_extendsContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitElem_class(ModelicaParser::Elem_classContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitElem_comp(ModelicaParser::Elem_compContext *ctx) {
+  // pass
+}
 
 //-----------------------------------------------------------------------------
 // misc
 //-----------------------------------------------------------------------------
 
 void Compiler::exitClass_prefixes(
-    ModelicaParser::Class_prefixesContext *context) {}
+    ModelicaParser::Class_prefixesContext *ctx) {
+  // pass
+}
 void Compiler::exitStored_definition(
-    ModelicaParser::Stored_definitionContext *context) {}
+    ModelicaParser::Stored_definitionContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitClass_specifier(
-    ModelicaParser::Class_specifierContext *context) {}
+    ModelicaParser::Class_specifierContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitLong_class_specifier(
-    ModelicaParser::Long_class_specifierContext *context) {}
+    ModelicaParser::Long_class_specifierContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitShort_class_specifier(
-    ModelicaParser::Short_class_specifierContext *context) {}
+    ModelicaParser::Short_class_specifierContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitDer_class_specifier(
-    ModelicaParser::Der_class_specifierContext *context) {}
-void Compiler::exitBase_prefix(ModelicaParser::Base_prefixContext *context) {}
-void Compiler::exitEnum_list(ModelicaParser::Enum_listContext *context) {}
+    ModelicaParser::Der_class_specifierContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitBase_prefix(ModelicaParser::Base_prefixContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitEnum_list(ModelicaParser::Enum_listContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitEnumeration_literal(
-    ModelicaParser::Enumeration_literalContext *context) {}
-void Compiler::exitComposition(ModelicaParser::CompositionContext *context) {}
+    ModelicaParser::Enumeration_literalContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
+  //(private_elem+=element ';')*
+  //    (PUBLIC (public_elem+=element ';')*
+  //    | PROTECTED (protected_elem+=element ';')*
+  //    | equation_section
+  //    | algorithm_section
+  //)*
+  //    (EXTERNAL language_specification? external_function_call? annotation? ';')?
+  //(annotation ';')?;
+
+  //auto elements = std::make_unique<ast::model::ElementDict>;
+  //for (auto e: ctx->private_elem) {
+  //}
+  //for (auto e: ctx->public_elem) {
+  //}
+  //for (auto e: ctx->protected_elem) {
+  //}
+}
 void Compiler::exitLanguage_specification(
-    ModelicaParser::Language_specificationContext *context) {}
+    ModelicaParser::Language_specificationContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitExternal_function_call(
-    ModelicaParser::External_function_callContext *context) {}
-void Compiler::exitImport_list(ModelicaParser::Import_listContext *context) {}
+    ModelicaParser::External_function_callContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitImport_list(ModelicaParser::Import_listContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitConstraining_clause(
-    ModelicaParser::Constraining_clauseContext *context) {}
+    ModelicaParser::Constraining_clauseContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitComponent_clause(
-    ModelicaParser::Component_clauseContext *context) {}
-void Compiler::exitType_prefix(ModelicaParser::Type_prefixContext *context) {}
+    ModelicaParser::Component_clauseContext *ctx) {
+  // pass
+}
+void Compiler::exitType_prefix(ModelicaParser::Type_prefixContext *ctx) {
+  // pass
+}
 void Compiler::exitComponent_list(
-    ModelicaParser::Component_listContext *context) {}
+    ModelicaParser::Component_listContext *ctx) {
+  // pass
+}
 void Compiler::exitComponent_declaration(
-    ModelicaParser::Component_declarationContext *context) {}
+    ModelicaParser::Component_declarationContext *ctx) {
+  // pass
+}
 void Compiler::exitCondition_attribute(
-    ModelicaParser::Condition_attributeContext *context) {}
-void Compiler::exitModification(ModelicaParser::ModificationContext *context) {}
+    ModelicaParser::Condition_attributeContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitModification(ModelicaParser::ModificationContext *ctx) {
+  // pass
+}
 void Compiler::exitClass_modification(
-    ModelicaParser::Class_modificationContext *context) {}
+    ModelicaParser::Class_modificationContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitArgument_list(
-    ModelicaParser::Argument_listContext *context) {}
-void Compiler::exitArgument(ModelicaParser::ArgumentContext *context) {}
+    ModelicaParser::Argument_listContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitArgument(ModelicaParser::ArgumentContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitElement_modification_or_replaceable(
-    ModelicaParser::Element_modification_or_replaceableContext *context) {}
+    ModelicaParser::Element_modification_or_replaceableContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitElement_modification(
-    ModelicaParser::Element_modificationContext *context) {}
+    ModelicaParser::Element_modificationContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitElement_replaceable(
-    ModelicaParser::Element_replaceableContext *context) {}
+    ModelicaParser::Element_replaceableContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitComponent_clause1(
-    ModelicaParser::Component_clause1Context *context) {}
+    ModelicaParser::Component_clause1Context *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitShort_class_definition(
-    ModelicaParser::Short_class_definitionContext *context) {}
-void Compiler::exitStmt_block(ModelicaParser::Stmt_blockContext *context) {}
+    ModelicaParser::Short_class_definitionContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitStmt_block(ModelicaParser::Stmt_blockContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitEquation_section(
-    ModelicaParser::Equation_sectionContext *context) {}
+    ModelicaParser::Equation_sectionContext *ctx) {
+  auto eqs = std::make_unique<ast::equation::List>();
+  for (auto eq: ctx->equation()) {
+    eqs->append(cloneAst<ast::equation::Base>(eq));
+  }
+  setAst(ctx, std::move(eqs));
+}
 void Compiler::exitAlgorithm_section(
-    ModelicaParser::Algorithm_sectionContext *context) {}
+    ModelicaParser::Algorithm_sectionContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitType_specifier(
-    ModelicaParser::Type_specifierContext *context) {}
-void Compiler::exitName(ModelicaParser::NameContext *context) {}
+    ModelicaParser::Type_specifierContext *ctx) {
+  // pass
+}
+void Compiler::exitName(ModelicaParser::NameContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitComponent_reference(
-    ModelicaParser::Component_referenceContext *context) {}
+    ModelicaParser::Component_referenceContext *ctx) {
+  std::vector<std::string> ids;
+  for (auto id: ctx->IDENT()) {
+    ids.push_back(id->getText());
+  }
+  // TODO handle more than one name
+  setAst(ctx, std::make_unique<ast::expression::Reference>(ids[0]));
+}
 void Compiler::exitArray_arg_expr(
-    ModelicaParser::Array_arg_exprContext *context) {}
+    ModelicaParser::Array_arg_exprContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitArray_arg_for(
-    ModelicaParser::Array_arg_forContext *context) {}
+    ModelicaParser::Array_arg_forContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitArray_arguments(
-    ModelicaParser::Array_argumentsContext *context) {}
+    ModelicaParser::Array_argumentsContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitNamed_arguments(
-    ModelicaParser::Named_argumentsContext *context) {}
+    ModelicaParser::Named_argumentsContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitNamed_argument(
-    ModelicaParser::Named_argumentContext *context) {}
+    ModelicaParser::Named_argumentContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitOutput_expression_list(
-    ModelicaParser::Output_expression_listContext *context) {}
+    ModelicaParser::Output_expression_listContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitExpression_list(
-    ModelicaParser::Expression_listContext *context) {}
+    ModelicaParser::Expression_listContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitArray_subscripts(
-    ModelicaParser::Array_subscriptsContext *context) {}
-void Compiler::exitSubscript(ModelicaParser::SubscriptContext *context) {}
-void Compiler::exitComment(ModelicaParser::CommentContext *context) {}
+    ModelicaParser::Array_subscriptsContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitSubscript(ModelicaParser::SubscriptContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitComment(ModelicaParser::CommentContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 void Compiler::exitString_comment(
-    ModelicaParser::String_commentContext *context) {}
-void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *context) {}
+    ModelicaParser::String_commentContext *ctx) {
+  throw compiler_exception("not implemented");
+}
+void Compiler::exitAnnotation(ModelicaParser::AnnotationContext *ctx) {
+  throw compiler_exception("not implemented");
+}
 
 }  // namespace cymoca
