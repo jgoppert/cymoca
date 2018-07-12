@@ -31,6 +31,10 @@ class ElementDict : public Base {
 
   element::Base &get(const std::string &name) { return *m_map[name]; }
 
+  std::unordered_map<std::string, std::unique_ptr<element::Base>> &getMap() {
+    return m_map;
+  }
+
   std::vector<INode *> getChildren() override {
     std::vector<INode *> v;
     for (auto &c : m_map) {

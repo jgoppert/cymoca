@@ -275,7 +275,7 @@ void Compiler::exitFunction_call_args(
     ModelicaParser::Function_call_argsContext *ctx) {
   auto args = std::make_unique<ast::expression::List>();
   for (auto arg_ctx : ctx->function_argument()) {
-    auto arg = cloneAst<ast::expression::Base>(arg_ctx);
+    args->append(cloneAst<ast::expression::Base>(arg_ctx));
   }
   setAst(ctx, std::move(args));
 }
@@ -332,14 +332,20 @@ void Compiler::exitComposition(ModelicaParser::CompositionContext *ctx) {
       std::make_unique<ast::equation::List>());
 
   // elements
-  /*
-  for (auto e_ctx: ctx->public_elem) {
-    // TODO handle non-component elements
-    auto edict = cloneAst<ast::model::ElementDict>(e_ctx);
-    for (auto & e_ctx: edict->) {
+  enum class Visibility { PUBLIC, PRIVATE, PROTECTED };
+  for (auto elem_sect :
+       {std::make_pair(Visibility::PUBLIC, ctx->public_elem),
+        std::make_pair(Visibility::PRIVATE, ctx->private_elem),
+        std::make_pair(Visibility::PROTECTED, ctx->protected_elem)}) {
+    for (auto e_ctx : elem_sect.second) {
+      // TODO set visibility for element
+      auto edict = getAst<ast::model::ElementDict>(e_ctx);
+      for (auto &key_val : edict->getMap()) {
+        auto e = key_val.second->cloneAs<ast::element::Base>();
+        c->getElements().set(key_val.first, std::move(e));
+      }
     }
   }
-  */
 
   // equations
   for (auto eq_sec : ctx->equation_section()) {
