@@ -88,7 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classcymoca_1_1ast_1_1model_1_1_element_dict-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">cymoca::ast::model::ElementDict Class Reference</div>  </div>
@@ -120,6 +120,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e0f6a8c0693b9758b1d06303f29ec99"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
 <tr class="memitem:a7e0f6a8c0693b9758b1d06303f29ec99"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a7e0f6a8c0693b9758b1d06303f29ec99">ElementDict</a> (Args...args)</td></tr>
 <tr class="separator:a7e0f6a8c0693b9758b1d06303f29ec99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a583861a49c2b71c357cdce36654f6acc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a583861a49c2b71c357cdce36654f6acc">set</a> (const std::string &amp;name, std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a> &gt; element)</td></tr>
+<tr class="separator:a583861a49c2b71c357cdce36654f6acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34071da1751b912ecbbb553321330410"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a34071da1751b912ecbbb553321330410">get</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:a34071da1751b912ecbbb553321330410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04a6b7f481d382e7c83a5a967cbf432a"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
+&lt; std::string, std::unique_ptr<br class="typebreak"/>
+&lt; <a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a04a6b7f481d382e7c83a5a967cbf432a">getMap</a> ()</td></tr>
+<tr class="separator:a04a6b7f481d382e7c83a5a967cbf432a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a127176b624aea377cddaaa8e2fb4ec2d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcymoca_1_1ast_1_1_i_node.html">INode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a127176b624aea377cddaaa8e2fb4ec2d">getChildren</a> () override</td></tr>
 <tr class="separator:a127176b624aea377cddaaa8e2fb4ec2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad01da7f8101f889a2180ac7dc3a0eb8d"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1_i_node.html">INode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#ad01da7f8101f889a2180ac7dc3a0eb8d">clone</a> () const override</td></tr>
@@ -131,17 +139,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9cbf2ee1a0a64ad398352269415189c2 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memTemplItemLeft" align="right" valign="top">std::unique_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a9cbf2ee1a0a64ad398352269415189c2">cloneAs</a> ()</td></tr>
 <tr class="separator:a9cbf2ee1a0a64ad398352269415189c2 inherit pub_methods_classcymoca_1_1ast_1_1_i_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a9dc9692a71a4f45240105d60ab2664fc"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:af81fddeb5666e3ba744e22f09ce795e5"><td class="memItemLeft" align="right" valign="top">std::unordered_map<br class="typebreak"/>
 &lt; std::string, std::unique_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#a9dc9692a71a4f45240105d60ab2664fc">map</a> {}</td></tr>
-<tr class="separator:a9dc9692a71a4f45240105d60ab2664fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+&lt; <a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html#af81fddeb5666e3ba744e22f09ce795e5">m_map</a> {}</td></tr>
+<tr class="separator:af81fddeb5666e3ba744e22f09ce795e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A dictionary of elements with names as keys and allocated element instances as values. </p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00014">14</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00015">15</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7e0f6a8c0693b9758b1d06303f29ec99"></a>
 <div class="memitem">
@@ -167,7 +175,7 @@ template&lt;class... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00018">18</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00022">22</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -196,7 +204,7 @@ template&lt;class... Args&gt; </div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a7702d6eff6aeafaf2b5aa08e0041e28b">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00031">31</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00045">45</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -225,7 +233,7 @@ template&lt;class... Args&gt; </div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#aa949c5657475af7b8d540c263756537b">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00016">16</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00020">20</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -254,7 +262,33 @@ template&lt;class... Args&gt; </div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#ada506b731700f862be9a83c8bd61d404">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00016">16</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00020">20</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a34071da1751b912ecbbb553321330410"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a>&amp; cymoca::ast::model::ElementDict::get </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00032">32</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -282,22 +316,91 @@ template&lt;class... Args&gt; </div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a916e5bb2b47615ec5b6711aa5528967c">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00024">24</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00038">38</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a04a6b7f481d382e7c83a5a967cbf432a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt;std::string, std::unique_ptr&lt;<a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a>&gt; &gt;&amp; cymoca::ast::model::ElementDict::getMap </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00034">34</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a583861a49c2b71c357cdce36654f6acc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cymoca::ast::model::ElementDict::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a> &gt;&#160;</td>
+          <td class="paramname"><em>element</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00028">28</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a9dc9692a71a4f45240105d60ab2664fc"></a>
+<a class="anchor" id="af81fddeb5666e3ba744e22f09ce795e5"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unordered_map&lt;std::string, std::unique_ptr&lt;<a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a>&gt; &gt; cymoca::ast::model::ElementDict::map {}</td>
+          <td class="memname">std::unordered_map&lt;std::string, std::unique_ptr&lt;<a class="el" href="classcymoca_1_1ast_1_1element_1_1_base.html">element::Base</a>&gt; &gt; cymoca::ast::model::ElementDict::m_map {}</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00023">23</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00017">17</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>

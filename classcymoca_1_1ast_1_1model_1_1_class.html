@@ -119,6 +119,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a34589206822a4b6ed739f5d1bd7bb530"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbe19f76c2f4fa1bc5521ba2caaa52ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#adbe19f76c2f4fa1bc5521ba2caaa52ad">Class</a> (std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html">ElementDict</a> &gt; elements, std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1equation_1_1_list.html">equation::List</a> &gt; equations)</td></tr>
 <tr class="separator:adbe19f76c2f4fa1bc5521ba2caaa52ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15a8fbacccccf94e4a7564973b6d6184"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html">ElementDict</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#a15a8fbacccccf94e4a7564973b6d6184">getElements</a> ()</td></tr>
+<tr class="separator:a15a8fbacccccf94e4a7564973b6d6184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a366167c00ebf8feddac92df4b6029be9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcymoca_1_1ast_1_1equation_1_1_list.html">equation::List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#a366167c00ebf8feddac92df4b6029be9">getEquations</a> ()</td></tr>
+<tr class="separator:a366167c00ebf8feddac92df4b6029be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2d5c3b6e78cefa5e88a2b9959c05878"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcymoca_1_1ast_1_1statement_1_1_list.html">statement::List</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#ac2d5c3b6e78cefa5e88a2b9959c05878">getStatements</a> ()</td></tr>
+<tr class="separator:ac2d5c3b6e78cefa5e88a2b9959c05878"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6ace6a446266c14d881cbba77705605"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcymoca_1_1ast_1_1_i_node.html">INode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#ae6ace6a446266c14d881cbba77705605">getChildren</a> () override</td></tr>
 <tr class="separator:ae6ace6a446266c14d881cbba77705605"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5eec41e623305e9bb3e0ebce637bd58e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1_i_node.html">INode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#a5eec41e623305e9bb3e0ebce637bd58e">clone</a> () const override</td></tr>
@@ -136,11 +142,13 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ac0092586b2a898194da1096ce1778281"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc47a5fc2ca7dc2d874d158616f4d27e"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1equation_1_1_list.html">equation::List</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#acc47a5fc2ca7dc2d874d158616f4d27e">m_equations</a> {}</td></tr>
 <tr class="separator:acc47a5fc2ca7dc2d874d158616f4d27e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab08b4bc1820837a111a073a5f31a1d8c"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="classcymoca_1_1ast_1_1statement_1_1_list.html">statement::List</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_class.html#ab08b4bc1820837a111a073a5f31a1d8c">m_statements</a> {}</td></tr>
+<tr class="separator:ab08b4bc1820837a111a073a5f31a1d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The top level class structure </p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00043">43</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00057">57</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="adbe19f76c2f4fa1bc5521ba2caaa52ad"></a>
 <div class="memitem">
@@ -174,7 +182,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00050">50</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00065">65</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -203,7 +211,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a7702d6eff6aeafaf2b5aa08e0041e28b">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00056">56</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00074">74</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 <p><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -241,7 +249,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#aa949c5657475af7b8d540c263756537b">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00049">49</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00064">64</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -270,7 +278,7 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#ada506b731700f862be9a83c8bd61d404">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00049">49</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00064">64</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -298,7 +306,82 @@ Here is the call graph for this function:</div>
 
 <p>Implements <a class="el" href="classcymoca_1_1ast_1_1_i_node.html#a916e5bb2b47615ec5b6711aa5528967c">cymoca::ast::INode</a>.</p>
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00053">53</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00071">71</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a15a8fbacccccf94e4a7564973b6d6184"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcymoca_1_1ast_1_1model_1_1_element_dict.html">ElementDict</a>&amp; cymoca::ast::model::Class::getElements </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00068">68</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a366167c00ebf8feddac92df4b6029be9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcymoca_1_1ast_1_1equation_1_1_list.html">equation::List</a>&amp; cymoca::ast::model::Class::getEquations </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00069">69</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ac2d5c3b6e78cefa5e88a2b9959c05878"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcymoca_1_1ast_1_1statement_1_1_list.html">statement::List</a>&amp; cymoca::ast::model::Class::getStatements </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00070">70</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -321,7 +404,7 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00045">45</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00059">59</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>
@@ -343,7 +426,29 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="model_8h_source.html#l00046">46</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+<p>Definition at line <a class="el" href="model_8h_source.html#l00060">60</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab08b4bc1820837a111a073a5f31a1d8c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classcymoca_1_1ast_1_1statement_1_1_list.html">statement::List</a>&gt; cymoca::ast::model::Class::m_statements {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="model_8h_source.html#l00061">61</a> of file <a class="el" href="model_8h_source.html">model.h</a>.</p>
 
 </div>
 </div>

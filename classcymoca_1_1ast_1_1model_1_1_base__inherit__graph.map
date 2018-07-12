@@ -1,5 +1,5 @@
 <map id="cymoca::ast::model::Base" name="cymoca::ast::model::Base">
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1model_1_1_class.html" title="{cymoca::ast::model\l::Class\n|# m_elements\l# m_equations\l|+ enter()\l+ exit()\l+ Class()\l+ getChildren()\l+ clone()\l}" alt="" coords="5,347,141,512"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1model_1_1_element_dict.html" title="{cymoca::ast::model\l::ElementDict\n|+ map\l|+ enter()\l+ exit()\l+ ElementDict()\l+ getChildren()\l+ clone()\l}" alt="" coords="166,354,303,505"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1model_1_1_class.html" title="{cymoca::ast::model\l::Class\n|# m_elements\l# m_equations\l# m_statements\l|+ enter()\l+ exit()\l+ Class()\l+ getElements()\l+ getEquations()\l+ getStatements()\l+ getChildren()\l+ clone()\l}" alt="" coords="5,347,141,571"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1model_1_1_element_dict.html" title="{cymoca::ast::model\l::ElementDict\n|# m_map\l|+ enter()\l+ exit()\l+ ElementDict()\l+ set()\l+ get()\l+ getMap()\l+ getChildren()\l+ clone()\l}" alt="" coords="166,361,303,556"/>
 <area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="85,6,221,157"/>
 </map>

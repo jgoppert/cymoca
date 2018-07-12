@@ -1,5 +1,5 @@
 <map id="cymoca::Compiler" name="cymoca::Compiler">
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1model_1_1_class.html" title="{cymoca::ast::model\l::Class\n|# m_elements\l# m_equations\l|+ enter()\l+ exit()\l+ Class()\l+ getChildren()\l+ clone()\l}" alt="" coords="179,352,316,517"/>
+<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1model_1_1_class.html" title="{cymoca::ast::model\l::Class\n|# m_elements\l# m_equations\l# m_statements\l|+ enter()\l+ exit()\l+ Class()\l+ getElements()\l+ getEquations()\l+ getStatements()\l+ getChildren()\l+ clone()\l}" alt="" coords="179,352,316,576"/>
 <area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1model_1_1_base.html" title="{cymoca::ast::model\l::Base\n||}" alt="" coords="179,209,316,301"/>
 <area shape="rect" id="node5" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="179,6,316,157"/>
 </map>

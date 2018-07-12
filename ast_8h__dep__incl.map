@@ -1,5 +1,6 @@
 <map id="ast.h" name="ast.h">
 <area shape="rect" id="node2" href="$ast_8cc.html" title="ast.cc" alt="" coords="4,80,61,107"/>
-<area shape="rect" id="node3" href="$compiler_8h.html" title="compiler.h" alt="" coords="87,80,168,107"/>
-<area shape="rect" id="node4" href="$compiler_8cc.html" title="compiler.cc" alt="" coords="83,155,172,181"/>
+<area shape="rect" id="node3" href="$lisp_8h.html" title="lisp.h" alt="" coords="87,80,140,107"/>
+<area shape="rect" id="node4" href="$compiler_8h.html" title="compiler.h" alt="" coords="164,80,245,107"/>
+<area shape="rect" id="node5" href="$compiler_8cc.html" title="compiler.cc" alt="" coords="161,155,249,181"/>
 </map>

@@ -188,144 +188,131 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordtype">void</span> exitEveryRule(antlr4::ParserRuleContext *ctx) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="comment">// model</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keywordtype">void</span> exitClass_definition(</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      ModelicaParser::Class_definitionContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="comment">// conditions</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <span class="keywordtype">void</span> exitCond_bool(ModelicaParser::Cond_boolContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">void</span> exitCond_binary(ModelicaParser::Cond_binaryContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordtype">void</span> exitCond_unary(ModelicaParser::Cond_unaryContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordtype">void</span> exitCond_compare(ModelicaParser::Cond_compareContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keywordtype">void</span> exitCond_func(ModelicaParser::Cond_funcContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="keywordtype">void</span> exitCond_ref(ModelicaParser::Cond_refContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  <span class="comment">// equations</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keywordtype">void</span> exitEq_simple(ModelicaParser::Eq_simpleContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordtype">void</span> exitEq_block(ModelicaParser::Eq_blockContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="keywordtype">void</span> exitEq_if(ModelicaParser::Eq_ifContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="keywordtype">void</span> exitEq_for(ModelicaParser::Eq_forContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="keywordtype">void</span> exitEq_connect(ModelicaParser::Eq_connectContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="keywordtype">void</span> exitEq_when(ModelicaParser::Eq_whenContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="keywordtype">void</span> exitEq_func(ModelicaParser::Eq_funcContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="comment">// statements</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keywordtype">void</span> exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="keywordtype">void</span> exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordtype">void</span> exitStmt_key(ModelicaParser::Stmt_keyContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keywordtype">void</span> exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keywordtype">void</span> exitStmt_for(ModelicaParser::Stmt_forContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordtype">void</span> exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="keywordtype">void</span> exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="keywordtype">void</span> exitFor_indices(ModelicaParser::For_indicesContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keywordtype">void</span> exitFor_index(ModelicaParser::For_indexContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="comment">// expressions</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keywordtype">void</span> exitExpr_number(ModelicaParser::Expr_numberContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keywordtype">void</span> exitExpr_ref(ModelicaParser::Expr_refContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keywordtype">void</span> exitExpr_simple(ModelicaParser::Expr_simpleContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keywordtype">void</span> exitExpr_if(ModelicaParser::Expr_ifContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keywordtype">void</span> exitExpr_func(ModelicaParser::Expr_funcContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordtype">void</span> exitExpr_string(ModelicaParser::Expr_stringContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keywordtype">void</span> exitExpr_range(ModelicaParser::Expr_rangeContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keywordtype">void</span> exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="keywordtype">void</span> exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordtype">void</span> exitExpr_output(ModelicaParser::Expr_outputContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="keywordtype">void</span> exitExpr_list(ModelicaParser::Expr_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="keywordtype">void</span> exitExpr_end(ModelicaParser::Expr_endContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="keywordtype">void</span> exitExpr_array(ModelicaParser::Expr_arrayContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <span class="comment">// function arguments</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="keywordtype">void</span> exitFunction_call_args(</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      ModelicaParser::Function_call_argsContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_expr(ModelicaParser::Func_arg_exprContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_for(ModelicaParser::Func_arg_forContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_func(ModelicaParser::Func_arg_funcContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_named(ModelicaParser::Func_arg_namedContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="comment">// elements</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="keywordtype">void</span> exitElem_import(ModelicaParser::Elem_importContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <span class="keywordtype">void</span> exitElem_extends(ModelicaParser::Elem_extendsContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="keywordtype">void</span> exitElem_class(ModelicaParser::Elem_classContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <span class="keywordtype">void</span> exitElem_comp(ModelicaParser::Elem_compContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="comment">// misc</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="keywordtype">void</span> exitClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="keywordtype">void</span> exitStored_definition(</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      ModelicaParser::Stored_definitionContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="keywordtype">void</span> exitClass_specifier(</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      ModelicaParser::Class_specifierContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordtype">void</span> exitLong_class_specifier(</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      ModelicaParser::Long_class_specifierContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <span class="keywordtype">void</span> exitShort_class_specifier(</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      ModelicaParser::Short_class_specifierContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="keywordtype">void</span> exitDer_class_specifier(</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      ModelicaParser::Der_class_specifierContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="keywordtype">void</span> exitBase_prefix(ModelicaParser::Base_prefixContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keywordtype">void</span> exitEnum_list(ModelicaParser::Enum_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="keywordtype">void</span> exitEnumeration_literal(</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      ModelicaParser::Enumeration_literalContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="keywordtype">void</span> exitComposition(ModelicaParser::CompositionContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="keywordtype">void</span> exitLanguage_specification(</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      ModelicaParser::Language_specificationContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordtype">void</span> exitExternal_function_call(</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      ModelicaParser::External_function_callContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <span class="keywordtype">void</span> exitImport_list(ModelicaParser::Import_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  <span class="keywordtype">void</span> exitConstraining_clause(</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;      ModelicaParser::Constraining_clauseContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordtype">void</span> exitComponent_clause(</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      ModelicaParser::Component_clauseContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <span class="keywordtype">void</span> exitType_prefix(ModelicaParser::Type_prefixContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  <span class="keywordtype">void</span> exitComponent_list(ModelicaParser::Component_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  <span class="keywordtype">void</span> exitComponent_declaration(</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;      ModelicaParser::Component_declarationContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keywordtype">void</span> exitCondition_attribute(</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;      ModelicaParser::Condition_attributeContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keywordtype">void</span> exitModification(ModelicaParser::ModificationContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  <span class="keywordtype">void</span> exitClass_modification(</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      ModelicaParser::Class_modificationContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  <span class="keywordtype">void</span> exitArgument_list(ModelicaParser::Argument_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordtype">void</span> exitArgument(ModelicaParser::ArgumentContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  <span class="keywordtype">void</span> exitElement_modification_or_replaceable(</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      ModelicaParser::Element_modification_or_replaceableContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  <span class="keywordtype">void</span> exitElement_modification(</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;      ModelicaParser::Element_modificationContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  <span class="keywordtype">void</span> exitElement_replaceable(</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      ModelicaParser::Element_replaceableContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  <span class="keywordtype">void</span> exitComponent_clause1(</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      ModelicaParser::Component_clause1Context *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  <span class="keywordtype">void</span> exitShort_class_definition(</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      ModelicaParser::Short_class_definitionContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordtype">void</span> exitStmt_block(ModelicaParser::Stmt_blockContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordtype">void</span> exitEquation_section(</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      ModelicaParser::Equation_sectionContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keywordtype">void</span> exitAlgorithm_section(</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      ModelicaParser::Algorithm_sectionContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">void</span> exitType_specifier(ModelicaParser::Type_specifierContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordtype">void</span> exitName(ModelicaParser::NameContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="keywordtype">void</span> exitComponent_reference(</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      ModelicaParser::Component_referenceContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordtype">void</span> exitArray_arg_expr(ModelicaParser::Array_arg_exprContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  <span class="keywordtype">void</span> exitArray_arg_for(ModelicaParser::Array_arg_forContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  <span class="keywordtype">void</span> exitArray_arguments(</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;      ModelicaParser::Array_argumentsContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  <span class="keywordtype">void</span> exitNamed_arguments(</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      ModelicaParser::Named_argumentsContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="keywordtype">void</span> exitNamed_argument(ModelicaParser::Named_argumentContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <span class="keywordtype">void</span> exitOutput_expression_list(</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;      ModelicaParser::Output_expression_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keywordtype">void</span> exitExpression_list(</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;      ModelicaParser::Expression_listContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <span class="keywordtype">void</span> exitArray_subscripts(</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      ModelicaParser::Array_subscriptsContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <span class="keywordtype">void</span> exitSubscript(ModelicaParser::SubscriptContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="keywordtype">void</span> exitComment(ModelicaParser::CommentContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keywordtype">void</span> exitString_comment(ModelicaParser::String_commentContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keywordtype">void</span> exitAnnotation(ModelicaParser::AnnotationContext *ctx) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;};</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;}  <span class="comment">// namespace cymoca</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="comment">// conditions</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordtype">void</span> exitCond_bool(ModelicaParser::Cond_boolContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keywordtype">void</span> exitCond_binary(ModelicaParser::Cond_binaryContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  <span class="keywordtype">void</span> exitCond_unary(ModelicaParser::Cond_unaryContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordtype">void</span> exitCond_compare(ModelicaParser::Cond_compareContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  <span class="keywordtype">void</span> exitCond_func(ModelicaParser::Cond_funcContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  <span class="keywordtype">void</span> exitCond_ref(ModelicaParser::Cond_refContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  <span class="comment">// equations</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  <span class="keywordtype">void</span> exitEq_simple(ModelicaParser::Eq_simpleContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  <span class="keywordtype">void</span> exitEq_block(ModelicaParser::Eq_blockContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keywordtype">void</span> exitEq_if(ModelicaParser::Eq_ifContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="keywordtype">void</span> exitEq_for(ModelicaParser::Eq_forContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="keywordtype">void</span> exitEq_connect(ModelicaParser::Eq_connectContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="keywordtype">void</span> exitEq_when(ModelicaParser::Eq_whenContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="keywordtype">void</span> exitEq_func(ModelicaParser::Eq_funcContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="comment">// statements</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  <span class="keywordtype">void</span> exitStmt_ref(ModelicaParser::Stmt_refContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="keywordtype">void</span> exitStmt_func(ModelicaParser::Stmt_funcContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="keywordtype">void</span> exitStmt_key(ModelicaParser::Stmt_keyContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="keywordtype">void</span> exitStmt_if(ModelicaParser::Stmt_ifContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="keywordtype">void</span> exitStmt_for(ModelicaParser::Stmt_forContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keywordtype">void</span> exitStmt_while(ModelicaParser::Stmt_whileContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keywordtype">void</span> exitStmt_when(ModelicaParser::Stmt_whenContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keywordtype">void</span> exitFor_indices(ModelicaParser::For_indicesContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="keywordtype">void</span> exitFor_index(ModelicaParser::For_indexContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="comment">// expressions</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="keywordtype">void</span> exitExpr_number(ModelicaParser::Expr_numberContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keywordtype">void</span> exitExpr_ref(ModelicaParser::Expr_refContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keywordtype">void</span> exitExpr_simple(ModelicaParser::Expr_simpleContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keywordtype">void</span> exitExpr_if(ModelicaParser::Expr_ifContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keywordtype">void</span> exitExpr_func(ModelicaParser::Expr_funcContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keywordtype">void</span> exitExpr_string(ModelicaParser::Expr_stringContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keywordtype">void</span> exitExpr_range(ModelicaParser::Expr_rangeContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordtype">void</span> exitExpr_unary(ModelicaParser::Expr_unaryContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="keywordtype">void</span> exitExpr_binary(ModelicaParser::Expr_binaryContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keywordtype">void</span> exitExpr_output(ModelicaParser::Expr_outputContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="keywordtype">void</span> exitExpr_list(ModelicaParser::Expr_listContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordtype">void</span> exitExpr_end(ModelicaParser::Expr_endContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="keywordtype">void</span> exitExpr_array(ModelicaParser::Expr_arrayContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="comment">// function arguments</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keywordtype">void</span> exitFunction_call_args(</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      ModelicaParser::Function_call_argsContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_expr(ModelicaParser::Func_arg_exprContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_for(ModelicaParser::Func_arg_forContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_func(ModelicaParser::Func_arg_funcContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <span class="keywordtype">void</span> exitFunc_arg_named(ModelicaParser::Func_arg_namedContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="comment">// elements</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <span class="keywordtype">void</span> exitElem_import(ModelicaParser::Elem_importContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="keywordtype">void</span> exitElem_extends(ModelicaParser::Elem_extendsContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="keywordtype">void</span> exitElem_class(ModelicaParser::Elem_classContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <span class="keywordtype">void</span> exitElem_comp(ModelicaParser::Elem_compContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <span class="comment">// misc</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  <span class="keywordtype">void</span> exitClass_prefixes(ModelicaParser::Class_prefixesContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="keywordtype">void</span> exitStored_definition(</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      ModelicaParser::Stored_definitionContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="keywordtype">void</span> exitEnumeration_literal(</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      ModelicaParser::Enumeration_literalContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="keywordtype">void</span> exitComposition(ModelicaParser::CompositionContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <span class="keywordtype">void</span> exitExternal_function_call(</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      ModelicaParser::External_function_callContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <span class="keywordtype">void</span> exitConstraining_clause(</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;      ModelicaParser::Constraining_clauseContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="keywordtype">void</span> exitComponent_clause(</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      ModelicaParser::Component_clauseContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <span class="keywordtype">void</span> exitType_prefix(ModelicaParser::Type_prefixContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="keywordtype">void</span> exitComponent_declaration(</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      ModelicaParser::Component_declarationContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="keywordtype">void</span> exitClass_modification(</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      ModelicaParser::Class_modificationContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="keywordtype">void</span> exitStmt_block(ModelicaParser::Stmt_blockContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="keywordtype">void</span> exitEquation_section(</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      ModelicaParser::Equation_sectionContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordtype">void</span> exitAlgorithm_section(</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      ModelicaParser::Algorithm_sectionContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;  <span class="keywordtype">void</span> exitType_specifier(ModelicaParser::Type_specifierContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  <span class="keywordtype">void</span> exitName(ModelicaParser::NameContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <span class="keywordtype">void</span> exitComponent_reference(</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;      ModelicaParser::Component_referenceContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <span class="keywordtype">void</span> exitArray_arg_expr(ModelicaParser::Array_arg_exprContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <span class="keywordtype">void</span> exitArray_arg_for(ModelicaParser::Array_arg_forContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  <span class="keywordtype">void</span> exitArray_arguments(</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      ModelicaParser::Array_argumentsContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  <span class="keywordtype">void</span> exitNamed_arguments(</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;      ModelicaParser::Named_argumentsContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  <span class="keywordtype">void</span> exitNamed_argument(ModelicaParser::Named_argumentContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;  <span class="keywordtype">void</span> exitOutput_expression_list(</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      ModelicaParser::Output_expression_listContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <span class="keywordtype">void</span> exitExpression_list(</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      ModelicaParser::Expression_listContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;  <span class="keywordtype">void</span> exitArray_subscripts(</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      ModelicaParser::Array_subscriptsContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;  <span class="keywordtype">void</span> exitSubscript(ModelicaParser::SubscriptContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  <span class="keywordtype">void</span> exitComment(ModelicaParser::CommentContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <span class="keywordtype">void</span> exitString_comment(ModelicaParser::String_commentContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;  <span class="keywordtype">void</span> exitAnnotation(ModelicaParser::AnnotationContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  <span class="keywordtype">void</span> exitClass_def_long(ModelicaParser::Class_def_longContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  <span class="keywordtype">void</span> exitClass_def_der(ModelicaParser::Class_def_derContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  <span class="keywordtype">void</span> exitClass_def_short(</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      ModelicaParser::Class_def_shortContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;  <span class="keywordtype">void</span> exitClass_def_type(ModelicaParser::Class_def_typeContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  <span class="keywordtype">void</span> exitClass_def_enum(ModelicaParser::Class_def_enumContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordtype">void</span> exitArg_modification(</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      ModelicaParser::Arg_modificationContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  <span class="keywordtype">void</span> exitArg_redeclare_class(</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      ModelicaParser::Arg_redeclare_classContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keywordtype">void</span> exitArg_redeclare_element(</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;      ModelicaParser::Arg_redeclare_elementContext *ctxt) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;  <span class="keywordtype">void</span> exitModification_class(</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      ModelicaParser::Modification_classContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keywordtype">void</span> exitModification_equation(</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      ModelicaParser::Modification_equationContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  <span class="keywordtype">void</span> exitModification_statement(</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;      ModelicaParser::Modification_statementContext *ctx) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;};</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;}  <span class="comment">// namespace cymoca</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classcymoca_1_1_compiler_exception_html_ae254fd0c4387517742b610dac5ae9482"><div class="ttname"><a href="classcymoca_1_1_compiler_exception.html#ae254fd0c4387517742b610dac5ae9482">cymoca::CompilerException::CompilerException</a></div><div class="ttdeci">CompilerException(const std::string &amp;arg, const char *file, int line)</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00021">compiler.h:21</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_html_a6c28cbc75f3334bd183d391efe90dd83"><div class="ttname"><a href="classcymoca_1_1_compiler.html#a6c28cbc75f3334bd183d391efe90dd83">cymoca::Compiler::getAst</a></div><div class="ttdeci">T * getAst(antlr4::ParserRuleContext *ctx)</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00060">compiler.h:60</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_html_a16c0a5dd90a678274a110e2091699f3a"><div class="ttname"><a href="classcymoca_1_1_compiler.html#a16c0a5dd90a678274a110e2091699f3a">cymoca::Compiler::getTokenStream</a></div><div class="ttdeci">antlr4::CommonTokenStream &amp; getTokenStream()</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00039">compiler.h:39</a></div></div>
@@ -334,7 +321,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classcymoca_1_1_compiler_html_a3bdc2fdbd83554c358adf2a247dfbe82"><div class="ttname"><a href="classcymoca_1_1_compiler.html#a3bdc2fdbd83554c358adf2a247dfbe82">cymoca::Compiler::m_input</a></div><div class="ttdeci">antlr4::ANTLRInputStream m_input</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00048">compiler.h:48</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_html_a6330c173e47e241518a295746127f58a"><div class="ttname"><a href="classcymoca_1_1_compiler.html#a6330c173e47e241518a295746127f58a">cymoca::Compiler::m_verbose</a></div><div class="ttdeci">bool m_verbose</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00052">compiler.h:52</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_html_ac8f4e827669a5c34f691457e2ad9e719"><div class="ttname"><a href="classcymoca_1_1_compiler.html#ac8f4e827669a5c34f691457e2ad9e719">cymoca::Compiler::m_parser</a></div><div class="ttdeci">std::unique_ptr&lt; ModelicaParser &gt; m_parser</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00047">compiler.h:47</a></div></div>
-<div class="ttc" id="classcymoca_1_1ast_1_1model_1_1_class_html"><div class="ttname"><a href="classcymoca_1_1ast_1_1model_1_1_class.html">cymoca::ast::model::Class</a></div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00043">model.h:43</a></div></div>
+<div class="ttc" id="classcymoca_1_1ast_1_1model_1_1_class_html"><div class="ttname"><a href="classcymoca_1_1ast_1_1model_1_1_class.html">cymoca::ast::model::Class</a></div><div class="ttdef"><b>Definition:</b> <a href="model_8h_source.html#l00057">model.h:57</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_html_a44b27bd2aaedd4d0beb43d6add1c2ac0"><div class="ttname"><a href="classcymoca_1_1_compiler.html#a44b27bd2aaedd4d0beb43d6add1c2ac0">cymoca::Compiler::linkAst</a></div><div class="ttdeci">void linkAst(antlr4::ParserRuleContext *to, antlr4::ParserRuleContext *from)</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00102">compiler.h:102</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_html_a714fde64be7f0a0d0483e90e5864aa62"><div class="ttname"><a href="classcymoca_1_1_compiler.html#a714fde64be7f0a0d0483e90e5864aa62">cymoca::Compiler::cloneAst</a></div><div class="ttdeci">std::unique_ptr&lt; T &gt; cloneAst(antlr4::ParserRuleContext *ctx)</div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00087">compiler.h:87</a></div></div>
 <div class="ttc" id="classcymoca_1_1_compiler_exception_html_a031d9318d083d3b34c4108eb2731970f"><div class="ttname"><a href="classcymoca_1_1_compiler_exception.html#a031d9318d083d3b34c4108eb2731970f">cymoca::CompilerException::what</a></div><div class="ttdeci">const char * what() const </div><div class="ttdef"><b>Definition:</b> <a href="compiler_8h_source.html#l00028">compiler.h:28</a></div></div>
