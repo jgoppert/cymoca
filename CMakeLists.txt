@@ -25,6 +25,12 @@ endforeach()
 # Setup
 #-----------------------------------------------------------------------------
 
+# instrument code for coverage
+if (WITH_COVERAGE)
+    add_compile_options(--coverage)
+    link_libraries(--coverage)
+endif()
+
 # support multi-build like catkin by avoiding CMAKE_PROJECT
 set(CYMOCA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(CYMOCA_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})

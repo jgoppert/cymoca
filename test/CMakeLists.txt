@@ -6,13 +6,8 @@ find_package(Threads REQUIRED)
 find_package(GTest REQUIRED)
 set(TEST_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-# instrument code for coverage
-if (WITH_COVERAGE)
-    add_compile_options(--coverage)
-    link_libraries(--coverage)
-endif()
-
 set(test_libs
+    cymoca_compiler
     modelica_antlr
     ${GTEST_BOTH_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
@@ -36,16 +31,14 @@ add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-paramet
 # test parse
 add_executable(test_parse
     test_parse.cc
-    ../src/cymoca/compiler.cc
     )
 target_link_libraries(test_parse ${test_libs})
 add_test(test_parse test_parse)
 
 # test ast
 add_executable(test_ast
-  test_ast.cc
-  ../src/cymoca/compiler.cc
-  )
+    test_ast.cc
+    )
 target_link_libraries(test_ast ${test_libs})
 add_test(test_ast test_ast)
 
@@ -74,16 +67,15 @@ set(check_deps run_tests)
 # coverage with lcov
 if (WITH_COVERAGE)
     add_custom_target(coverage_html
-      COMMAND lcov --capture --directory ${CYMOCA_BINARY_DIR} --output-file coverage.info
+      COMMAND lcov --capture --directory . --output-file coverage.info
         COMMAND lcov --remove coverage.info '/usr/*' '*/build/*' '*/test/*' -o coverage_filtered.info
         COMMAND lcov --summary coverage_filtered.info
         COMMAND genhtml coverage_filtered.info --output-directory out
         COMMAND x-www-browser out/index.html
-        WORKING_DIRECTORY ${CYMOCA_BINARY_DIR}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         DEPENDS run_tests
         )
 endif()
-
 # check for CI
 add_custom_target(check
     DEPENDS ${check_deps})
