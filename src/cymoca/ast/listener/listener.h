@@ -50,6 +50,7 @@ class When;
 namespace statement {
 class Block;
 class If;
+class List;
 class When;
 }  // namespace statement
 
@@ -99,6 +100,7 @@ class Base {
   LISTENER_MACRO(model::ElementDict)
   LISTENER_MACRO(statement::Block)
   LISTENER_MACRO(statement::If)
+  LISTENER_MACRO(statement::List)
   LISTENER_MACRO(statement::When)
 };
 
