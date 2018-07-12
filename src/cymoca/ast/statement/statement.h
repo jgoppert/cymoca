@@ -1,9 +1,19 @@
 #ifndef CYMOCA_AST_STATEMENT_STATEMENT_H_
 #define CYMOCA_AST_STATEMENT_STATEMENT_H_
 
-#include "node.h"
+#include "../node.h"
 
 namespace cymoca::ast::statement {
+
+/**
+ * A list of statements
+ */
+class List : public TList<Base, Base> {
+ public:
+  NODE_MACRO
+  using TList::TList;
+  std::unique_ptr<INode> clone() const override { return cloneList<List>(); }
+};
 
 /**
  * A block of statements with a condition
@@ -11,8 +21,8 @@ namespace cymoca::ast::statement {
  */
 class Block : public Base {
  protected:
-  std::unique_ptr<cond::Base> condition{};
-  std::vector<std::unique_ptr<Base>> statements{};
+  std::unique_ptr<condition::Base> m_condition{};
+  std::unique_ptr<List> m_statements{};
 
  public:
   NODE_MACRO
@@ -21,20 +31,20 @@ class Block : public Base {
 /**
  * An if statement, composed of a List of Blocks.
  */
-class If : public List<Block, Base> {
+class If : public TList<Block, Base> {
  public:
   NODE_MACRO
-  using List::List;
+  using TList::TList;
   std::unique_ptr<INode> clone() const override { return cloneList<If>(); }
 };
 
 /**
  * A when statement, composed of a List of Blocks.
  */
-class When : public List<Block, Base> {
+class When : public TList<Block, Base> {
  public:
   NODE_MACRO
-  using List::List;
+  using TList::TList;
   std::unique_ptr<INode> clone() const override { return cloneList<When>(); }
 };
 

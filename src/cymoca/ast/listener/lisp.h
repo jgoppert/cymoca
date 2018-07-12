@@ -1,6 +1,7 @@
 #ifndef CYMOCA_AST_LISTENER_LISP_H_
 #define CYMOCA_AST_LISTENER_LISP_H_
 
+#include "../ast.h"
 #include "listener.h"
 
 namespace cymoca::ast::listener {

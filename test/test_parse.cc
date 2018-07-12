@@ -3,8 +3,8 @@
 #include <iostream>
 #include "test_config.h"
 
+#include <cymoca/ast/listener/lisp.h>
 #include "cymoca/compiler.h"
-//#include <cymoca/listener/LispPrinter.h>
 
 using namespace cymoca;
 namespace fs = std::experimental::filesystem;
@@ -24,8 +24,8 @@ TEST(ParseTest, BouncingBall) {
 
   auto n2 = n.cloneAs<ast::model::Class>();
 
-  // listener::LispPrinter listener;
-  // Walker walker;
-  // walker.walk(*c.root(), listener);
-  // std::cout << listener.get() << endl;
+  ast::listener::Lisp printer;
+  ast::Walker walker;
+  walker.walk(*c.root(), printer);
+  std::cout << printer.get() << std::endl;
 }

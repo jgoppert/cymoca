@@ -2,6 +2,7 @@
 #define CYMOCA_AST_MODEL_MODEL_H_
 
 #include "../node.h"
+#include "../statement/statement.h"
 
 #include <unordered_map>
 
@@ -53,12 +54,16 @@ class Class : public Base {
  protected:
   std::unique_ptr<ElementDict> m_elements{};
   std::unique_ptr<equation::List> m_equations{};
+  std::unique_ptr<statement::List> m_statements{};
 
  public:
   NODE_MACRO
   Class(std::unique_ptr<ElementDict> elements,
         std::unique_ptr<equation::List> equations)
       : m_elements(std::move(elements)), m_equations(std::move(equations)) {}
+  ElementDict &getElements() { return *m_elements; }
+  equation::List &getEquations() { return *m_equations; }
+  statement::List &getStatements() { return *m_statements; }
   std::vector<INode *> getChildren() override {
     return {m_elements.get(), m_equations.get()};
   }
