@@ -2,27 +2,29 @@
 # Compiler
 #-----------------------------------------------------------------------------
 
-include_directories(SYSTEM
-        ${CYMOCA_BINARY_DIR}/src
-        ${Antlr4Runtime_INCLUDE_DIRS}
-        )
-
-include_directories(${CYMOCA_SOURCE_DIR}/src)
-
-add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)
-
 add_subdirectory(ast)
 
 add_library(cymoca_compiler STATIC
         ${CMAKE_CURRENT_BINARY_DIR}/version.cc
+        compiler.cc
         version.h
         util.h
-        compiler.cc
         compiler.h
         )
 
-target_link_libraries(cymoca_compiler
-        ${Antlr4Runtime_LIBRARIES}
+target_link_libraries(cymoca_compiler PRIVATE
         modelica_antlr
-        cymoca_ast
-        ${CMAKE_THREAD_LIBS_INIT})
+        ${Antlr4Runtime_LIBRARIES}
+        )
+
+target_include_directories(cymoca_compiler SYSTEM PUBLIC
+        ${CYMOCA_BINARY_DIR}/src
+        ${Antlr4Runtime_INCLUDE_DIRS}
+        )
+
+target_include_directories(cymoca_compiler PUBLIC
+        ${CYMOCA_SOURCE_DIR}/src
+        )
+
+target_compile_options(cymoca_compiler PUBLIC
+        -pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)

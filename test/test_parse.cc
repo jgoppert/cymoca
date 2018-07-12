@@ -18,12 +18,6 @@ TEST(ParseTest, BouncingBall) {
   std::ifstream fileStream(p.string());
   Compiler c(fileStream);
   EXPECT_STREQ("Hello World!", "Hello World!");
-
-  auto n = ast::model::Class(std::make_unique<ast::model::ElementDict>(),
-                             std::make_unique<ast::equation::List>());
-
-  auto n2 = n.cloneAs<ast::model::Class>();
-
   ast::listener::Lisp printer;
   ast::Walker walker;
   walker.walk(*c.root(), printer);

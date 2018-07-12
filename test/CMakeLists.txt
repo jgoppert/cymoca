@@ -6,39 +6,46 @@ find_package(Threads REQUIRED)
 find_package(GTest REQUIRED)
 set(TEST_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(test_libs
-    cymoca_compiler
-    cymoca_ast
-    ${GTEST_BOTH_LIBRARIES}
-    ${CMAKE_THREAD_LIBS_INIT}
-    )
-
-configure_file(test_config.h.in test_config.h)
-
 # instrument code for coverage
 if (WITH_COVERAGE)
     add_compile_options(--coverage)
     link_libraries(--coverage)
 endif()
 
+set(test_libs
+    modelica_antlr
+    ${GTEST_BOTH_LIBRARIES}
+    ${CMAKE_THREAD_LIBS_INIT}
+    stdc++fs
+    )
+
+configure_file(test_config.h.in test_config.h)
+
 include_directories(SYSTEM
-    ${CYMOCA_BINARY_DIR}/src
     ${CMAKE_CURRENT_BINARY_DIR}
+    ${CYMOCA_BINARY_DIR}/src
     ${Antlr4Runtime_INCLUDE_DIRS}
     )
 
 include_directories(
-    ${CYMOCA_SOURCE_DIR}/src)
+    ${CYMOCA_SOURCE_DIR}/src
+    )
 
 add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)
 
 # test parse
-add_executable(test_parse test_parse.cc)
-target_link_libraries(test_parse ${test_libs} stdc++fs)
+add_executable(test_parse
+    test_parse.cc
+    ../src/cymoca/compiler.cc
+    )
+target_link_libraries(test_parse ${test_libs})
 add_test(test_parse test_parse)
 
 # test ast
-add_executable(test_ast test_ast.cc)
+add_executable(test_ast
+  test_ast.cc
+  ../src/cymoca/compiler.cc
+  )
 target_link_libraries(test_ast ${test_libs})
 add_test(test_ast test_ast)
 
@@ -67,12 +74,12 @@ set(check_deps run_tests)
 # coverage with lcov
 if (WITH_COVERAGE)
     add_custom_target(coverage_html
-        COMMAND lcov --capture --directory . --output-file coverage.info
+      COMMAND lcov --capture --directory ${CYMOCA_BINARY_DIR} --output-file coverage.info
         COMMAND lcov --remove coverage.info '/usr/*' '*/build/*' '*/test/*' -o coverage_filtered.info
         COMMAND lcov --summary coverage_filtered.info
         COMMAND genhtml coverage_filtered.info --output-directory out
         COMMAND x-www-browser out/index.html
-        WORKING_DIRECTORY ${CMAKE_BUILD_DIR}
+        WORKING_DIRECTORY ${CYMOCA_BINARY_DIR}
         DEPENDS run_tests
         )
 endif()
