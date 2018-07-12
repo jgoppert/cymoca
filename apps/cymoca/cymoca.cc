@@ -50,7 +50,7 @@ int main(int argc, const char *argv[]) {
     if (!c.root()) {
       throw std::runtime_error("failed to compile model");
     }
-    walker.walk(*c.root(), printer);
+    walker.walk(c.root(), printer);
     std::cout << printer.get() << std::endl;
 
   }

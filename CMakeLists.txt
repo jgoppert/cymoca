@@ -74,6 +74,9 @@ add_custom_target(format
 
 # packages
 find_package(Antlr4Runtime REQUIRED)
+if (WITH_CASADI)
+  find_package(Casadi REQUIRED)
+endif()
 
 # common flags
 add_compile_options(-Wfatal-errors)

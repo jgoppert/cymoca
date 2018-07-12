@@ -34,22 +34,13 @@ class Block : public Base {
   }
 };
 
-class Simple : public Base {
- protected:
-  std::unique_ptr<expression::Base> left;
-  std::unique_ptr<expression::Base> right;
-
+class Simple : public TBinary<expression::Base, expression::Base, Base> {
  public:
   NODE_MACRO
-  explicit Simple(std::unique_ptr<expression::Base> left,
-                  std::unique_ptr<expression::Base> right)
-      : left(std::move(left)), right(std::move(right)) {}
-  std::vector<INode *> getChildren() override {
-    return {left.get(), right.get()};
-  }
+  using TBinary::TBinary;
   std::unique_ptr<INode> clone() const override {
-    return std::make_unique<Simple>(left->cloneAs<expression::Base>(),
-                                    right->cloneAs<expression::Base>());
+    return std::make_unique<Simple>(m_left->cloneAs<expression::Base>(),
+                                    m_right->cloneAs<expression::Base>());
   }
 };
 
