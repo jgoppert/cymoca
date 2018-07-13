@@ -1,4 +1,4 @@
 <map id="cymoca::ast::condition::GreaterThan" name="cymoca::ast::condition::GreaterThan">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; expression::Base, expression\l::Base, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="5,347,211,498"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="124,133,271,269"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; expression::Base, expression\l::Base, Base \&gt;\n|# m_left\l# m_right\l|+ TBinary()\l+ getLeft()\l+ getRight()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="5,377,211,557"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# m_left\l# m_right\l|+ TBinary()\l+ getLeft()\l+ getRight()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="124,133,271,299"/>
 </map>

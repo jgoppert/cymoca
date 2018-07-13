@@ -135,6 +135,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1statement_1_1_base.html">cymoca::ast::statement::Base</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstd_1_1hash_3_01cymoca_1_1ast_1_1_i_node_01_4.html">std::hash&lt; cymoca::ast::INode &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -152,6 +154,8 @@ Namespaces</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespacecymoca_1_1ast_1_1statement"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacecymoca_1_1ast_1_1statement.html">cymoca::ast::statement</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespacestd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacestd.html">std</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -168,8 +172,8 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">void</span> enter(listener::Base &amp;listener)<span class="keyword"> override </span>{ listener.enter(*<span class="keyword">this</span>); } \</div>
-<div class="line">  void exit(listener::Base &amp;listener)<span class="keyword"> override </span>{ listener.exit(*<span class="keyword">this</span>); }</div>
+<b>Value:</b><div class="fragment"><div class="line"><span class="keywordtype">void</span> enter(listener::Base &amp;listener)<span class="keyword"> override </span>{ listener.enter(<span class="keyword">this</span>); } \</div>
+<div class="line">  void exit(listener::Base &amp;listener)<span class="keyword"> override </span>{ listener.exit(<span class="keyword">this</span>); }</div>
 </div><!-- fragment --><p>A macro for nodes to use to attach listener</p>
 <p>Nodes must also forward declare themselves in <a class="el" href="listener_8h.html">listener/listener.h</a> </p>
 

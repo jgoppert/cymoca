@@ -1,4 +1,4 @@
 <map id="cymoca::ast::condition::Or" name="cymoca::ast::condition::Or">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Base, Base, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="17,333,169,469"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# left\l# right\l|+ TBinary()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="109,133,256,269"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Base, Base, Base \&gt;\n|# m_left\l# m_right\l|+ TBinary()\l+ getLeft()\l+ getRight()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="17,363,169,528"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# m_left\l# m_right\l|+ TBinary()\l+ getLeft()\l+ getRight()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="109,133,256,299"/>
 </map>

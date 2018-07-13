@@ -1,5 +1,4 @@
 <map id="cymoca::ast::equation::Base" name="cymoca::ast::equation::Base">
 <area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1equation_1_1_block.html" title="{cymoca::ast::equation\l::Block\n|# m_condition\l# m_equations\l|+ enter()\l+ exit()\l+ Block()\l+ getChildren()\l+ clone()\l}" alt="" coords="5,347,155,512"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1equation_1_1_simple.html" title="{cymoca::ast::equation\l::Simple\n|# left\l# right\l|+ enter()\l+ exit()\l+ Simple()\l+ getChildren()\l+ clone()\l}" alt="" coords="179,347,329,512"/>
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="98,6,235,157"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="11,6,148,157"/>
 </map>

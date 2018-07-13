@@ -1,4 +1,4 @@
 <map id="cymoca::ast::equation::When" name="cymoca::ast::equation::When">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Block, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="15,350,144,501"/>
-<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Item, Base \&gt;\n|# m_list\l|+ TList()\l+ append()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="96,134,225,285"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Block, Base \&gt;\n|# m_list\l|+ TList()\l+ TList()\l+ append()\l+ list()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="15,363,144,528"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_list.html" title="{cymoca::ast::TList\l\&lt; Item, Base \&gt;\n|# m_list\l|+ TList()\l+ append()\l+ list()\l+ TList()\l+ getChildren()\l+ cloneList()\l}" alt="" coords="96,133,225,299"/>
 </map>

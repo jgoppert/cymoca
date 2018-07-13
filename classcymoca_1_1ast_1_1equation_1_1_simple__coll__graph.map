@@ -1,4 +1,4 @@
 <map id="cymoca::ast::equation::Simple" name="cymoca::ast::equation::Simple">
-<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1equation_1_1_base.html" title="{cymoca::ast::equation\l::Base\n||}" alt="" coords="5,206,155,298"/>
-<area shape="rect" id="node3" href="$classcymoca_1_1ast_1_1_i_node.html" title="{cymoca::ast::INode\n||+ ~INode()\l+ enter()\l+ exit()\l+ getChildren()\l+ clone()\l+ cloneAs()\l}" alt="" coords="11,6,148,157"/>
+<area shape="rect" id="node2" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; expression::Base, expression\l::Base, Base \&gt;\n|# m_left\l# m_right\l|+ TBinary()\l+ getLeft()\l+ getRight()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="5,377,211,557"/>
+<area shape="rect" id="node4" href="$classcymoca_1_1ast_1_1_t_binary.html" title="{cymoca::ast::TBinary\l\&lt; Left, Right, Base \&gt;\n|# m_left\l# m_right\l|+ TBinary()\l+ getLeft()\l+ getRight()\l+ getChildren()\l+ cloneBinary()\l}" alt="" coords="124,133,271,299"/>
 </map>

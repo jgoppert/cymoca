@@ -101,7 +101,7 @@ Inheritance diagram for cymoca::ast::TUnary&lt; Right, Base &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcymoca_1_1ast_1_1_t_unary__inherit__graph.png" border="0" usemap="#cymoca_1_1ast_1_1_t_unary_3_01_right_00_01_base_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="cymoca_1_1ast_1_1_t_unary_3_01_right_00_01_base_01_4_inherit__map" id="cymoca_1_1ast_1_1_t_unary_3_01_right_00_01_base_01_4_inherit__map">
-<area shape="rect" id="node3" href="classcymoca_1_1ast_1_1_t_unary.html" title="{cymoca::ast::TUnary\l\&lt; Base, Base \&gt;\n|# right\l|+ TUnary()\l+ getChildren()\l+ cloneUnary()\l}" alt="" coords="122,321,267,442"/><area shape="rect" id="node4" href="classcymoca_1_1ast_1_1condition_1_1_not.html" title="{cymoca::ast::condition::Not\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="5,501,187,608"/><area shape="rect" id="node5" href="classcymoca_1_1ast_1_1expression_1_1_negative.html" title="{cymoca::ast::expression\l::Negative\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="212,494,376,615"/></map>
+<area shape="rect" id="node3" href="classcymoca_1_1ast_1_1_t_unary.html" title="{cymoca::ast::TUnary\l\&lt; Base, Base \&gt;\n|# m_right\l|+ TUnary()\l+ getRight()\l+ getChildren()\l+ cloneUnary()\l}" alt="" coords="122,333,267,469"/><area shape="rect" id="node4" href="classcymoca_1_1ast_1_1condition_1_1_not.html" title="{cymoca::ast::condition::Not\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="5,528,187,635"/><area shape="rect" id="node5" href="classcymoca_1_1ast_1_1expression_1_1_negative.html" title="{cymoca::ast::expression\l::Negative\n||+ enter()\l+ exit()\l+ clone()\l}" alt="" coords="212,521,376,642"/></map>
 </div>
 <div class="dynheader">
 Collaboration diagram for cymoca::ast::TUnary&lt; Right, Base &gt;:</div>
@@ -113,8 +113,10 @@ Collaboration diagram for cymoca::ast::TUnary&lt; Right, Base &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7197a3f2d6d14b22ba42caf8d1e1e7eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#a7197a3f2d6d14b22ba42caf8d1e1e7eb">TUnary</a> (std::unique_ptr&lt; Right &gt; <a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#a80103da8ce98b30d11ed9e297325553a">right</a>)</td></tr>
+<tr class="memitem:a7197a3f2d6d14b22ba42caf8d1e1e7eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#a7197a3f2d6d14b22ba42caf8d1e1e7eb">TUnary</a> (std::unique_ptr&lt; Right &gt; right)</td></tr>
 <tr class="separator:a7197a3f2d6d14b22ba42caf8d1e1e7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bb3ca4ce104b218dd219fc7c3f8dc27"><td class="memItemLeft" align="right" valign="top">Right *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#a0bb3ca4ce104b218dd219fc7c3f8dc27">getRight</a> ()</td></tr>
+<tr class="separator:a0bb3ca4ce104b218dd219fc7c3f8dc27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a460e19a77f4ab06036408443764f593a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classcymoca_1_1ast_1_1_i_node.html">INode</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#a460e19a77f4ab06036408443764f593a">getChildren</a> () override</td></tr>
 <tr class="separator:a460e19a77f4ab06036408443764f593a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18b9359863641e0cadd5ab58910b738c"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
@@ -123,8 +125,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a80103da8ce98b30d11ed9e297325553a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; Right &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#a80103da8ce98b30d11ed9e297325553a">right</a> {}</td></tr>
-<tr class="separator:a80103da8ce98b30d11ed9e297325553a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5fc9d564509e37df8d8b9cf192fe5ea"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; Right &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcymoca_1_1ast_1_1_t_unary.html#af5fc9d564509e37df8d8b9cf192fe5ea">m_right</a> {}</td></tr>
+<tr class="separator:af5fc9d564509e37df8d8b9cf192fe5ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class Right, class Base&gt;<br/>
@@ -132,7 +134,7 @@ class cymoca::ast::TUnary&lt; Right, Base &gt;</h3>
 
 <p>A template for unary nodes. </p>
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00086">86</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00088">88</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7197a3f2d6d14b22ba42caf8d1e1e7eb"></a>
 <div class="memitem">
@@ -158,7 +160,7 @@ template&lt;class Right, class Base&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00091">91</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00093">93</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
@@ -188,7 +190,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00094">94</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00097">97</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
@@ -215,12 +217,11 @@ template&lt;class Right, class Base&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00092">92</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00095">95</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a80103da8ce98b30d11ed9e297325553a"></a>
+<a class="anchor" id="a0bb3ca4ce104b218dd219fc7c3f8dc27"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -230,7 +231,35 @@ template&lt;class Right, class Base&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt;Right&gt; <a class="el" href="classcymoca_1_1ast_1_1_t_unary.html">cymoca::ast::TUnary</a>&lt; Right, Base &gt;::right {}</td>
+          <td class="memname">Right* <a class="el" href="classcymoca_1_1ast_1_1_t_unary.html">cymoca::ast::TUnary</a>&lt; Right, Base &gt;::getRight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="node_8h_source.html#l00094">94</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="af5fc9d564509e37df8d8b9cf192fe5ea"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Right, class Base&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;Right&gt; <a class="el" href="classcymoca_1_1ast_1_1_t_unary.html">cymoca::ast::TUnary</a>&lt; Right, Base &gt;::m_right {}</td>
         </tr>
       </table>
   </td>
@@ -240,7 +269,7 @@ template&lt;class Right, class Base&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="node_8h_source.html#l00088">88</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
+<p>Definition at line <a class="el" href="node_8h_source.html#l00090">90</a> of file <a class="el" href="node_8h_source.html">node.h</a>.</p>
 
 </div>
 </div>
