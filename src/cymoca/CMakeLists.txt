@@ -12,19 +12,17 @@ add_library(cymoca_compiler STATIC
         compiler.h
         )
 
-target_link_libraries(cymoca_compiler PRIVATE
+target_link_libraries(cymoca_compiler PUBLIC
         modelica_antlr
-        ${Antlr4Runtime_LIBRARIES}
         )
 
 target_include_directories(cymoca_compiler SYSTEM PUBLIC
         ${CYMOCA_BINARY_DIR}/src
-        ${Antlr4Runtime_INCLUDE_DIRS}
         )
 
-target_include_directories(cymoca_compiler PUBLIC
+target_include_directories(cymoca_compiler PRIVATE
         ${CYMOCA_SOURCE_DIR}/src
         )
 
-target_compile_options(cymoca_compiler PUBLIC
+target_compile_options(cymoca_compiler PRIVATE
         -pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-parameter)

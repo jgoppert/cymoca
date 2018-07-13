@@ -27,10 +27,10 @@ add_custom_command(OUTPUT ${antlr_srcs} ${antlr_hdrs}
         -Dlanguage=Cpp -listener -o "."
         -package modelica_antlr "${antlr_grammar}"
         DEPENDS ${antlr_grammar})
-include_directories(${Antlr4Runtime_INCLUDE_DIRS})
 add_library(modelica_antlr STATIC
         ${antlr_hdrs}
         ${antlr_srcs}
         )
+target_include_directories(modelica_antlr SYSTEM PUBLIC ${ANTLR4RUNTIME_INCLUDE_DIRS})
 target_compile_options(modelica_antlr PRIVATE -Wno-attributes)
-target_link_libraries(modelica_antlr ${Antlr4Runtime_LIBRARIES})
+target_link_libraries(modelica_antlr PUBLIC ${ANTLR4RUNTIME_LIBRARIES})

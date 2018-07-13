@@ -20,6 +20,6 @@ TEST(ParseTest, BouncingBall) {
   EXPECT_STREQ("Hello World!", "Hello World!");
   ast::listener::Lisp printer;
   ast::Walker walker;
-  walker.walk(*c.root(), printer);
+  walker.walk(c.root(), printer);
   std::cout << printer.get() << std::endl;
 }

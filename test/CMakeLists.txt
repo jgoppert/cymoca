@@ -8,7 +8,6 @@ set(TEST_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(test_libs
     cymoca_compiler
-    modelica_antlr
     ${GTEST_BOTH_LIBRARIES}
     ${CMAKE_THREAD_LIBS_INIT}
     stdc++fs
@@ -16,13 +15,8 @@ set(test_libs
 
 configure_file(test_config.h.in test_config.h)
 
-include_directories(SYSTEM
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CYMOCA_BINARY_DIR}/src
-    ${Antlr4Runtime_INCLUDE_DIRS}
-    )
-
 include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR}
     ${CYMOCA_SOURCE_DIR}/src
     )
 
@@ -32,7 +26,9 @@ add_compile_options(-pedantic -Werror -Weffc++ -Wall -Wextra -Wno-unused-paramet
 add_executable(test_parse
     test_parse.cc
     )
-target_link_libraries(test_parse ${test_libs})
+target_link_libraries(test_parse
+    ${test_libs}
+    )
 add_test(test_parse test_parse)
 
 # test ast
@@ -47,11 +43,13 @@ set(test_deps cymoca cymoca_compiler test_parse test_ast)
 
 # test casadi
 if (WITH_CASADI)
-    #add_executable(test_casadi
-    #        test_casadi.cc)
-    #target_link_libraries(test_casadi casadi ${test_libs})
-    #add_test(test_casadi test_casadi)
-    #list(APPEND test_deps test_casadi)
+    add_executable(test_casadi
+        test_casadi.cc)
+    message(STATUS "casadi include: ${CASADI_INCLUDE_DIRS}")
+    target_include_directories(test_casadi PUBLIC ${CASADI_INCLUDE_DIRS})
+    target_link_libraries(test_casadi ${test_libs} ${CASADI_LIBRARIES})
+    add_test(test_casadi test_casadi)
+    list(APPEND test_deps test_casadi)
 endif()
 
 # cli

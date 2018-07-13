@@ -15,8 +15,9 @@ namespace expr = expression;
 namespace cond = condition;
 namespace mdl = model;
 
-struct AddOne : listener::Base {
-  void enter(expr::Number &ctx) override { ctx.setValue(ctx.getValue() + 1); }
+class AddOne : public listener::Base {
+ public:
+  void enter(expr::Number *ctx) override { ctx->setValue(ctx->getValue() + 1); }
 };
 
 TEST(Ast, If) {
@@ -40,14 +41,14 @@ TEST(Ast, If) {
   auto c2 = c->cloneAs<mdl::Class>();
   listener::Lisp printer;
   Walker walker;
-  walker.walk(*c, printer);
+  walker.walk(c.get(), printer);
   std::cout << printer.get() << std::endl;
 
   AddOne add_one;
-  walker.walk(*c, add_one);
-  walker.walk(*c, printer);
+  walker.walk(c.get(), add_one);
+  walker.walk(c.get(), printer);
   std::cout << printer.get() << std::endl;
 
-  walker.walk(*c2, printer);
+  walker.walk(c2.get(), printer);
   std::cout << printer.get() << std::endl;
 }

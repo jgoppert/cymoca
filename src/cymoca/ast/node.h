@@ -12,9 +12,9 @@
  *
  * Nodes must also forward declare themselves in listener/listener.h
  */
-#define NODE_MACRO                                                         \
-  void enter(listener::Base &listener) override { listener.enter(*this); } \
-  void exit(listener::Base &listener) override { listener.exit(*this); }
+#define NODE_MACRO                                                        \
+  void enter(listener::Base &listener) override { listener.enter(this); } \
+  void exit(listener::Base &listener) override { listener.exit(this); }
 
 namespace cymoca::ast {
 
@@ -62,20 +62,22 @@ class INode {
 template <class Left, class Right, class Base>
 class TBinary : public Base {
  protected:
-  std::unique_ptr<Left> left{};
-  std::unique_ptr<Right> right{};
+  std::unique_ptr<Left> m_left{};
+  std::unique_ptr<Right> m_right{};
 
  public:
   TBinary(std::unique_ptr<Left> left, std::unique_ptr<Right> right)
-      : left(move(left)), right(move(right)) {}
+      : m_left(move(left)), m_right(move(right)) {}
+  Left *getLeft() { return m_left.get(); }
+  Right *getRight() { return m_right.get(); }
   std::vector<INode *> getChildren() override {
-    return {left.get(), right.get()};
+    return {m_left.get(), m_right.get()};
   }
   template <class T>
   std::unique_ptr<INode> cloneBinary() const {
     return std::make_unique<T>(
-        dynamic_cast<INode *>(left.get())->cloneAs<Left>(),
-        dynamic_cast<INode *>(right.get())->cloneAs<Right>());
+        dynamic_cast<INode *>(m_left.get())->cloneAs<Left>(),
+        dynamic_cast<INode *>(m_right.get())->cloneAs<Right>());
   }
 };
 
@@ -85,15 +87,16 @@ class TBinary : public Base {
 template <class Right, class Base>
 class TUnary : public Base {
  protected:
-  std::unique_ptr<Right> right{};
+  std::unique_ptr<Right> m_right{};
 
  public:
-  explicit TUnary(std::unique_ptr<Right> right) : right(move(right)) {}
-  std::vector<INode *> getChildren() override { return {right.get()}; }
+  explicit TUnary(std::unique_ptr<Right> right) : m_right(move(right)) {}
+  Right *getRight() { return m_right.get(); }
+  std::vector<INode *> getChildren() override { return {m_right.get()}; }
   template <class T>
   std::unique_ptr<INode> cloneUnary() const {
     return std::make_unique<T>(
-        dynamic_cast<INode *>(right.get())->cloneAs<Right>());
+        dynamic_cast<INode *>(m_right.get())->cloneAs<Right>());
   }
 };
 
@@ -108,6 +111,7 @@ class TList : public Base {
  public:
   TList() = default;
   void append(std::unique_ptr<Item> item) { m_list.push_back(std::move(item)); }
+  std::vector<std::unique_ptr<Item>> &list() { return m_list; };
   template <class Arg1, class... Args>
   explicit TList(Arg1 arg1, Args... args) {
     m_list.push_back(move(arg1));
@@ -179,4 +183,13 @@ class Base : public INode {};
 }  // namespace statement
 
 }  // namespace cymoca::ast
+
+namespace std {
+template <>
+struct hash<cymoca::ast::INode> {
+  size_t operator()(const cymoca::ast::INode &obj) const {
+    return hash<int>()(size_t(&obj));
+  }
+};
+}  // namespace std
 #endif
