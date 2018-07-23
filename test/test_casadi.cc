@@ -3,8 +3,7 @@
 #include <iostream>
 #include "test_config.h"
 
-#include <cymoca/ast/listener/lisp.h>
-#include <cymoca/ast/listener/listener.h>
+#include <cymoca/ast/listener/print.h>
 #include <memory>
 #include "cymoca/compiler.h"
 
@@ -14,12 +13,13 @@ using namespace cymoca;
 namespace fs = std::experimental::filesystem;
 namespace ca = casadi;
 
+/*
 namespace cymoca::ast {
 
 class CasadiSXGen : public listener::Base {
  public:
   casadi::SX m_root{ca::SX(1)};
-  std::unordered_map<INode *, casadi::SX> m_ca{};
+  std::unordered_map<Node *, casadi::SX> m_ca{};
   void exit(expression::Number *ctx) override {
     m_ca[ctx] = ca::SX(ctx->getValue());
   }
@@ -75,12 +75,14 @@ class CasadiSXGen : public listener::Base {
 };
 
 }  // namespace cymoca::ast
+*/
 
 TEST(Casadi, Basic) {
   auto x = casadi::MX::sym("x");
   auto c = casadi::SX(3);
 }
 
+/*
 TEST(Casadi, BouncingBall) {
   std::cout << std::endl;
   fs::path p =
@@ -101,3 +103,5 @@ TEST(Casadi, BouncingBall) {
 
   std::cout << "casadi: " << casadiSXGen.m_root << std::endl;
 }
+
+*/

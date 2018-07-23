@@ -2,14 +2,19 @@
 # Compiler
 #-----------------------------------------------------------------------------
 
-add_subdirectory(ast)
-
 add_library(cymoca_compiler STATIC
         ${CMAKE_CURRENT_BINARY_DIR}/version.cc
         compiler.cc
         version.h
         util.h
         compiler.h
+        ast/ast.h
+        ast/custom.h
+        ast/node.h
+        ast/templates.h
+        ast/listener/misc.h
+        ast/listener/print.h
+        ast/listener/rewrite.h
         )
 
 target_link_libraries(cymoca_compiler PUBLIC

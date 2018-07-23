@@ -3,7 +3,7 @@
 #include <iostream>
 #include "test_config.h"
 
-#include <cymoca/ast/listener/lisp.h>
+#include <cymoca/ast/listener/print.h>
 #include "cymoca/compiler.h"
 
 using namespace cymoca;
@@ -18,8 +18,8 @@ TEST(ParseTest, BouncingBall) {
   std::ifstream fileStream(p.string());
   Compiler c(fileStream);
   EXPECT_STREQ("Hello World!", "Hello World!");
-  ast::listener::Lisp printer;
+  ast::listener::PrintLisp printer;
   ast::Walker walker;
-  walker.walk(c.root(), printer);
+  walker.walk(*c.root(), printer);
   std::cout << printer.get() << std::endl;
 }

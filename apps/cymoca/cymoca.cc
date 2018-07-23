@@ -2,7 +2,7 @@
 #include <experimental/filesystem>
 #include "cymoca/compiler.h"
 #include "cymoca/version.h"
-#include "cymoca/ast/listener/lisp.h"
+#include "cymoca/ast/listener/print.h"
 
 namespace fs = std::experimental::filesystem;
 
@@ -45,12 +45,12 @@ int main(int argc, const char *argv[]) {
     //std::cout << c.toPrettyStringTree() << std::endl;
 
     //std::cout << bar << "\nLisp\n" << bar<< std::endl;
-    cymoca::ast::listener::Lisp printer;
+    cymoca::ast::listener::PrintLisp printer;
     cymoca::ast::Walker walker;
     if (!c.root()) {
       throw std::runtime_error("failed to compile model");
     }
-    walker.walk(c.root(), printer);
+    walker.walk(*c.root(), printer);
     std::cout << printer.get() << std::endl;
 
   }

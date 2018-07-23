@@ -2,25 +2,23 @@
 #include <iostream>
 
 #include "cymoca/ast/ast.h"
-#include "cymoca/ast/listener/lisp.h"
+#include "cymoca/ast/listener/misc.h"
+#include "cymoca/ast/listener/print.h"
+
 #include "test_config.h"
 
 using namespace cymoca::ast;
 
 // save typing
 #define M(NAME) std::make_unique<NAME>
-namespace elem = element;
+// namespace elem = element;
 namespace eq = equation;
 namespace expr = expression;
 namespace cond = condition;
 namespace mdl = model;
 
-class AddOne : public listener::Base {
- public:
-  void enter(expr::Number *ctx) override { ctx->setValue(ctx->getValue() + 1); }
-};
-
 TEST(Ast, If) {
+  /*
   auto c = M(mdl::Class)(
       M(mdl::ElementDict)(
           M(elem::Component)("x", "Real", elem::Prefix::CONSTANT),
@@ -39,7 +37,7 @@ TEST(Ast, If) {
                            M(expr::Reference)("x")))))));
 
   auto c2 = c->cloneAs<mdl::Class>();
-  listener::Lisp printer;
+  listener::PrintLisp printer;
   Walker walker;
   walker.walk(c.get(), printer);
   std::cout << printer.get() << std::endl;
@@ -51,4 +49,5 @@ TEST(Ast, If) {
 
   walker.walk(c2.get(), printer);
   std::cout << printer.get() << std::endl;
+  */
 }

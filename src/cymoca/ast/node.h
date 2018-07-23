@@ -2,194 +2,197 @@
 #define CYMOCA_AST_NODE_H_
 
 #include <cassert>
-#include <memory>
 #include <vector>
-
-#include "listener/listener.h"
-
-/**
- * A macro for nodes to use to attach listener
- *
- * Nodes must also forward declare themselves in listener/listener.h
- */
-#define NODE_MACRO                                                        \
-  void enter(listener::Base &listener) override { listener.enter(this); } \
-  void exit(listener::Base &listener) override { listener.exit(this); }
 
 namespace cymoca::ast {
 
 /**
- * The abstract sytnax tree node interface. All nodes
- * of the tree implment this interface. Base classes
- * should inherit virtually to allow nodes with multiple
- * types.
+ * Forward declare all node templates used here.
  */
-class INode {
- public:
-  virtual ~INode(){};
-  /**
-   * A double dispatch entrace hook for listeners.
-   */
-  virtual void enter(listener::Base &listener) = 0;
-  /**
-   * A double dispatch exit hook for listeners.
-   */
-  virtual void exit(listener::Base &listener) = 0;
-  /**
-   * Returns a list of children (non-owning).
-   */
-  virtual std::vector<INode *> getChildren() = 0;
-  /**
-   * Perform a deep copy of this node.
-   */
-  virtual std::unique_ptr<INode> clone() const = 0;
-  /**
-   * Perform a deep copy and cast to the template type.
-   */
-  template <class T>
-  std::unique_ptr<T> cloneAs() {
-    auto n = this->clone();
-    auto p = std::unique_ptr<T>(dynamic_cast<T *>(n.get()));
-    assert(p.get());
-    n.release();
-    return p;
-  }
-};
+
+template <class Label>
+class Choice;
+
+template <class Item>
+struct ConditionBlock;
+
+template <class Choice>
+struct Option;
+
+template <class Element, class Base, class Label>
+struct ConditionBlocks;
+
+template <class Type, class Base>
+struct Value;
+
+template <class Left, class Right, class Base, class Label>
+struct Binary;
+
+template <class Right, class Base, class Label>
+struct Unary;
 
 /**
- * A template for binary nodes.
- */
-template <class Left, class Right, class Base>
-class TBinary : public Base {
- protected:
-  std::unique_ptr<Left> m_left{};
-  std::unique_ptr<Right> m_right{};
-
- public:
-  TBinary(std::unique_ptr<Left> left, std::unique_ptr<Right> right)
-      : m_left(move(left)), m_right(move(right)) {}
-  Left *getLeft() { return m_left.get(); }
-  Right *getRight() { return m_right.get(); }
-  std::vector<INode *> getChildren() override {
-    return {m_left.get(), m_right.get()};
-  }
-  template <class T>
-  std::unique_ptr<INode> cloneBinary() const {
-    return std::make_unique<T>(
-        dynamic_cast<INode *>(m_left.get())->cloneAs<Left>(),
-        dynamic_cast<INode *>(m_right.get())->cloneAs<Right>());
-  }
-};
-
-/**
- * A template for unary nodes.
- */
-template <class Right, class Base>
-class TUnary : public Base {
- protected:
-  std::unique_ptr<Right> m_right{};
-
- public:
-  explicit TUnary(std::unique_ptr<Right> right) : m_right(move(right)) {}
-  Right *getRight() { return m_right.get(); }
-  std::vector<INode *> getChildren() override { return {m_right.get()}; }
-  template <class T>
-  std::unique_ptr<INode> cloneUnary() const {
-    return std::make_unique<T>(
-        dynamic_cast<INode *>(m_right.get())->cloneAs<Right>());
-  }
-};
-
-/**
- * A templte for lists of nodes.
- */
-template <class Item, class Base>
-class TList : public Base {
- protected:
-  std::vector<std::unique_ptr<Item>> m_list{};
-
- public:
-  TList() = default;
-  void append(std::unique_ptr<Item> item) { m_list.push_back(std::move(item)); }
-  std::vector<std::unique_ptr<Item>> &list() { return m_list; };
-  template <class Arg1, class... Args>
-  explicit TList(Arg1 arg1, Args... args) {
-    m_list.push_back(move(arg1));
-    // trick to get variadic template to pushback
-    int dummy[1 + sizeof...(Args)] = {0, (m_list.push_back(move(args)), 0)...};
-    (void)dummy;
-  }
-  std::vector<INode *> getChildren() override {
-    std::vector<INode *> v;
-    for (auto &c : m_list) {
-      v.push_back(c.get());
-    }
-    return v;
-  }
-  template <class T>
-  std::unique_ptr<INode> cloneList() const {
-    auto res = std::make_unique<T>();
-    for (auto &item : m_list) {
-      auto p = static_cast<INode *>(item.get())->cloneAs<Item>();
-      res->m_list.push_back(move(p));
-    }
-    return std::move(res);
-  }
-};
-
-/**
- * NODE TYPES
+ * Forward declare every Node that will be listened to here.
  *
- * Putting the base classes here allows
- * eliminating most cross dependencies that
- * only rely on the base type.
+ * For nodes that are based on templates this suffices for their complete
+ * declaration.
  */
 
-namespace condition {
 /**
- * The base class from which all logical
- * conditions must derive.
+ * Choices: These are the node types used for type checking of generic
+ * expressions in an AST.
  */
-class Base : public INode {};
-}  // namespace condition
+using Equation = Choice<struct LabelEquation>;
+using Expression = Choice<struct LabelExpression>;
+using Condition = Choice<struct LabelCondition>;
+using Statement = Choice<struct LabelStatement>;
 
-namespace element {
-class Base : public INode {};
-}  // namespace element
+/**
+ * Top level structures
+ */
+struct Node;
+struct Walker;
 
-namespace equation {
-class Base : public INode {};
-}  // namespace equation
-
+/**
+ * Expression: These are low level mathematical expressions, symbols,
+ * function calls etc.
+ */
 namespace expression {
-/**
- * The base expression class.
- */
-class Base : public INode {};
+struct Function;
+struct Reference;
+using Number = Value<double, Option<Expression>>;
+using Add = Binary<Expression, Expression, Option<Expression>, struct LabelAdd>;
+using Subtract =
+    Binary<Expression, Expression, Option<Expression>, struct LabelSubtract>;
+using Multiply =
+    Binary<Expression, Expression, Option<Expression>, struct LabelMultiply>;
+using Divide =
+    Binary<Expression, Expression, Option<Expression>, struct LabelDivide>;
+using Negative = Unary<Expression, Option<Expression>, struct LabelNegative>;
 }  // namespace expression
 
-namespace model {
 /**
- * A high level node that doesn't fit into any other category
+ * Equation: Equations consist of a set of expressions that are related
+ * through equality.
  */
-class Base : public INode {};
+namespace equation {
+using Simple =
+    Binary<Expression, Expression, Option<Equation>, struct LabelSimple>;
+using Block = ConditionBlock<Equation>;
+using If = ConditionBlocks<Equation, Option<Equation>, struct LabelIf>;
+using When = ConditionBlocks<Equation, Option<Equation>, struct LabelWhen>;
+}  // namespace equation
+
+/**
+ * Condition: Conditions are logical expressions
+ * that evaluate to true or false.
+ */
+namespace condition {
+using Bool = Value<bool, Option<Condition>>;
+using Less =
+    Binary<Expression, Expression, Option<Condition>, struct LabelLess>;
+using LessOrEqual =
+    Binary<Expression, Expression, Option<Condition>, struct LabelLessOrEqual>;
+using Greater =
+    Binary<Expression, Expression, Option<Condition>, struct LabelGreater>;
+using GreaterOrEqual = Binary<Expression, Expression, Option<Condition>,
+                              struct LabelGreaterOrEqual>;
+using Equal =
+    Binary<Expression, Expression, Option<Condition>, struct LabelEqual>;
+using NotEqual =
+    Binary<Expression, Expression, Option<Condition>, struct LabelNotEqual>;
+using And = Binary<Condition, Condition, Option<Condition>, struct LabelAnd>;
+using Or = Binary<Condition, Condition, Option<Condition>, struct LabelOr>;
+using Not = Unary<Condition, Option<Condition>, struct LabelNot>;
+
+}  // namespace condition
+
+/**
+ * Model: Models are high level tree components like classes.
+ */
+namespace model {
+struct Class;
 }  // namespace model
 
-namespace statement {
 /**
- * Base statment type.
+ * Use this macro to declare new nodes to listen to.
  */
-class Base : public INode {};
-}  // namespace statement
+#define LISTEN(NAME)            \
+  virtual void enter(NAME &){}; \
+  virtual void exit(NAME &){};
+
+/**
+ * @brief The Listener struct
+ * If you add a new node, use the LISTEN macro to
+ * add the required hooks to listener and use
+ * the NODE macro in the node function. This listener
+ * impelments all callbacks by default with empty bodies.
+ * Derive from this class and override the methods desired.
+ */
+struct Listener {
+  virtual ~Listener() = default;
+  virtual void enter_every(Node &){};
+  virtual void exit_every(Node &){};
+  LISTEN(expression::Add)
+  LISTEN(expression::Subtract)
+  LISTEN(expression::Multiply)
+  LISTEN(expression::Divide)
+  LISTEN(expression::Number)
+  LISTEN(expression::Reference)
+  LISTEN(expression::Function)
+  LISTEN(expression::Negative)
+  LISTEN(equation::If)
+  LISTEN(equation::When)
+  LISTEN(equation::Simple)
+  LISTEN(condition::Bool)
+  LISTEN(condition::And)
+  LISTEN(condition::Or)
+  LISTEN(condition::Not)
+  LISTEN(condition::Less)
+  LISTEN(condition::LessOrEqual)
+  LISTEN(condition::Greater)
+  LISTEN(condition::GreaterOrEqual)
+  LISTEN(condition::Equal)
+  LISTEN(condition::NotEqual)
+  LISTEN(model::Class)
+  LISTEN(equation::Block)
+};
+
+/**
+ * @brief The Node interface
+ * This pure virtual interface defines methods used for listening to and
+ * walking the tree.
+ */
+struct Node {
+  virtual ~Node() = default;
+  virtual void enter(Listener &) = 0;
+  virtual void exit(Listener &) = 0;
+  virtual std::vector<Node *> children() = 0;
+};
+
+/**
+ * Use this macro to implement the listener methods for a node.
+ */
+#define NODE                                            \
+  void enter(Listener &l) override { l.enter(*this); }; \
+  void exit(Listener &l) override { l.exit(*this); };
+
+/**
+ * A simple tree walker.
+ */
+struct Walker {
+  void walk(Node &node, Listener &listener) {
+    listener.enter_every(node);
+    node.enter(listener);
+    for (auto c : node.children()) {
+      assert(c);
+      walk(*c, listener);
+    }
+    node.exit(listener);
+    listener.exit_every(node);
+  }
+};
 
 }  // namespace cymoca::ast
 
-namespace std {
-template <>
-struct hash<cymoca::ast::INode> {
-  size_t operator()(const cymoca::ast::INode &obj) const {
-    return hash<int>()(size_t(&obj));
-  }
-};
-}  // namespace std
 #endif
