@@ -133,7 +133,7 @@ class TList : public Base {
       auto p = static_cast<INode *>(item.get())->cloneAs<Item>();
       res->m_list.push_back(move(p));
     }
-    return std::move(res);
+    return res;
   }
 };
 
