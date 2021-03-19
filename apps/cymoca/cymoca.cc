@@ -45,8 +45,8 @@ int main(int argc, const char *argv[]) {
     //std::cout << c.toPrettyStringTree() << std::endl;
 
     //std::cout << bar << "\nLisp\n" << bar<< std::endl;
-    cymoca::ast::listener::Lisp printer;
     cymoca::ast::Walker walker;
+    cymoca::ast::listener::Lisp printer;
     if (!c.root()) {
       throw std::runtime_error("failed to compile model");
     }

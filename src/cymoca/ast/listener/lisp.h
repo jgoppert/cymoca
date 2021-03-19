@@ -16,39 +16,47 @@ class Lisp : public listener::Base {
     m_ss.str("");
     return s;
   }
-  void enter(condition::And *) override { m_ss << "and"; }
-  void enter(condition::Boolean *ctx) override {
+  void enter(condition::And *, Walker *) override { m_ss << "and"; }
+  void enter(condition::Boolean *ctx, Walker *) override {
     m_ss << std::boolalpha << ctx->getValue();
   }
-  void enter(condition::Equal *) override { m_ss << "=="; }
-  void enter(condition::GreaterThan *) override { m_ss << ">"; }
-  void enter(condition::GreaterThanOrEqual *) override { m_ss << ">="; }
-  void enter(condition::LessThan *) override { m_ss << "<"; }
-  void enter(condition::LessThanOrEqual *) override { m_ss << "<="; }
-  void enter(condition::Not *) override { m_ss << "not"; }
-  void enter(condition::NotEqual *) override { m_ss << "<>"; }
-  void enter(condition::Or *) override { m_ss << "or"; }
-  void enter(element::Component *ctx) override { m_ss << ctx->getName(); }
-  void enter(equation::If *) override { m_ss << "if"; }
-  void enter(equation::List *) override {}
-  void enter(equation::Simple *) override { m_ss << "="; }
-  void enter(equation::When *) override { m_ss << "when"; }
-  void enter(expression::Add *) override { m_ss << "+"; }
-  void enter(expression::Divide *) override { m_ss << "/"; }
-  void enter(expression::Function *ctx) override { m_ss << "func"; }
-  void enter(expression::List *) override {}
-  void enter(expression::Multiply *) override { m_ss << "*"; }
-  void enter(expression::Negative *) override { m_ss << "-"; }
-  void enter(expression::Number *ctx) override { m_ss << ctx->getValue(); }
-  void enter(expression::Reference *ctx) override { m_ss << ctx->getName(); }
-  void enter(model::Class *) override { m_ss << "class"; }
-  void enter(model::ElementDict *) override { m_ss << "elem dict"; }
-  void enter(statement::Block *) override {}
-  void enter(statement::If *) override { m_ss << "if"; }
-  void enter(statement::List *) override {}
-  void enter(statement::When *) override { m_ss << "when"; }
-  void enterEvery(INode *) override { m_ss << "("; }
-  void exitEvery(INode *) override { m_ss << ")"; }
+  void enter(condition::Equal *, Walker *) override { m_ss << "=="; }
+  void enter(condition::GreaterThan *, Walker *) override { m_ss << ">"; }
+  void enter(condition::GreaterThanOrEqual *, Walker *) override {
+    m_ss << ">=";
+  }
+  void enter(condition::LessThan *, Walker *) override { m_ss << "<"; }
+  void enter(condition::LessThanOrEqual *, Walker *) override { m_ss << "<="; }
+  void enter(condition::Not *, Walker *) override { m_ss << "not"; }
+  void enter(condition::NotEqual *, Walker *) override { m_ss << "<>"; }
+  void enter(condition::Or *, Walker *) override { m_ss << "or"; }
+  void enter(element::Component *ctx, Walker *) override {
+    m_ss << ctx->getName();
+  }
+  void enter(equation::If *, Walker *) override { m_ss << "if"; }
+  void enter(equation::List *, Walker *) override {}
+  void enter(equation::Simple *, Walker *) override { m_ss << "="; }
+  void enter(equation::When *, Walker *) override { m_ss << "when"; }
+  void enter(expression::Add *, Walker *) override { m_ss << "+"; }
+  void enter(expression::Divide *, Walker *) override { m_ss << "/"; }
+  void enter(expression::Function *ctx, Walker *) override { m_ss << "func"; }
+  void enter(expression::List *, Walker *) override {}
+  void enter(expression::Multiply *, Walker *) override { m_ss << "*"; }
+  void enter(expression::Negative *, Walker *) override { m_ss << "-"; }
+  void enter(expression::Number *ctx, Walker *) override {
+    m_ss << ctx->getValue();
+  }
+  void enter(expression::Reference *ctx, Walker *) override {
+    m_ss << ctx->getName();
+  }
+  void enter(model::Class *, Walker *) override { m_ss << "class"; }
+  void enter(model::ElementDict *, Walker *) override { m_ss << "elem dict"; }
+  void enter(statement::Block *, Walker *) override {}
+  void enter(statement::If *, Walker *) override { m_ss << "if"; }
+  void enter(statement::List *, Walker *) override {}
+  void enter(statement::When *, Walker *) override { m_ss << "when"; }
+  void enterEvery(INode *, Walker *) override { m_ss << "("; }
+  void exitEvery(INode *, Walker *) override { m_ss << ")"; }
 };
 
 }  // namespace cymoca::ast::listener

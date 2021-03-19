@@ -15,7 +15,6 @@ A Modelica compiler written in modern C++ with Python bindings.
   * [Compiler](src/cymoca/compiler.cc)
 * C++17 used throughout, minimal copying, low memory footprint, and fast.
 * Python bindings planned.
-* Data format for simulations [HDF5](https://www.hdfgroup.org/)
 
 ## Road Map
 

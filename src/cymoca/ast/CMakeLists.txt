@@ -11,10 +11,7 @@ add_library(cymoca_ast STATIC
         node.h
         statement/statement.h
         walker.h
-)
-
-#target_link_libraries(cymoca_ast PUBLIC
-#        )
+		)
 
 target_include_directories(cymoca_ast SYSTEM PUBLIC
         ${CYMOCA_BINARY_DIR}/src

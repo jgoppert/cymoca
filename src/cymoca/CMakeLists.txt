@@ -10,7 +10,7 @@ add_library(cymoca_compiler STATIC
         version.h
         util.h
         compiler.h
-        )
+        util.cc)
 
 target_link_libraries(cymoca_compiler PUBLIC
         modelica_antlr

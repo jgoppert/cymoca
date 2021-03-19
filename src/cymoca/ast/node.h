@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <memory>
+#include <typeinfo>
 #include <vector>
 
 #include "listener/listener.h"
@@ -12,15 +13,20 @@
  *
  * Nodes must also forward declare themselves in listener/listener.h
  */
-#define NODE_MACRO                                                        \
-  void enter(listener::Base &listener) override { listener.enter(this); } \
-  void exit(listener::Base &listener) override { listener.exit(this); }
+#define NODE_MACRO                                                   \
+  const std::type_info &getType() override { return typeid(*this); } \
+  void enter(listener::Base &listener, Walker *wlk) override {       \
+    listener.enter(this, wlk);                                       \
+  }                                                                  \
+  void exit(listener::Base &listener, Walker *wlk) override {        \
+    listener.exit(this, wlk);                                        \
+  }
 
 namespace cymoca::ast {
 
 /**
- * The abstract sytnax tree node interface. All nodes
- * of the tree implment this interface. Base classes
+ * The abstract syntax tree node interface. All nodes
+ * of the tree implement this interface. Base classes
  * should inherit virtually to allow nodes with multiple
  * types.
  */
@@ -28,13 +34,17 @@ class INode {
  public:
   virtual ~INode(){};
   /**
-   * A double dispatch entrace hook for listeners.
+   * Get type.
    */
-  virtual void enter(listener::Base &listener) = 0;
+  virtual const std::type_info &getType() = 0;
+  /**
+   * A double dispatch entrance hook for listeners.
+   */
+  virtual void enter(listener::Base &listener, Walker *walker) = 0;
   /**
    * A double dispatch exit hook for listeners.
    */
-  virtual void exit(listener::Base &listener) = 0;
+  virtual void exit(listener::Base &listener, Walker *walker) = 0;
   /**
    * Returns a list of children (non-owning).
    */
@@ -101,7 +111,7 @@ class TUnary : public Base {
 };
 
 /**
- * A templte for lists of nodes.
+ * A template for lists of nodes.
  */
 template <class Item, class Base>
 class TList : public Base {

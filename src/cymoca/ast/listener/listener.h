@@ -8,6 +8,7 @@
 namespace cymoca::ast {
 
 class INode;
+class Walker;
 
 namespace model {
 class Class;
@@ -62,15 +63,15 @@ class Component;
 
 namespace cymoca::ast::listener {
 
-#define LISTENER_MACRO(NAME)    \
-  virtual void enter(NAME *) {} \
-  virtual void exit(NAME *) {}
+#define LISTENER_MACRO(NAME)              \
+  virtual void enter(NAME *, Walker *) {} \
+  virtual void exit(NAME *, Walker *) {}
 
 class Base {
  public:
   virtual ~Base(){};
-  virtual void enterEvery(INode *) {}
-  virtual void exitEvery(INode *) {}
+  virtual void enterEvery(INode *, Walker *) {}
+  virtual void exitEvery(INode *, Walker *) {}
   LISTENER_MACRO(condition::And)
   LISTENER_MACRO(condition::Boolean)
   LISTENER_MACRO(condition::Equal)

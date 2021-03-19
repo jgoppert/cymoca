@@ -18,8 +18,8 @@ TEST(ParseTest, BouncingBall) {
   std::ifstream fileStream(p.string());
   Compiler c(fileStream);
   EXPECT_STREQ("Hello World!", "Hello World!");
-  ast::listener::Lisp printer;
   ast::Walker walker;
+  ast::listener::Lisp printer;
   walker.walk(c.root(), printer);
   std::cout << printer.get() << std::endl;
 }

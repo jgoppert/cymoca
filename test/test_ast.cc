@@ -17,7 +17,9 @@ namespace mdl = model;
 
 class AddOne : public listener::Base {
  public:
-  void enter(expr::Number *ctx) override { ctx->setValue(ctx->getValue() + 1); }
+  void enter(expr::Number *ctx, Walker *) override {
+    ctx->setValue(ctx->getValue() + 1);
+  }
 };
 
 TEST(Ast, If) {
@@ -39,8 +41,8 @@ TEST(Ast, If) {
                            M(expr::Reference)("x")))))));
 
   auto c2 = c->cloneAs<mdl::Class>();
-  listener::Lisp printer;
   Walker walker;
+  listener::Lisp printer;
   walker.walk(c.get(), printer);
   std::cout << printer.get() << std::endl;
 

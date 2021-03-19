@@ -25,6 +25,8 @@ class Block : public Base {
   Block(std::unique_ptr<condition::Base> condition,
         std::unique_ptr<List> equations)
       : m_condition(std::move(condition)), m_equations(std::move(equations)) {}
+  condition::Base *getCondition() { return m_condition.get(); }
+  List *getEquations() { return m_equations.get(); }
   std::vector<INode *> getChildren() override {
     return {m_condition.get(), m_equations.get()};
   }
