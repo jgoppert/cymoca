@@ -72,17 +72,6 @@ after_success:
   - if [ "${DOXYGEN}" = "ON" ]; then cd ../doc && doxygen Doxyfile; fi
 
 deploy:
-  provider: releases
-  api_key:
-    secure: gazTnMPCtND4LqqFPimDm+o0P6/6V+LO1ao/qw/STi9r+HRe02+8zIlErBJOtOakwIowLM5xkSzPcPRN4RYOowGyh/y/m4qDqHTv/AcnS7XWkeC5wSCItr09dLiuQVdpyvmk44emdhMF9NaxOOGZTcdBC/aMqIT7XXBamcOi56cMWZFD6L5dwjDynAihX4Bir6bnNCzsDr3j8rgeobEKhMpWHMwVcQD/5wrf71JEursTCg6S+pl/XXQ4fvtzWY/GrfcITBpbyBwocciF43lpaLMnMkUqINtM1aU9jAh44/AWGf6v+a+SQEQmTdwOpfwa7ewNtPfYlHWdXSTGZ8TzkndsV1S5E7EHCxlP3pHtp71Hdwkn9vkSr9daSAJQQVmsDwD/sk5NGPohvLofBYc06OJcWKNnGvySyPpoa7fRSJUPIG3oP4YG4ahZs724UTU7nsNc51b3NdyzVIle9Xll35Bo6GbfBhGIcSTzDqcm+Tmuy5BQfY59ReeF+lnp59Av2W48I0M9ZzQ5tMe7PN7nIxheHbAn6FA7A/fivnpkttirHoF6sByyOmAZS34RSr53eYCoeZErsPpYFf2e2cUQw1ktufBsYz22CcQPHsBRQdBd168stshq8M9uyo5MNG0tMsM+0pWUVFRmQ5dUwVOYRwQ0sbtETCfT7KYZLo9ViSE=
-  file_glob: true
-  skip_cleanup: true
-  file: "*.zip"
-  on:
-    tags: true
-    condition: $CPACK = ON
-
-deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GH_REPO_TOKEN
