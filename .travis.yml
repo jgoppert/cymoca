@@ -7,21 +7,21 @@ sudo: true
 addons:
   apt:
     packages: &pkg_common
-    - cmake3
-    - cmake3-data
+    - cmake
+    - cmake-data
     - clang-format-6.0
     sources: &src_common
-    - llvm-toolchain-trusty-6.0
+    - llvm-toolchain-focal-11.0
     - ubuntu-toolchain-r-test
 
 matrix:
   # don't use full compiler path
-  # (e.g. /usr/bin/g++-7), it will bypass ccache
+  # (e.g. /usr/bin/g++-9), it will bypass ccache
   fast_finish: true
   include:
   - env:
-    - CXX_=g++-7
-    - CC_=gcc-7
+    - CXX_=g++-9
+    - CC_=gcc-9
     - CPACK=ON
     - COVERAGE=OFF
     - BUILD_TYPE=Release
@@ -30,7 +30,7 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-7
+        - g++-9
         - doxygen
         - doxygen-doc
         - doxygen-latex
@@ -39,8 +39,8 @@ matrix:
         sources:
         - *src_common
   - env:
-    - CXX_=g++-7
-    - CC_=gcc-7
+    - CXX_=g++-9
+    - CC_=gcc-9
     - CPACK=OFF
     - COVERAGE=ON
     - BUILD_TYPE=Debug
@@ -48,7 +48,7 @@ matrix:
       apt:
         packages:
         - *pkg_common
-        - g++-7
+        - g++-9
         sources:
         - *src_common
 
