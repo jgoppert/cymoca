@@ -96,6 +96,7 @@ class Function : public Base {
   explicit Function(std::unique_ptr<Reference> ref, std::unique_ptr<List> args)
       : m_ref(std::move(ref)), m_args(std::move(args)) {}
   const Reference &getReference() const { return *m_ref; }
+  List &getArgs() const { return *m_args; }
   std::vector<INode *> getChildren() override {
     return {m_ref.get(), m_args.get()};
   }
