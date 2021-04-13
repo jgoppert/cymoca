@@ -112,7 +112,7 @@ class CasadiSXGen : public listener::Base {
   }
 
   void exit(ast::condition::Equal *ctx, Walker *wlk) override {
-    m_ca[ctx] = ca::SX::is_equal(m_ca[ctx->getLeft()], m_ca[ctx->getRight()]);
+    m_ca[ctx] = ca::SX::eq(m_ca[ctx->getLeft()], m_ca[ctx->getRight()]);
   }
 
   void exit(ast::condition::Not *ctx, Walker *wlk) override {
